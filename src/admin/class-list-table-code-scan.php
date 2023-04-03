@@ -351,9 +351,11 @@ class List_Table_Code_Scan extends WP_List_Table {
 		$sql     = '';
 		$orderby = 'ID';
 		$order   = 'DESC';
-
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce not needed here
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce not needed here
 			$orderby = esc_sql( $_REQUEST['orderby'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce not needed here
 			$order   .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
 		}
 
@@ -415,7 +417,9 @@ class List_Table_Code_Scan extends WP_List_Table {
 			}
 		}
 		$status_links = array(
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce not needed here
 			'unaccepted' => sprintf( '<a href="?page=%1$s&_wpnonce=%5$s" class="%2$s">%3$s</a><span class="count">(%4$d)</span>', esc_attr( $_REQUEST['page'] ), esc_attr( $uc_class ), esc_html__( 'Unaccepted', 'fullworks-vulnerability-scanner' ), (int) $uc, esc_attr( $nonce ) ),
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce not needed here
 			'accepted'   => sprintf( '<a href="?page=%1$s&type=accepted&_wpnonce=%5$s" class="%2$s">%3$s</a><span class="count">(%4$d)</span>', esc_attr( $_REQUEST['page'] ), esc_attr( $ac_class ), esc_html__( 'Accepted', 'fullworks-vulnerability-scanner' ), (int) $ac, esc_attr( $nonce ) ),
 		);
 
