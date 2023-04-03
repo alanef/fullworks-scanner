@@ -63,8 +63,8 @@ class Audit_VulnDB_Scan {
 		if ( false !== $endpoints ) {
 			foreach ( $endpoints as $key => $endpoint ) {
 				// queue the jobs
-				if ( false === as_next_scheduled_action( 'FULLWORKS_VULNERABILITY_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit_vulndb_scan' ) ) {
-					as_schedule_single_action( time(), 'FULLWORKS_VULNERABILITY_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit_vulndb_scan' );
+				if ( false === as_next_scheduled_action( 'FULLWORKS_VULNERABILITY_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit' ) ) {
+					as_schedule_single_action( time(), 'FULLWORKS_VULNERABILITY_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit' );
 				}
 			}
 		}
@@ -155,7 +155,7 @@ class Audit_VulnDB_Scan {
 			list( $ol, $end_ol, $li, $end_li, $text ) = $this->get_vuln_message( $keys );
 			$detail = '';
 			foreach ( $keys as $key ) {
-				$detail .= $li . '<a target="_blank" href="' . $vulnerability['source'][$key]['link'] . '">' . $vulnerability['source'][$key]['name'] . '</a>' . $end_li;
+				$detail .= $li . '<a target="_blank" href="' . $response['data']['vulnerability'][$key]['source'][0]['link'] . '">' . $response['data']['vulnerability'][$key]['source'][0]['name'] . '</a>' . $end_li;
 			}
 			$this->utilities->file_scan_log_write(
 				( 'core' === $endpoint['type'] ) ? 'WordPress' : $endpoint['slug'],
