@@ -152,7 +152,7 @@ class Audit_VulnDB_Scan {
 		}
 
 		if ( ! empty( $keys ) ) {
-			list( $ol, $end_ol, $li, $end_li, $text ) = $this->get_vuln_message( count($keys) );
+			list( $ol, $end_ol, $li, $end_li, $text ) = $this->get_vuln_message( $keys );
 			$detail = '';
 			foreach ( $keys as $key ) {
 				$detail .= $li . '<a target="_blank" href="' . $vulnerability['source'][$key]['link'] . '">' . $vulnerability['source'][$key]['name'] . '</a>' . $end_li;
