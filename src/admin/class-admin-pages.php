@@ -46,7 +46,6 @@ class Admin_Pages {
 
 	protected $plugin_name;
 	protected $version;
-	protected $freemius;
 
 
 	public function __construct() {
@@ -67,7 +66,7 @@ class Admin_Pages {
 
 		add_menu_page(
 			$title, /* Page Title */
-			$title,                       /* Menu Title */
+			$title . Utilities::get_instance()->get_count_bubble(),                       /* Menu Title */
 			'manage_options',                 /* Capability */
 			'fullworks-settings',                         /* Page Slug */
 			array( $this, 'settings_page' ),           /* Settings Page Function Callback */

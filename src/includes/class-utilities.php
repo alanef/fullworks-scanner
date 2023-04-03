@@ -46,10 +46,10 @@ class Utilities {
 	protected $white_label;
 
 	public function __construct() {
-         $this->white_label = get_option( 'fullworks-vulnerability-scanner-whitelabel-names', array(
-	         'title' => esc_html__( 'Fullworks Scan', 'fullworks-vulnerability-scanner' ),
-	         'logo'  => FULLWORKS_VULNERABILITY_SCANNER_PLUGIN_URL . 'admin/images/brand/dark-on-light-full-logo-cropped.gif',
-         ) );
+		$this->white_label = get_option( 'fullworks-vulnerability-scanner-whitelabel-names', array(
+			'title' => esc_html__( 'Fullworks Scan', 'fullworks-vulnerability-scanner' ),
+			'logo'  => FULLWORKS_VULNERABILITY_SCANNER_PLUGIN_URL . 'admin/images/brand/dark-on-light-full-logo-cropped.gif',
+		) );
 	}
 
 	public static function error_log( $message, $called_from = 'Log' ) {
@@ -58,19 +58,20 @@ class Utilities {
 				$error_string = $message->get_error_message();
 				$error_code   = $message->get_error_code();
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- inside debug if.
-				error_log( esc_html($called_from . ':' . $error_code . ':' . $error_string) );
+				error_log( esc_html( $called_from . ':' . $error_code . ':' . $error_string ) );
+
 				return;
 			}
 			if ( is_array( $message ) || is_object( $message ) ) {
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- inside debug if.
 				$msg_out = $called_from . ':' . print_r( $message, true ) . PHP_EOL;
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- inside debug if.
-				error_log( esc_html($msg_out));
+				error_log( esc_html( $msg_out ) );
 
 				return;
 			}
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- inside debug if.
-			error_log( 'Log:' . esc_html($message) );
+			error_log( 'Log:' . esc_html( $message ) );
 
 			return;
 		}
@@ -185,7 +186,7 @@ WHERE ID = %s",
 			$url
 		);
 		$http_url = $url;
-		$ssl = wp_http_supports( array( 'ssl' ) );
+		$ssl      = wp_http_supports( array( 'ssl' ) );
 		if ( $ssl ) {
 			$url = set_url_scheme( $url, 'https' );
 		}
@@ -251,5 +252,16 @@ WHERE ID = %s",
 		}
 
 		return $res;
+	}
+
+	public function get_type_record_count( $type ) {
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->prefix . "fwvs_file_audit WHERE accept = %s ", $type ) );
+	}
+
+	public function get_count_bubble() {
+		$uc = $this->get_type_record_count( '0' );
+		return '&nbsp;<span class="awaiting-mod">'.(int) $uc.'</span>';
 	}
 }

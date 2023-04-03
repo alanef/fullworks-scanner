@@ -351,9 +351,7 @@ class List_Table_Code_Scan extends WP_List_Table {
 	}
 
 	protected static function type_record_count( $type ) {
-		global $wpdb;
-
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->prefix . "fwvs_file_audit WHERE accept = %s ", $type ) );
+		return Utilities::get_instance()->get_type_record_count( $type );
 	}
 
 	public static function get( $per_page = 25, $page_number = 1 ) {

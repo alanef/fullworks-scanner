@@ -46,7 +46,7 @@ class Admin_Table_Code_Scan extends Admin_Tables {
 		$this->hook         = add_submenu_page(
 			'fullworks-settings',
 			esc_html__( 'Code Scan Audit Report' , 'fullworks-vulnerability-scanner' ),
-			esc_html__( 'Reports', 'fullworks-vulnerability-scanner' ),
+			esc_html__( 'Reports', 'fullworks-vulnerability-scanner' ) . Utilities::get_instance()->get_count_bubble(),
 			'manage_options',
 			'fullworks-vulnerability-scanner-code-scan-report',
 			array( $this, 'list_page' )
