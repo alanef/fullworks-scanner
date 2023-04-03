@@ -1,0 +1,30 @@
+{
+  "name": "fullworks/fullworks-vulnerability-scanner",
+  "description": "Wordpress plugin",
+  "type": "wordpress-plugin",
+  "license": "GPL",
+  "authors": [
+    {
+      "name": "alan",
+      "email": "alan@fullworksplugins.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "vendor-dir": "includes/vendor"
+  },
+  "require-dev": {
+    "ext-mysqli": "*"
+  },
+  "require": {
+    "php": ">=7.4",
+    "woocommerce/action-scheduler": "*"
+  },
+  "extra": {
+    "installer-paths": {
+      "includes/vendor/woocommerce/action-scheduler": [
+        "woocommerce/action-scheduler"
+      ]
+    }
+  }
+}
