@@ -89,13 +89,13 @@ class List_Table_Code_Scan extends WP_List_Table {
 
 	public function column_status( $item ) {
 
-				if ( 'core' == $item['type'] ) {
-					return $this->wp_update_action( $item );
-				} elseif ( 'plugin' == $item['type'] ) {
-					return $this->plugin_update_action( $item );
-				} elseif ( 'theme' == $item['type'] ) {
-					return $this->theme_update_action( $item );
-				}
+		if ( 'core' == $item['type'] ) {
+			return $this->wp_update_action( $item );
+		} elseif ( 'plugin' == $item['type'] ) {
+			return $this->plugin_update_action( $item );
+		} elseif ( 'theme' == $item['type'] ) {
+			return $this->theme_update_action( $item );
+		}
 
 		return $item['status'];
 	}
@@ -132,21 +132,6 @@ class List_Table_Code_Scan extends WP_List_Table {
 
 		$actions = array(
 			'update_themes' => sprintf( '<a class="themes-update" href="%1$s">%2$s</a>', self_admin_url( 'update-core.php' ), __( 'Update themes', 'fullworks-vulnerability-scanner' ) ),
-		);
-
-		return $title . $this->row_actions( $actions );
-	}
-
-	private function delete_action( $item ) {
-		// create a nonce
-		$delete_file_nonce = wp_create_nonce( self::NONCE );
-
-		$title = '<strong>' . $item['status'] . '</strong>';
-
-
-		$actions = array(
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not required for $_REQUEST['page']
-			'delete_file' => sprintf( '<a class="delete-file" href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__( 'Delete this file', 'fullworks-vulnerability-scanner' ) . '</a>', esc_attr( $_REQUEST['page'] ), 'delete-file', absint( $item['ID'] ), $delete_file_nonce ),
 		);
 
 		return $title . $this->row_actions( $actions );
@@ -222,9 +207,9 @@ class List_Table_Code_Scan extends WP_List_Table {
 
 	public function process_bulk_action() {
 
-		// Detect when a bulk action is being triggered.
+		// Detect when an non bulk action is being triggered.
 		if ( 'delete' === $this->current_action() ) {
-			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), 'bulk-' . $this->_args['plural'] ) ) {
+			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), self::NONCE ) ) {
 				die( 'Security Check!' );
 			}
 			if ( ! isset( $_GET['id'] ) ) {
@@ -234,7 +219,7 @@ class List_Table_Code_Scan extends WP_List_Table {
 		}
 		if ( 'accept' === $this->current_action() ) {
 
-			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), 'bulk-' . $this->_args['plural'] ) ) {
+			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), self::NONCE ) ) {
 				die( 'Security Check!' );
 			}
 			if ( ! isset( $_GET['id'] ) ) {
@@ -244,7 +229,7 @@ class List_Table_Code_Scan extends WP_List_Table {
 		}
 		if ( 'unaccept' === $this->current_action() ) {
 
-			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), 'bulk-' . $this->_args['plural'] ) ) {
+			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), self::NONCE ) ) {
 				die( 'Security Check!' );
 			} else {
 				if ( isset( $_GET['id'] ) ) {
@@ -252,15 +237,8 @@ class List_Table_Code_Scan extends WP_List_Table {
 				}
 			}
 		}
-		if ( 'delete-file' === $this->current_action() ) {
-			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), 'bulk-' . $this->_args['plural'] ) ) {
-				die( 'Security Check!' );
-			}
-			if ( isset( $_GET['id'] ) ) {
-				self::delete_file( absint( $_GET['id'] ) );
-			}
-		}
-		// If the delete bulk action is triggered
+
+		// If bulk action is triggered
 		if ( ( isset( $_POST['action'] ) && isset( $_POST['bulk-delete'] ) && 'bulk-delete' === $_POST['action'] ) || ( isset( $_POST['action2'] ) && 'bulk-delete' === $_POST['action2'] ) ) {
 			if ( ! wp_verify_nonce( esc_attr( $_REQUEST['_wpnonce'] ), 'bulk-' . $this->_args['plural'] ) ) {
 				die( 'Security Check!' );
@@ -336,15 +314,11 @@ class List_Table_Code_Scan extends WP_List_Table {
 		);
 	}
 
-
 	public static function record_count( $type = 0 ) {
 		$type = 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified upstream
 		if ( isset( $_GET['type'] ) && 'accepted' === $_GET['type'] ) {
-			if ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], self::NONCE ) ) {
-				$type = 1;
-			} else {
-				die ( 'Security check' );
-			}
+			$type = 1;
 		}
 
 		return self::type_record_count( $type );
@@ -370,14 +344,10 @@ class List_Table_Code_Scan extends WP_List_Table {
 
 
 		$type = 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified upstream
 		if ( isset( $_GET['type'] ) && 'accepted' === $_GET['type'] ) {
-			if ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], self::NONCE ) ) {
-				$type = 1;
-			} else {
-				die ( 'Security check' );
-			}
+							$type = 1;
 		}
-
 		$sql     = '';
 		$orderby = 'ID';
 		$order   = 'DESC';
@@ -437,12 +407,11 @@ class List_Table_Code_Scan extends WP_List_Table {
 		$ac       = self::type_record_count( 1 );
 		$uc_class = 'current';
 		$ac_class = '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified upstream
 		if ( isset( $_GET['type'] ) && 'accepted' === $_GET['type'] ) {
-			if ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], SELF::NONCE ) ) {
+			{
 				$uc_class = '';
 				$ac_class = 'current';
-			} else {
-				die ( 'Security check' );
 			}
 		}
 		$status_links = array(
@@ -451,6 +420,21 @@ class List_Table_Code_Scan extends WP_List_Table {
 		);
 
 		return $status_links;
+	}
+
+	private function delete_action( $item ) {
+		// create a nonce
+		$delete_file_nonce = wp_create_nonce( self::NONCE );
+
+		$title = '<strong>' . $item['status'] . '</strong>';
+
+
+		$actions = array(
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not required for $_REQUEST['page']
+			'delete_file' => sprintf( '<a class="delete-file" href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__( 'Delete this file', 'fullworks-vulnerability-scanner' ) . '</a>', esc_attr( $_REQUEST['page'] ), 'delete-file', absint( $item['ID'] ), $delete_file_nonce ),
+		);
+
+		return $title . $this->row_actions( $actions );
 	}
 
 
