@@ -139,18 +139,24 @@ class Audit_VulnDB_Scan {
 		}
 		// check for vulnerabilities.
 		// https://vulnerability.wpsysadmin.com/
-		list( $ol, $end_ol, $li, $end_li, $text ) = $this->get_vuln_message( $response['data']['vulnerability'] );
-		$detail = '';
+
+
+		$keys = array();
 		foreach ( $response['data']['vulnerability'] as $key => $vulnerability ) {
 			if ( 'core' === $endpoint['type'] ||
 			     ( in_array( $endpoint['type'], array( 'plugin', 'theme' ) ) &&
 			       version_compare( $version, $vulnerability['operator']['max_version'], $vulnerability['operator']['max_operator'] ) )
 			) {
-				$detail .= $li . '<a target="_blank" href="' . $vulnerability['source'][0]['link'] . '">' . $vulnerability['source'][0]['name'] . '</a>' . $end_li;
+				$keys[] = $key;
 			}
 		}
 
-		if ( ! empty( $detail ) ) {
+		if ( ! empty( $keys ) ) {
+			list( $ol, $end_ol, $li, $end_li, $text ) = $this->get_vuln_message( count($keys) );
+			$detail = '';
+			foreach ( $keys as $key ) {
+				$detail .= $li . '<a target="_blank" href="' . $vulnerability['source'][$key]['link'] . '">' . $vulnerability['source'][$key]['name'] . '</a>' . $end_li;
+			}
 			$this->utilities->file_scan_log_write(
 				( 'core' === $endpoint['type'] ) ? 'WordPress' : $endpoint['slug'],
 				995,
@@ -166,11 +172,8 @@ class Audit_VulnDB_Scan {
 	 *
 	 * @return array
 	 */
-	public
-	function get_vuln_message(
-		$vulnerability1
-	): array {
-		if ( count( $vulnerability1 ) > 1 ) {
+	public function get_vuln_message( $keys ) {
+		if ( count( $keys ) > 1 ) {
 			$ol     = '<ol>';
 			$end_ol = '</ol>';
 			$li     = '<li>';
@@ -184,7 +187,7 @@ class Audit_VulnDB_Scan {
 			$li     = '';
 			$end_li = '';
 			// translators: leave placeholders.
-			esc_html__( 'Vulnerability in installed version: %1$s Detail: %2$s', 'fullworks-vulnerability-scanner' );
+			$text = esc_html__( 'Vulnerability in installed version: %1$s Detail: %2$s', 'fullworks-vulnerability-scanner' );
 		}
 
 		return array( $ol, $end_ol, $li, $end_li, $text );
