@@ -262,6 +262,6 @@ WHERE ID = %s",
 
 	public function get_count_bubble() {
 		$uc = $this->get_type_record_count( '0' );
-		return '&nbsp;<span class="awaiting-mod">'.(int) $uc.'</span>';
+		return ($uc)?'&nbsp;<span class="awaiting-mod">'.(int) $uc.'</span>':'';
 	}
 }

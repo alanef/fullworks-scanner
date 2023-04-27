@@ -111,7 +111,7 @@ class Admin_Tables {
 			<?php foreach ( $tabs as $key => $tab ) {
 				$active = '';
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No action, nonce is not required for $_GET['page']
-				if ( preg_match( '#' . $_GET['page'] . '$#', $tab['href'] ) ) {
+				if ( preg_match( '#' . sanitize_text_field($_GET['page']) . '$#', $tab['href'] ) ) {
 					$active = ' nav-tab-active';
 				}
 				echo '<a href="' . esc_url($tab['href']) . '" class="nav-tab' . esc_attr($active) . '">' . esc_html($tab['title']) . '</a>';
