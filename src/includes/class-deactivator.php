@@ -26,11 +26,11 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       https://fullworks.net/products/fullworks-vulnerability-scanner
+ * @link       https://fullworks.net/products/fullworks-scanner
  * @since      1.0.0
  *
- * @package    Fullworks_Vulnerability_Scanner
- * @subpackage Fullworks_Vulnerability_Scanner/includes
+ * @package    Fullworks_Scanner
+ * @subpackage Fullworks_Scanner/includes
  */
 
 /**
@@ -39,7 +39,7 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 class Deactivator {
 
@@ -52,12 +52,12 @@ class Deactivator {
 	 */
 	public static function deactivate() {
 
-		if ( as_next_scheduled_action( 'fullworks_security_run_vulndb_scan', array(), 'fullworks-vulnerability-scanner-control' ) ) {
-			as_unschedule_action( 'fullworks_security_run_vulndb_scan', array(), 'fullworks-vulnerability-scanner-control' );
+		if ( as_next_scheduled_action( 'fullworks_security_run_vulndb_scan', array(), 'fullworks-scanner-control' ) ) {
+			as_unschedule_action( 'fullworks_security_run_vulndb_scan', array(), 'fullworks-scanner-control' );
 		}
 
-		if ( as_next_scheduled_action( 'fullworks_security_run_audit_email', array(), 'fullworks-vulnerability-scanner-control' ) ) {
-			as_unschedule_action( 'fullworks_security_run_audit_email', array(), 'fullworks-vulnerability-scanner-control' );
+		if ( as_next_scheduled_action( 'fullworks_security_run_audit_email', array(), 'fullworks-scanner-control' ) ) {
+			as_unschedule_action( 'fullworks_security_run_audit_email', array(), 'fullworks-scanner-control' );
 		}
 	}
 

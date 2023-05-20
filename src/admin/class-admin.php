@@ -30,16 +30,16 @@
  *
  */
 
-namespace Fullworks_Vulnerability_Scanner\Admin;
+namespace Fullworks_Scanner\Admin;
 
-use Fullworks_Vulnerability_Scanner\Includes\Utilities;
+use Fullworks_Scanner\Includes\Utilities;
 use Plugin_Upgrader;
 use LiteSpeed_Cache_API;
 
 
 /**
  * Class Admin
- * @package Fullworks_Vulnerability_Scanner\Admin
+ * @package Fullworks_Scanner\Admin
  */
 class Admin {
 
@@ -96,7 +96,7 @@ class Admin {
 	public function upgrade_db() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$dbv             = get_option( 'FULLWORKS_VULNERABILITY_SCANNER_db_version' );
+		$dbv             = get_option( 'FULLWORKS_SCANNER_db_version' );
 	}
 
 

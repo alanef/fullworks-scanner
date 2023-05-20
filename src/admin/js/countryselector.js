@@ -56,7 +56,7 @@
      */
     $(function () {
 
-        if ($('#fullworks-vulnerability-scanner-firewall-blockcountry').length > 0) {
+        if ($('#fullworks-scanner-firewall-blockcountry').length > 0) {
             $.typeahead({
                 input: ".fs-country-selector",
                 order: "asc",
@@ -82,7 +82,7 @@
                             countrylist += obj.id + ',';
                         }
 
-                        $('#fullworks-vulnerability-scanner-firewall-blockcountry').val(countrylist);
+                        $('#fullworks-scanner-firewall-blockcountry').val(countrylist);
 
                     }
                 }

@@ -1,4 +1,4 @@
-var project = 'fullworks-vulnerability-scanner'; // Project Name.
+var project = 'fullworks-scanner'; // Project Name.
 
 var gulp = require('gulp');
 var zip = require('gulp-zip');

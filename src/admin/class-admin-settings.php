@@ -30,17 +30,17 @@
  * Time: 13:45
  */
 
-namespace Fullworks_Vulnerability_Scanner\Admin;
+namespace Fullworks_Scanner\Admin;
 
 
-use Fullworks_Vulnerability_Scanner\Includes\Log_And_Block;
-use Fullworks_Vulnerability_Scanner\Includes\Utilities;
+use Fullworks_Scanner\Includes\Log_And_Block;
+use Fullworks_Scanner\Includes\Utilities;
 
 class Admin_Settings extends Admin_Pages {
 
 	protected $settings_page;
 	protected $settings_page_id = 'toplevel_page_fullworks-settings';
-	protected $option_group = 'fullworks-vulnerability-scanner';
+	protected $option_group = 'fullworks-scanner';
 
 	/** @var Utilities $utilities */
 	protected $utilities;
@@ -57,8 +57,8 @@ class Admin_Settings extends Admin_Pages {
 	public function __construct( $plugin_name, $version, $utilities ) {
 		$this->titles = array(
 			'Admin Email'           => array(
-				'title' => esc_html__( 'Admin Email', 'fullworks-vulnerability-scanner' ),
-				'tip'   => esc_html__( 'This email will be used by the plugin to send all notifications from the plugin. It can be different to the site administrator email', 'fullworks-vulnerability-scanner' ),
+				'title' => esc_html__( 'Admin Email', 'fullworks-scanner' ),
+				'tip'   => esc_html__( 'This email will be used by the plugin to send all notifications from the plugin. It can be different to the site administrator email', 'fullworks-scanner' ),
 			),
 		);
 
@@ -68,7 +68,7 @@ class Admin_Settings extends Admin_Pages {
 
 		$options = Utilities::get_instance()->get_white_label();
 
-		$this->settings_title = '<img src="' . esc_url_raw( $options['logo'] ) . '" class="logo" alt="' . sanitize_title( $options['title'] ) . '"/><div class="text">' . esc_html__( 'Settings', 'fullworks-vulnerability-scanner' ) . '</div>';
+		$this->settings_title = '<img src="' . esc_url_raw( $options['logo'] ) . '" class="logo" alt="' . sanitize_title( $options['title'] ) . '"/><div class="text">' . esc_html__( 'Settings', 'fullworks-scanner' ) . '</div>';
 		parent::__construct();
 	}
 
@@ -76,16 +76,16 @@ class Admin_Settings extends Admin_Pages {
 		/* Register our setting. */
 		register_setting(
 			$this->option_group,                         /* Option Group */
-			'fullworks-vulnerability-scanner-general',                   /* Option Name */
+			'fullworks-scanner-general',                   /* Option Name */
 			array( $this, 'sanitize_general' )          /* Sanitize Callback */
 		);
 		register_setting(
 			$this->option_group,                         /* Option Group */
-			'fullworks-vulnerability-scanner-audit-schedule',                   /* Option Name */
+			'fullworks-scanner-audit-schedule',                   /* Option Name */
 			array( $this, 'sanitize_audit_schedule' )          /* Sanitize Callback */
 		);
 
-		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'General Settings', 'fullworks-vulnerability-scanner' ), 'settings', admin_url( 'admin.php?page=fullworks-settings' ), 0 );
+		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'General Settings', 'fullworks-scanner' ), 'settings', admin_url( 'admin.php?page=fullworks-settings' ), 0 );
 		/* Add settings menu page */
 		$this->settings_page = add_submenu_page(
 			'fullworks-settings',
@@ -120,17 +120,17 @@ class Admin_Settings extends Admin_Pages {
 	}
 
 	public function delete_options() {
-		update_option( 'fullworks-vulnerability-scanner-general', self::option_defaults( 'fullworks-vulnerability-scanner-general' ) );
-		update_option( 'fullworks-vulnerability-scanner-audit-schedule', self::option_defaults( 'fullworks-vulnerability-scanner-audit-schedule' ) );
+		update_option( 'fullworks-scanner-general', self::option_defaults( 'fullworks-scanner-general' ) );
+		update_option( 'fullworks-scanner-audit-schedule', self::option_defaults( 'fullworks-scanner-audit-schedule' ) );
 	}
 
 	public static function option_defaults( $option ) {
 		switch ( $option ) {
-			case 'fullworks-vulnerability-scanner-general':
+			case 'fullworks-scanner-general':
 				return array(
 					'admin_email' => get_bloginfo( 'admin_email' ),
 				);
-			case 'fullworks-vulnerability-scanner-audit-schedule':
+			case 'fullworks-scanner-audit-schedule':
 				return array(
 					'cron'       => '10 02 * * *',
 					'email'      => array(
@@ -146,7 +146,7 @@ class Admin_Settings extends Admin_Pages {
 	public function add_meta_boxes() {
 		$this->add_meta_box(
 			'general',                  /* Meta Box ID */
-			esc_html__( 'General Settings', 'fullworks-vulnerability-scanner' ),               /* Title */
+			esc_html__( 'General Settings', 'fullworks-scanner' ),               /* Title */
 			array( $this, 'meta_box_general' ),  /* Function Callback */
 			$this->settings_page_id,               /* Screen: Our Settings Page */
 			'normal',                 /* Context */
@@ -158,7 +158,7 @@ class Admin_Settings extends Admin_Pages {
 
 		$this->add_meta_box(
 			'audit-schedule',                  /* Meta Box ID */
-			esc_html__( 'Code Check', 'fullworks-vulnerability-scanner' ),               /* Title */
+			esc_html__( 'Code Check', 'fullworks-scanner' ),               /* Title */
 			array( $this, 'meta_box_audit_schedule' ),  /* Function Callback */
 			$this->settings_page_id,               /* Screen: Our Settings Page */
 			'normal',                 /* Context */
@@ -197,7 +197,7 @@ class Admin_Settings extends Admin_Pages {
 	public function sanitize_general( $settings ) {
 		// check admin referrer nonce
 		check_admin_referer( $this->option_group . '-options');
-        if ( isset( $_REQUEST['fullworks-vulnerability-scanner-reset'] ) ) {
+        if ( isset( $_REQUEST['fullworks-scanner-reset'] ) ) {
 			return $settings;
 		}
 		if ( empty( $settings ) ) {
@@ -216,16 +216,16 @@ class Admin_Settings extends Admin_Pages {
 	public function sanitize_audit_schedule( $settings ) {
 		// check admin referrer nonce
 		check_admin_referer( $this->option_group . '-options');
-		if ( isset( $_REQUEST['fullworks-vulnerability-scanner-reset'] ) ) {
+		if ( isset( $_REQUEST['fullworks-scanner-reset'] ) ) {
 			return $settings;
 		}
-		$options                 = get_option( 'fullworks-vulnerability-scanner-audit-schedule' );
+		$options                 = get_option( 'fullworks-scanner-audit-schedule' );
 		$options['cron_changed'] = false;
 		if ( empty( $settings['cron'] ) ) {
 			add_settings_error(
 				'fscron',
 				'fscron',
-				esc_html__( 'No code scans will be performed, as schedule is blank', 'fullworks-vulnerability-scanner' ),
+				esc_html__( 'No code scans will be performed, as schedule is blank', 'fullworks-scanner' ),
 				'updated'
 			);
 
@@ -233,7 +233,7 @@ class Admin_Settings extends Admin_Pages {
 			add_settings_error(
 				'fscron',
 				'fscron',
-				esc_html__( 'Invalid cron format, please try again', 'fullworks-vulnerability-scanner' ),
+				esc_html__( 'Invalid cron format, please try again', 'fullworks-scanner' ),
 				'error'
 			);
 			$settings['cron'] = $options['cron'];
@@ -242,7 +242,7 @@ class Admin_Settings extends Admin_Pages {
 			add_settings_error(
 				'fscron',
 				'fscron',
-				esc_html__( 'Schedule changed, jobs will be cancelled and re-queued to the new schedule', 'fullworks-vulnerability-scanner' ),
+				esc_html__( 'Schedule changed, jobs will be cancelled and re-queued to the new schedule', 'fullworks-scanner' ),
 				'updated'
 			);
 		}
@@ -283,7 +283,7 @@ class Admin_Settings extends Admin_Pages {
 	public function meta_box_general() {
 		?>
 		<?php
-		$options = get_option( 'fullworks-vulnerability-scanner-general' );
+		$options = get_option( 'fullworks-scanner-general' );
 		?>
         <table class="form-table">
             <tbody>
@@ -292,8 +292,8 @@ class Admin_Settings extends Admin_Pages {
 				<?php $this->display_th( 'Admin Email' ); ?>
                 <td>
                     <input type="email"
-                           name="fullworks-vulnerability-scanner-general[admin_email]"
-                           id="fullworks-vulnerability-scanner-general[admin_email]"
+                           name="fullworks-scanner-general[admin_email]"
+                           id="fullworks-scanner-general[admin_email]"
                            class="all-options"
                            value="<?php  echo esc_attr($options['admin_email']); ?>"
                     >
@@ -329,44 +329,44 @@ class Admin_Settings extends Admin_Pages {
 
 
 	public function meta_box_audit_schedule() {
-		$options = get_option( 'fullworks-vulnerability-scanner-audit-schedule' );
+		$options = get_option( 'fullworks-scanner-audit-schedule' );
 		?>
         <table class="form-table">
             <tbody>
 
             <tr valign="top">
-                <th scope="row"><?php esc_html_e( 'Scanning Schedule', 'fullworks-vulnerability-scanner' ); ?></th>
+                <th scope="row"><?php esc_html_e( 'Scanning Schedule', 'fullworks-scanner' ); ?></th>
                 <td>
                     <input type="hidden"
-                           name="fullworks-vulnerability-scanner-audit-schedule[cron_changed]"
-                           id="fullworks-vulnerability-scanner-audit-schedule[cron_changed]"
+                           name="fullworks-scanner-audit-schedule[cron_changed]"
+                           id="fullworks-scanner-audit-schedule[cron_changed]"
                            value="0"
                     >
                     <input type="text"
-                           name="fullworks-vulnerability-scanner-audit-schedule[cron]"
-                           id="fullworks-vulnerability-scanner-audit-schedule[cron]"
+                           name="fullworks-scanner-audit-schedule[cron]"
+                           id="fullworks-scanner-audit-schedule[cron]"
                            class="all-options"
                            value="<?php echo esc_attr( $options['cron'] ); ?>"
                     >
                     <p>
-                        <span class="description"><?php esc_html_e( 'Control the timing of the audit schedule runs, in cron format. e.g. minute hour day (month) month day(week) - 10 2 * * *  is 10 past two am every day. Set to \'blank\' to not perform code scans', 'fullworks-vulnerability-scanner' ); ?></span>
+                        <span class="description"><?php esc_html_e( 'Control the timing of the audit schedule runs, in cron format. e.g. minute hour day (month) month day(week) - 10 2 * * *  is 10 past two am every day. Set to \'blank\' to not perform code scans', 'fullworks-scanner' ); ?></span>
                     </p>
                 </td>
             </tr>
             <tr valign="top" class="alternate">
-                <th scope="row"><?php esc_html_e( 'Email', 'fullworks-vulnerability-scanner' ); ?></th>
+                <th scope="row"><?php esc_html_e( 'Email', 'fullworks-scanner' ); ?></th>
                 <td>
                     <p>
-                        <span class="description"><?php esc_html_e( 'After each scan you will be emailed critical issues plus:', 'fullworks-vulnerability-scanner' ); ?></span>
+                        <span class="description"><?php esc_html_e( 'After each scan you will be emailed critical issues plus:', 'fullworks-scanner' ); ?></span>
                     </p>
                     <p>
-                        <label for="fullworks-vulnerability-scanner-audit-schedule[email][warning]"><input
+                        <label for="fullworks-scanner-audit-schedule[email][warning]"><input
                                     type="checkbox"
-                                    name="fullworks-vulnerability-scanner-audit-schedule[email][warning]"
-                                    id="fullworks-vulnerability-scanner-audit-schedule[email][warning]"
+                                    name="fullworks-scanner-audit-schedule[email][warning]"
+                                    id="fullworks-scanner-audit-schedule[email][warning]"
                                     value="1"
 								<?php checked( '1', $options['email']['warning'] ); ?>>
-							<?php esc_html_e( 'Warnings: These include updates needed, plugins that may be abandoned or removed without known security issues.', 'fullworks-vulnerability-scanner' ); ?>
+							<?php esc_html_e( 'Warnings: These include updates needed, plugins that may be abandoned or removed without known security issues.', 'fullworks-scanner' ); ?>
                         </label>
                     </p>
                 </td>

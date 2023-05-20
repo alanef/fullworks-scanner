@@ -30,25 +30,25 @@
  * Time: 16:35
  */
 
-namespace Fullworks_Vulnerability_Scanner\Admin;
+namespace Fullworks_Scanner\Admin;
 
-use Fullworks_Vulnerability_Scanner\Includes\Utilities;
+use Fullworks_Scanner\Includes\Utilities;
 
 
 class Admin_Table_Code_Scan extends Admin_Tables {
 
 	public function add_table_page() {
-		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'Code Scan', 'fullworks-vulnerability-scanner' ) , 'report', admin_url( 'admin.php?page=fullworks-vulnerability-scanner-code-scan-report' ),0) ;
+		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'Code Scan', 'fullworks-scanner' ) , 'report', admin_url( 'admin.php?page=fullworks-scanner-code-scan-report' ),0) ;
 		$options = Utilities::get_instance()->get_white_label();
 
-		$this->page_heading = '<img src="' . esc_url_raw($options['logo']) . '" class="logo" alt="' . sanitize_title($options['title']) . '"/><div class="text">' . esc_html__( 'Code Scan Audit Report', 'fullworks-vulnerability-scanner' ) .  '</div>';
+		$this->page_heading = '<img src="' . esc_url_raw($options['logo']) . '" class="logo" alt="' . sanitize_title($options['title']) . '"/><div class="text">' . esc_html__( 'Code Scan Audit Report', 'fullworks-scanner' ) .  '</div>';
 
 		$this->hook         = add_submenu_page(
 			'fullworks-settings',
-			esc_html__( 'Code Scan Audit Report' , 'fullworks-vulnerability-scanner' ),
-			esc_html__( 'Reports', 'fullworks-vulnerability-scanner' ) . Utilities::get_instance()->get_count_bubble(),
+			esc_html__( 'Code Scan Audit Report' , 'fullworks-scanner' ),
+			esc_html__( 'Reports', 'fullworks-scanner' ) . Utilities::get_instance()->get_count_bubble(),
 			'manage_options',
-			'fullworks-vulnerability-scanner-code-scan-report',
+			'fullworks-scanner-code-scan-report',
 			array( $this, 'list_page' )
 		);
 
@@ -59,7 +59,7 @@ class Admin_Table_Code_Scan extends Admin_Tables {
 
 		$option = 'per_page';
 		$args   = [
-			'label'   => esc_html__( 'Issues', 'fullworks-vulnerability-scanner' ),
+			'label'   => esc_html__( 'Issues', 'fullworks-scanner' ),
 			'default' => 25,
 			'option'  => 'issues_per_page'
 		];

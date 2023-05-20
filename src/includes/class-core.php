@@ -35,24 +35,24 @@
  *
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
-use Fullworks_Vulnerability_Scanner\Admin\Admin;
-use Fullworks_Vulnerability_Scanner\Admin\Admin_Settings;
-use Fullworks_Vulnerability_Scanner\Admin\Admin_Table_Code_Scan;
-use Fullworks_Vulnerability_Scanner\FrontEnd\FrontEnd;
+use Fullworks_Scanner\Admin\Admin;
+use Fullworks_Scanner\Admin\Admin_Settings;
+use Fullworks_Scanner\Admin\Admin_Table_Code_Scan;
+use Fullworks_Scanner\FrontEnd\FrontEnd;
 
 
 class Core {
 	/**
 	 * The unique identifier of this plugin.
 	 */
-	protected $plugin_name = FULLWORKS_VULNERABILITY_SCANNER_PLUGIN_VERSION;
+	protected $plugin_name = FULLWORKS_SCANNER_PLUGIN_VERSION;
 
 	/**
 	 * The current version of the plugin.
 	 */
-	protected $version = FULLWORKS_VULNERABILITY_SCANNER_PLUGIN_VERSION;
+	protected $version = FULLWORKS_SCANNER_PLUGIN_VERSION;
 
 	protected $log_and_block;
 
@@ -104,11 +104,11 @@ class Core {
 
 	private function set_options_data() {
 
-		if ( ! get_option( 'fullworks-vulnerability-scanner-general' ) ) {
-			update_option( 'fullworks-vulnerability-scanner-general', Admin_Settings::option_defaults( 'fullworks-vulnerability-scanner-general' ) );
+		if ( ! get_option( 'fullworks-scanner-general' ) ) {
+			update_option( 'fullworks-scanner-general', Admin_Settings::option_defaults( 'fullworks-scanner-general' ) );
 		}
-		if ( ! get_option( 'fullworks-vulnerability-scanner-audit-schedule' ) ) {
-			update_option( 'fullworks-vulnerability-scanner-audit-schedule', Admin_Settings::option_defaults( 'fullworks-vulnerability-scanner-audit-schedule' ) );
+		if ( ! get_option( 'fullworks-scanner-audit-schedule' ) ) {
+			update_option( 'fullworks-scanner-audit-schedule', Admin_Settings::option_defaults( 'fullworks-scanner-audit-schedule' ) );
 		}
 	}
 
@@ -152,9 +152,9 @@ class Core {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'fullworks-vulnerability-scanner',
+			'fullworks-scanner',
 			false,
-			FULLWORKS_VULNERABILITY_SCANNER_PLUGIN_DIR . 'languages/'
+			FULLWORKS_SCANNER_PLUGIN_DIR . 'languages/'
 		);
 
 	}

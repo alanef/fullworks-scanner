@@ -23,14 +23,14 @@
  *  along with the plugin.  https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Fullworks_Vulnerability_Scanner\Admin;
+namespace Fullworks_Scanner\Admin;
 
-use Fullworks_Vulnerability_Scanner\Includes\Utilities;
+use Fullworks_Scanner\Includes\Utilities;
 
 
 /**
  * Class Settings
- * @package Fullworks_Vulnerability_Scanner\Admin
+ * @package Fullworks_Scanner\Admin
  */
 class Admin_Pages
 {
@@ -253,7 +253,7 @@ class Admin_Pages
 
             add_meta_box(
                 'submitdiv',               /* Meta Box ID */
-                esc_html__('Save Options', 'fullworks-vulnerability-scanner'),            /* Title */
+                esc_html__('Save Options', 'fullworks-scanner'),            /* Title */
                 array($this, 'submit_meta_box'),  /* Function Callback */
                 $this->settings_page_id,                /* Screen: Our Settings Page */
                 'side',                    /* Context */

@@ -30,11 +30,11 @@
  * Time: 16:43
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 /**
  * Class Event_Notifier
- * @package Fullworks_Vulnerability_Scanner\Includes
+ * @package Fullworks_Scanner\Includes
  *
  *
  * Initially will just handle emailing
@@ -95,14 +95,14 @@ class Event_Notifier {
 				$email = $current_user->user_email;
 				break;
 			case 'admin':
-				$options = get_option( 'fullworks-vulnerability-scanner-general' );
+				$options = get_option( 'fullworks-scanner-general' );
 				$email   = $options['admin_email'];
 				break;
 		}
 		$message = apply_filters( "fvs_mail_message_{$this->event}", $this->message, $this->target );
 		$subject = apply_filters( "fvs_mail_subject_{$this->event}", $this->subject, $this->target );
 		if ( $message && ! wp_mail( $email, $subject, $message ) ) {
-			$message = esc_html__( 'The email could not be sent.', 'fullworks-vulnerability-scanner' ) . "<br />\n" . esc_html__( 'Possible reason: your host may have disabled the mail() function.', 'fullworks-vulnerability-scanner' );
+			$message = esc_html__( 'The email could not be sent.', 'fullworks-scanner' ) . "<br />\n" . esc_html__( 'Possible reason: your host may have disabled the mail() function.', 'fullworks-scanner' );
 			$this->utilities->error_log( array(
 				'Error'   => $message,
 				'event'   => $this->event,

@@ -23,7 +23,7 @@
  *  along with the plugin.  https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 
 class Audit_Plugin_Code_Scan {
@@ -43,8 +43,8 @@ class Audit_Plugin_Code_Scan {
 	public function __construct( $notifier, $utilities ) {
 		$this->notifier        = $notifier;
 		$this->utilities       = $utilities;
-		add_action( 'FULLWORKS_VULNERABILITY_SCANNER_get_current_plugin', array( $this, 'get_current_plugin' ) );
-		add_action( 'FULLWORKS_VULNERABILITY_SCANNER_audit_plugin_scan_chunk', array( $this, 'scan_chunk' ) );
+		add_action( 'FULLWORKS_SCANNER_get_current_plugin', array( $this, 'get_current_plugin' ) );
+		add_action( 'FULLWORKS_SCANNER_audit_plugin_scan_chunk', array( $this, 'scan_chunk' ) );
 	}
 
 	/**
@@ -71,8 +71,8 @@ class Audit_Plugin_Code_Scan {
 		}
 		set_transient( 'fullworks-vulnerability-plugin-data', $plugin_data, DAY_IN_SECONDS );
 		foreach ( $plugins as $key => $plugin ) {
-			if ( false === as_next_scheduled_action( 'FULLWORKS_VULNERABILITY_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'fFULLWORKS_VULNERABILITY_SCANNER_audit' ) ) {
-				as_schedule_single_action( time(), 'FULLWORKS_VULNERABILITY_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_VULNERABILITY_SCANNER__audit' );
+			if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'fFULLWORKS_SCANNER_audit' ) ) {
+				as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
 			}
 		}
 	}
@@ -94,7 +94,7 @@ class Audit_Plugin_Code_Scan {
 					$plugin_data[ $plugin ]['data']['repo'] = false;
 				} else {
 					// report abandoned
-					$this->utilities->file_scan_log_write( $plugin, 497, 'plugin', __CLASS__,  esc_html__( 'This has been removed from the WordPress repository', 'fullworks-vulnerability-scanner' )  );
+					$this->utilities->file_scan_log_write( $plugin, 497, 'plugin', __CLASS__,  esc_html__( 'This has been removed from the WordPress repository', 'fullworks-scanner' )  );
 
 					return;
 				}
@@ -126,14 +126,14 @@ class Audit_Plugin_Code_Scan {
 			$tested_num = $v2x[0] * 10 + $v2x[1];
 			if ( $tested_num < $latest_num - 3 ) {
 				// possibly abandoned
-				$this->utilities->file_scan_log_write( $plugin, 496, 'plugin', __CLASS__,  esc_html__( 'Maybe abandoned, not updated in the last 3 major releases of WordPress', 'fullworks-vulnerability-scanner' ) );
+				$this->utilities->file_scan_log_write( $plugin, 496, 'plugin', __CLASS__,  esc_html__( 'Maybe abandoned, not updated in the last 3 major releases of WordPress', 'fullworks-scanner' ) );
 			}
 
 			// check for updates
 			if ( isset($plugin_data[ $plugin ]['data']['update'] ) ) {
 				// report not latest
 				// translators: %s is the version number
-				$this->utilities->file_scan_log_write( $plugin, 498, 'plugin', __CLASS__, sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-vulnerability-scanner' ), $plugin_data[ $plugin ]['data']['Version'], $plugin_data[ $plugin ]['data']['update']->new_version ) );  // Not latest
+				$this->utilities->file_scan_log_write( $plugin, 498, 'plugin', __CLASS__, sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-scanner' ), $plugin_data[ $plugin ]['data']['Version'], $plugin_data[ $plugin ]['data']['update']->new_version ) );  // Not latest
 			}
 		}
 	}

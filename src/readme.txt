@@ -1,12 +1,12 @@
-=== Fullworks Vulnerability Scanner ===
+=== Fullworks Scanner ===
 Contributors: Fullworks
-Tags: Security, vulnerabilities
+Tags: Security, vulnerabilities, plugin update
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 6.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3 or later
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Fullworks Vulnerability Scanner examines your Core version, themes and plugins and reports on any issues detected by referencing the WordPress Vulnerability Database API and checking for abandoned plugins and themes.
 
@@ -19,7 +19,7 @@ Additionally, Fullworks Vulnerability Scanner will also alert you of any abandon
 The report page allows you accept any warnings or errors noted, forinstance you may have a theme that is no longer supported but you are happy with it and don't want to change it. You can also ignore any plugins or themes that you know are not vulnerable.
 
 == Installation ==
-1. Upload the plugin files to the `/wp-content/plugins/fullworks-vulnerability-scanner` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/fullworks-scanner` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
 3. Use the Settings->Fullworks Vulnerability Scanner screen to configure the plugin
 

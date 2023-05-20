@@ -31,7 +31,7 @@
  *
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 class Uninstall {
 
@@ -58,9 +58,9 @@ class Uninstall {
 
 		// settings
 
-		delete_option( 'fullworks-vulnerability-scanner-general' );
+		delete_option( 'fullworks-scanner-general' );
 
-		delete_option( 'fullworks-vulnerability-scanner-audit-schedule' );
+		delete_option( 'fullworks-scanner-audit-schedule' );
 
 
 	}

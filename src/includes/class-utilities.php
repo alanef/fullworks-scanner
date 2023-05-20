@@ -24,14 +24,14 @@
  */
 
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 use WP_Error;
 
 
 /**
  * Class Utilities
- * @package Fullworks_Vulnerability_Scanner\Includes
+ * @package Fullworks_Scanner\Includes
  */
 class Utilities {
 
@@ -46,9 +46,9 @@ class Utilities {
 	protected $white_label;
 
 	public function __construct() {
-		$this->white_label = get_option( 'fullworks-vulnerability-scanner-whitelabel-names', array(
-			'title' => esc_html__( 'Fullworks Scan', 'fullworks-vulnerability-scanner' ),
-			'logo'  => FULLWORKS_VULNERABILITY_SCANNER_PLUGIN_URL . 'admin/images/brand/dark-on-light-full-logo-cropped.gif',
+		$this->white_label = get_option( 'fullworks-scanner-whitelabel-names', array(
+			'title' => esc_html__( 'Fullworks Scan', 'fullworks-scanner' ),
+			'logo'  => FULLWORKS_SCANNER_PLUGIN_URL . 'admin/images/brand/dark-on-light-full-logo-cropped.gif',
 		) );
 	}
 
@@ -92,7 +92,7 @@ class Utilities {
 			return new WP_Error( $response_code,
 				$response_message . sprintf(
 				// translators: %1$s is the object name core or plugin name or theme name.
-					esc_html__( ' : Error occurred, while getting %1$s vulnerability data', 'fullworks-vulnerability-scanner' ),
+					esc_html__( ' : Error occurred, while getting %1$s vulnerability data', 'fullworks-scanner' ),
 					$options['title'] ) );
 		} elseif ( 200 != $response_code && ! empty( $response_message ) ) {
 			$options = Utilities::get_instance()->get_white_label();
@@ -101,14 +101,14 @@ class Utilities {
 			                                     sprintf(
 			                                     // translators: %1$s is the object name core or plugin name or theme name.
 				                                     esc_html__( ' : Error occurred, while getting %1$s vulnerability data',
-					                                     'fullworks-vulnerability-scanner' ),
+					                                     'fullworks-scanner' ),
 				                                     $options['title'] ) );
 		} elseif ( 200 != $response_code ) {
 			$options = Utilities::get_instance()->get_white_label();
 
 			return new WP_Error( $response_code, sprintf(
 			// translators: %1$s is the object name core or plugin name or theme name.
-				esc_html__( 'Unknown error occurred, while getting %1$s vulnerability data', 'fullworks-vulnerability-scanner' ),
+				esc_html__( 'Unknown error occurred, while getting %1$s vulnerability data', 'fullworks-scanner' ),
 				$options['title'] ) );
 		}
 
@@ -242,7 +242,7 @@ WHERE ID = %s",
 				if ( 200 != $response_code && ! empty( $response_message ) ) {
 					return new WP_Error( $response_code, $response_message );
 				} elseif ( 200 != $response_code ) {
-					return new WP_Error( $response_code, esc_html__( 'Unknown error occurred', 'fullworks-vulnerability-scanner' ) );
+					return new WP_Error( $response_code, esc_html__( 'Unknown error occurred', 'fullworks-scanner' ) );
 				}
 				$res = wp_remote_retrieve_body( $request );
 			}

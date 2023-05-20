@@ -23,12 +23,12 @@
  *  along with the plugin.  https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 
 /**
  * Class Audit_VulnDB_Scan
- * @package Fullworks_Vulnerability_Scanner\Includes
+ * @package Fullworks_Scanner\Includes
  */
 class Audit_VulnDB_Scan {
 	/** @var string $api_url */
@@ -48,7 +48,7 @@ class Audit_VulnDB_Scan {
 		$this->notifier  = $notifier;
 		$this->utilities = $utilities;
 		$this->notifier  = $notifier;
-		add_action( 'FULLWORKS_VULNERABILITY_SCANNER_check_vulndb', array( $this, 'check_vulndb' ) );
+		add_action( 'FULLWORKS_SCANNER_check_vulndb', array( $this, 'check_vulndb' ) );
 	}
 
 	/**
@@ -63,8 +63,8 @@ class Audit_VulnDB_Scan {
 		if ( false !== $endpoints ) {
 			foreach ( $endpoints as $key => $endpoint ) {
 				// queue the jobs
-				if ( false === as_next_scheduled_action( 'FULLWORKS_VULNERABILITY_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit' ) ) {
-					as_schedule_single_action( time(), 'FULLWORKS_VULNERABILITY_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit' );
+				if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_SCANNER_audit' ) ) {
+					as_schedule_single_action( time(), 'FULLWORKS_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_SCANNER_audit' );
 				}
 			}
 		}
@@ -180,14 +180,14 @@ class Audit_VulnDB_Scan {
 			$end_li = '</li>';
 			// translators: leave placeholders.
 
-			$text = esc_html__( 'Multiple Vulnerabilities in installed version: %1$s %2$s', 'fullworks-vulnerability-scanner' );
+			$text = esc_html__( 'Multiple Vulnerabilities in installed version: %1$s %2$s', 'fullworks-scanner' );
 		} else {
 			$ol     = '';
 			$end_ol = '';
 			$li     = '';
 			$end_li = '';
 			// translators: leave placeholders.
-			$text = esc_html__( 'Vulnerability in installed version: %1$s Detail: %2$s', 'fullworks-vulnerability-scanner' );
+			$text = esc_html__( 'Vulnerability in installed version: %1$s Detail: %2$s', 'fullworks-scanner' );
 		}
 
 		return array( $ol, $end_ol, $li, $end_li, $text );

@@ -30,9 +30,9 @@
  * Time: 16:45
  */
 
-namespace Fullworks_Vulnerability_Scanner\Admin;
+namespace Fullworks_Scanner\Admin;
 
-use Fullworks_Vulnerability_Scanner\Includes\Utilities;
+use Fullworks_Scanner\Includes\Utilities;
 use WP_List_Table;
 
 
@@ -40,16 +40,16 @@ class List_Table_Code_Scan extends WP_List_Table
 {
 
     const TABLE = 'fwvs_file_audit';
-    const NONCE = 'FULLWORKS_VULNERABILITY_SCANNER_delete_code_issue';
+    const NONCE = 'FULLWORKS_SCANNER_delete_code_issue';
 
     /** Class constructor */
     public function __construct()
     {
 
         parent::__construct([
-            'singular' => esc_html__('Code Issue', 'fullworks-vulnerability-scanner'),
+            'singular' => esc_html__('Code Issue', 'fullworks-scanner'),
             //singular name of the listed records
-            'plural' => esc_html__('Code Issues', 'fullworks-vulnerability-scanner'),
+            'plural' => esc_html__('Code Issues', 'fullworks-scanner'),
             //plural name of the listed records
             'ajax' => false
             //should this table support ajax?
@@ -59,7 +59,7 @@ class List_Table_Code_Scan extends WP_List_Table
 
     public function no_items()
     {
-        esc_html_e('No current code issues', 'fullworks-vulnerability-scanner');
+        esc_html_e('No current code issues', 'fullworks-scanner');
     }
 
     function column_filepath($item)
@@ -72,15 +72,15 @@ class List_Table_Code_Scan extends WP_List_Table
 
         $actions = array(
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not required for $_REQUEST['page']
-            'accept' => sprintf('<a href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Accept and Ignore in future scans', 'fullworks-vulnerability-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'accept', absint($item['ID']), $delete_nonce),
+            'accept' => sprintf('<a href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Accept and Ignore in future scans', 'fullworks-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'accept', absint($item['ID']), $delete_nonce),
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not required for $_REQUEST['page']
-            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Remove notification until next scan', 'fullworks-vulnerability-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'delete', absint($item['ID']), $delete_nonce),
+            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Remove notification until next scan', 'fullworks-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'delete', absint($item['ID']), $delete_nonce),
         );
 
         if (isset($_GET['type']) && 'accepted' === $_GET['type']) {
             if (isset($_REQUEST['_wpnonce']) && wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), SELF::NONCE)) {
                 $actions = array(
-                    'unaccept' => sprintf('<a href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Unaccept', 'fullworks-vulnerability-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'unaccept', absint($item['ID']), $delete_nonce),
+                    'unaccept' => sprintf('<a href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Unaccept', 'fullworks-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'unaccept', absint($item['ID']), $delete_nonce),
                 );
             } else {
                 die ('Security check');
@@ -113,7 +113,7 @@ class List_Table_Code_Scan extends WP_List_Table
 
 
         $actions = array(
-            'update_wp' => sprintf('<a class="wp-update" href="%1$s">%2$s</a>', self_admin_url('update-core.php'), __('Update WordPresss', 'fullworks-vulnerability-scanner')),
+            'update_wp' => sprintf('<a class="wp-update" href="%1$s">%2$s</a>', self_admin_url('update-core.php'), __('Update WordPresss', 'fullworks-scanner')),
         );
 
         return $title . $this->row_actions($actions);
@@ -126,7 +126,7 @@ class List_Table_Code_Scan extends WP_List_Table
 
 
         $actions = array(
-            'update_plugins' => sprintf('<a class="plugins-update" href="%1$s">%2$s</a>', self_admin_url('plugins.php?plugin_status=upgrade'), __('Update plugins', 'fullworks-vulnerability-scanner')),
+            'update_plugins' => sprintf('<a class="plugins-update" href="%1$s">%2$s</a>', self_admin_url('plugins.php?plugin_status=upgrade'), __('Update plugins', 'fullworks-scanner')),
         );
 
         return $title . $this->row_actions($actions);
@@ -139,7 +139,7 @@ class List_Table_Code_Scan extends WP_List_Table
 
 
         $actions = array(
-            'update_themes' => sprintf('<a class="themes-update" href="%1$s">%2$s</a>', self_admin_url('update-core.php'), __('Update themes', 'fullworks-vulnerability-scanner')),
+            'update_themes' => sprintf('<a class="themes-update" href="%1$s">%2$s</a>', self_admin_url('update-core.php'), __('Update themes', 'fullworks-scanner')),
         );
 
         return $title . $this->row_actions($actions);
@@ -166,11 +166,11 @@ class List_Table_Code_Scan extends WP_List_Table
     {
         $columns = [
             'cb' => '<input type="checkbox" />',
-            'filepath' => esc_html__('File', 'fullworks-vulnerability-scanner'),
-            'type' => esc_html__('Type', 'fullworks-vulnerability-scanner'),
-            'status' => esc_html__('Issue', 'fullworks-vulnerability-scanner'),
-            'message' => esc_html__('Issue Detail', 'fullworks-vulnerability-scanner'),
-            'lastscan' => esc_html__('Last Scan', 'fullworks-vulnerability-scanner'),
+            'filepath' => esc_html__('File', 'fullworks-scanner'),
+            'type' => esc_html__('Type', 'fullworks-scanner'),
+            'status' => esc_html__('Issue', 'fullworks-scanner'),
+            'message' => esc_html__('Issue Detail', 'fullworks-scanner'),
+            'lastscan' => esc_html__('Last Scan', 'fullworks-scanner'),
         ];
 
         return $columns;
@@ -190,9 +190,9 @@ class List_Table_Code_Scan extends WP_List_Table
     public function get_bulk_actions()
     {
         $actions = array(
-            'bulk-delete' => esc_html__('Remove notification until next scan', 'fullworks-vulnerability-scanner'),
-            'bulk-accept' => esc_html__('Accept and Ignore in future scans', 'fullworks-vulnerability-scanner'),
-            'bulk-unaccept' => esc_html__('Include previously accepted items in future scans', 'fullworks-vulnerability-scanner')
+            'bulk-delete' => esc_html__('Remove notification until next scan', 'fullworks-scanner'),
+            'bulk-accept' => esc_html__('Accept and Ignore in future scans', 'fullworks-scanner'),
+            'bulk-unaccept' => esc_html__('Include previously accepted items in future scans', 'fullworks-scanner')
         );
 
         return $actions;
@@ -450,9 +450,9 @@ class List_Table_Code_Scan extends WP_List_Table
         $status_links = array(
             // elements of the string are escaped even though they are rendered in the WP base method views - that method echos the string
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce not needed here
-            'unaccepted' => sprintf('<a href="?page=%1$s&_wpnonce=%5$s" class="%2$s">%3$s</a><span class="count">(%4$d)</span>', esc_attr(sanitize_text_field($_REQUEST['page'])), esc_attr($uc_class), esc_html__('Unaccepted', 'fullworks-vulnerability-scanner'), (int)$uc, esc_attr($nonce)),
+            'unaccepted' => sprintf('<a href="?page=%1$s&_wpnonce=%5$s" class="%2$s">%3$s</a><span class="count">(%4$d)</span>', esc_attr(sanitize_text_field($_REQUEST['page'])), esc_attr($uc_class), esc_html__('Unaccepted', 'fullworks-scanner'), (int)$uc, esc_attr($nonce)),
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce not needed here
-            'accepted' => sprintf('<a href="?page=%1$s&type=accepted&_wpnonce=%5$s" class="%2$s">%3$s</a><span class="count">(%4$d)</span>', esc_attr(sanitize_text_field($_REQUEST['page'])), esc_attr($ac_class), esc_html__('Accepted', 'fullworks-vulnerability-scanner'), (int)$ac, esc_attr($nonce)),
+            'accepted' => sprintf('<a href="?page=%1$s&type=accepted&_wpnonce=%5$s" class="%2$s">%3$s</a><span class="count">(%4$d)</span>', esc_attr(sanitize_text_field($_REQUEST['page'])), esc_attr($ac_class), esc_html__('Accepted', 'fullworks-scanner'), (int)$ac, esc_attr($nonce)),
         );
 
         return $status_links;
@@ -468,7 +468,7 @@ class List_Table_Code_Scan extends WP_List_Table
 
         $actions = array(
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not required for $_REQUEST['page']
-            'delete_file' => sprintf('<a class="delete-file" href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Delete this file', 'fullworks-vulnerability-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'delete-file', absint($item['ID']), $delete_file_nonce),
+            'delete_file' => sprintf('<a class="delete-file" href="?page=%s&action=%s&id=%s&_wpnonce=%s">' . esc_html__('Delete this file', 'fullworks-scanner') . '</a>', esc_attr(sanitize_text_field($_REQUEST['page'])), 'delete-file', absint($item['ID']), $delete_file_nonce),
         );
 
         return $title . $this->row_actions($actions);

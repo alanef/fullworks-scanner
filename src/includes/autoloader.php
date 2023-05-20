@@ -34,7 +34,7 @@ function fullworks_fullworks_vulnerability_scannner_autoload( $class_name ) {
 
 
 	// If the specified $class_name does not include our namespace, duck out.
-	if ( false === strpos( $class_name, 'Fullworks_Vulnerability_Scanner' ) ) {
+	if ( false === strpos( $class_name, 'Fullworks_Scanner' ) ) {
 		return;
 	}
 
@@ -82,6 +82,6 @@ function fullworks_fullworks_vulnerability_scannner_autoload( $class_name ) {
 		include_once( $filepath );
 	} else {
 		// translators: %1$s is the file path.
-		wp_die(sprintf(__('The system file attempting to be loaded at %1$s does not exist.','fullworks-vulnerability-scanner'),esc_html($filepath)) );
+		wp_die(sprintf(__('The system file attempting to be loaded at %1$s does not exist.','fullworks-scanner'),esc_html($filepath)) );
 	}
 }

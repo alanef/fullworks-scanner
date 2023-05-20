@@ -23,7 +23,7 @@
  *  along with the plugin.  https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 
 require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -57,8 +57,8 @@ class Audit_Theme_Code_Scan {
 	public function __construct( $notifier, $utilities ) {
 		$this->notifier        = $notifier;
 		$this->utilities       = $utilities;
-		add_action( 'FULLWORKS_VULNERABILITY_SCANNER_get_current_theme', array( $this, 'get_current_theme' ) );
-		add_action( 'FULLWORKS_VULNERABILITY_SCANNER_audit_theme_scan_chunk', array( $this, 'scan_chunk' ) );
+		add_action( 'FULLWORKS_SCANNER_get_current_theme', array( $this, 'get_current_theme' ) );
+		add_action( 'FULLWORKS_SCANNER_audit_theme_scan_chunk', array( $this, 'scan_chunk' ) );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Audit_Theme_Code_Scan {
 
 		// clear down.
 		$this->utilities->clear_all_unaccepted_file_scan( 'theme', __CLASS__ );
-		delete_transient( 'fullworks-vulnerability-scanner-theme-data' );
+		delete_transient( 'fullworks-scanner-theme-data' );
 		$updates     = get_site_transient( 'update_themes' );
 		$themes     = wp_get_themes( array( 'errors' => null ) );
 		$theme_data = array();
@@ -79,10 +79,10 @@ class Audit_Theme_Code_Scan {
 				$theme_data[ $key ]['data']['update'] = $updates->response[$key];
 			}
 		}
-		set_transient( 'fullworks-vulnerability-scanner-theme-data', $theme_data, DAY_IN_SECONDS );
+		set_transient( 'fullworks-scanner-theme-data', $theme_data, DAY_IN_SECONDS );
 		foreach ( $themes as $key => $theme ) {
-			if ( false === as_next_scheduled_action( 'FULLWORKS_VULNERABILITY_SCANNER_get_current_theme', array( 'theme' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit' ) ) {
-				as_schedule_single_action( time(), 'FULLWORKS_VULNERABILITY_SCANNER_get_current_theme', array( 'theme' => $key ), 'FULLWORKS_VULNERABILITY_SCANNER_audit' );
+			if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_get_current_theme', array( 'theme' => $key ), 'FULLWORKS_SCANNER_audit' ) ) {
+				as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_theme', array( 'theme' => $key ), 'FULLWORKS_SCANNER_audit' );
 			}
 		}
 	}
@@ -93,7 +93,7 @@ class Audit_Theme_Code_Scan {
 	 * @param string $theme Theme.
 	 */
 	public function get_current_theme( $theme ) {
-		$theme_data                           = get_transient( 'fullworks-vulnerability-scanner-theme-data' );
+		$theme_data                           = get_transient( 'fullworks-scanner-theme-data' );
 		$theme_data[ $theme ]['data']['repo'] = true;
 		$theme_info                           = $this->utilities->wp_api( 'https://api.wordpress.org/themes/info/1.2/?action=theme_information&request[slug]=' . $theme );
 		if ( is_wp_error( $theme_info ) ) {
@@ -104,7 +104,7 @@ class Audit_Theme_Code_Scan {
 					$theme_data[ $theme ]['data']['repo'] = false;
 				} else {
 					// report abandoned
-					$this->utilities->file_scan_log_write( $theme, 493, 'theme', __CLASS__,  esc_html__( 'This theme may have once been on wordpress.org and now removed - please check', 'fullworks-vulnerability-scanner' )  );
+					$this->utilities->file_scan_log_write( $theme, 493, 'theme', __CLASS__,  esc_html__( 'This theme may have once been on wordpress.org and now removed - please check', 'fullworks-scanner' )  );
 
 					return;
 				}
@@ -126,7 +126,7 @@ class Audit_Theme_Code_Scan {
 			$live_version = $theme_data[ $theme ]['data']['theme_object']->get( 'Version' );
 			// report not latest.
 			/* translators: leave the %s placeholders. */
-			$this->utilities->file_scan_log_write( $theme, 495, 'theme', __CLASS__, sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-vulnerability-scanner' ), $live_version, $theme_data[ $theme ]['data']['update']['new_version']) );  // Not latest.
+			$this->utilities->file_scan_log_write( $theme, 495, 'theme', __CLASS__, sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-scanner' ), $live_version, $theme_data[ $theme ]['data']['update']['new_version']) );  // Not latest.
 		}
 	}
 

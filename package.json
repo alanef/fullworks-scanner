@@ -12,7 +12,7 @@
     "gulp-zip": "latest",
     "livereload-js": "^2.3.0"
   },
-  "name": "fullworks-security-project",
+  "name": "fullworks-scanner",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

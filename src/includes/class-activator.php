@@ -27,15 +27,15 @@
  * Fired during plugin activation
  *
  *
- * @package    Fullworks_Vulnerability_Scanner
- * @subpackage Fullworks_Vulnerability_Scanner/includes
+ * @package    Fullworks_Scanner
+ * @subpackage Fullworks_Scanner/includes
  */
 
 /**
  * Fired during plugin activation.
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 
 class Activator {
@@ -85,13 +85,13 @@ class Activator {
 		PRIMARY KEY  (ID)
 	) $charset_collate;";
 		dbDelta( $sql );
-		$dbv = get_option('FULLWORKS_VULNERABILITY_SCANNER_db_version');
-		update_option( 'FULLWORKS_VULNERABILITY_SCANNER_db_version', '1.0' );
+		$dbv = get_option('FULLWORKS_SCANNER_db_version');
+		update_option( 'FULLWORKS_SCANNER_db_version', '1.0' );
 
 	}
 
 	public static function on_create_blog_tables( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
-		if ( is_plugin_active_for_network( trailingslashit( basename( FULLWORKS_VULNERABILITY_SCANNER_PLUGIN_DIR ) ) . 'fullworks-vulnerability-scanner.php' ) ) {
+		if ( is_plugin_active_for_network( trailingslashit( basename( FULLWORKS_SCANNER_PLUGIN_DIR ) ) . 'fullworks-scanner.php' ) ) {
 			switch_to_blog( $blog_id );
 			self::create_tables();
 			restore_current_blog();

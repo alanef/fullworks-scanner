@@ -23,13 +23,13 @@
  *  along with the plugin.  https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Fullworks_Vulnerability_Scanner\Includes;
+namespace Fullworks_Scanner\Includes;
 
 use ActionScheduler;
 
 /**
  * Class Audit_Action_Scheduler
- * @package Fullworks_Vulnerability_Scanner\Includes
+ * @package Fullworks_Scanner\Includes
  */
 class Audit_Action_Scheduler {
 
@@ -39,10 +39,10 @@ class Audit_Action_Scheduler {
 	protected $utilities;
 
 	protected $jobs = array(
-		'\Fullworks_Vulnerability_Scanner\Includes\Audit_Plugin_Code_Scan' => 'FULLWORKS_VULNERABILITY_SCANNER_run_plugin_code_scan',
-		'\Fullworks_Vulnerability_Scanner\Includes\Audit_Theme_Code_Scan'  => 'FULLWORKS_VULNERABILITY_SCANNER_run_theme_code_scan',
-		'\Fullworks_Vulnerability_Scanner\Includes\Audit_VulnDB_Scan'      => 'FULLWORKS_VULNERABILITY_SCANNER_run_vulndb_scan',
-		'\Fullworks_Vulnerability_Scanner\Includes\Audit_Email'            => 'FULLWORKS_VULNERABILITY_SCANNER_run_audit_email',
+		'\Fullworks_Scanner\Includes\Audit_Plugin_Code_Scan' => 'FULLWORKS_SCANNER_run_plugin_code_scan',
+		'\Fullworks_Scanner\Includes\Audit_Theme_Code_Scan'  => 'FULLWORKS_SCANNER_run_theme_code_scan',
+		'\Fullworks_Scanner\Includes\Audit_VulnDB_Scan'      => 'FULLWORKS_SCANNER_run_vulndb_scan',
+		'\Fullworks_Scanner\Includes\Audit_Email'            => 'FULLWORKS_SCANNER_run_audit_email',
 	);
 
 	private $options;
@@ -73,7 +73,7 @@ class Audit_Action_Scheduler {
 			return;
 		}
 
-		$this->options = get_option( 'fullworks-vulnerability-scanner-audit-schedule' );
+		$this->options = get_option( 'fullworks-scanner-audit-schedule' );
 		if ( empty ( $this->options['cron'] ) ) {
 			$this->cancel_jobs();
 
@@ -82,7 +82,7 @@ class Audit_Action_Scheduler {
 
 		if ( isset( $this->options['cron_changed'] ) && 1 == $this->options['cron_changed'] ) {
 			$this->options['cron_changed'] = 0;
-			update_option( 'fullworks-vulnerability-scanner-audit-schedule', $this->options );
+			update_option( 'fullworks-scanner-audit-schedule', $this->options );
 			$this->cancel_jobs();
 			$this->add_jobs();
 
@@ -97,16 +97,16 @@ class Audit_Action_Scheduler {
 
 	public function cancel_jobs() {
 		foreach ( $this->jobs as $class => $job ) {
-			if ( false !== as_next_scheduled_action( $job, array(), 'fullworks-vulnerability-scanner-control' ) ) {
-				as_unschedule_action( $job, array(), 'fullworks-vulnerability-scanner-control' );
+			if ( false !== as_next_scheduled_action( $job, array(), 'fullworks-scanner-control' ) ) {
+				as_unschedule_action( $job, array(), 'fullworks-scanner-control' );
 			}
 		}
 	}
 
 	public function add_jobs() {
 		foreach ( $this->jobs as $class => $job ) {
-			if ( false === as_next_scheduled_action( $job, array(), 'fullworks-vulnerability-scanner-control' ) ) {
-				as_schedule_cron_action( time(), $this->options['cron'], $job, array(), 'fullworks-vulnerability-scanner-control' );
+			if ( false === as_next_scheduled_action( $job, array(), 'fullworks-scanner-control' ) ) {
+				as_schedule_cron_action( time(), $this->options['cron'], $job, array(), 'fullworks-scanner-control' );
 			}
 		}
 	}
