@@ -100,7 +100,16 @@ class Admin {
 	}
 
 
+	public function plugin_updated_action( $upgrader_object, $options ) {
+		if ( $options['action'] === 'update' && $options['type'] === 'plugin' ) {
+			$plugin_slugs = $options['plugins'];
 
+			foreach ( $plugin_slugs as $plugin_slug ) {
+				// Perform actions here for each updated plugin
+				update_site_option( 'FULLWORKS_SCANNER_plugin_updated_' . $plugin_slug, time() );
+			}
+		}
+	}
 
 
 }

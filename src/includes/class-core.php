@@ -104,11 +104,11 @@ class Core {
 
 	private function set_options_data() {
 
-		if ( ! get_option( 'fullworks-scanner-general' ) ) {
-			update_option( 'fullworks-scanner-general', Admin_Settings::option_defaults( 'fullworks-scanner-general' ) );
+		if ( ! get_option( 'FULLWORKS_SCANNER_general' ) ) {
+			update_option( 'FULLWORKS_SCANNER_general', Admin_Settings::option_defaults( 'FULLWORKS_SCANNER_general' ) );
 		}
-		if ( ! get_option( 'fullworks-scanner-audit-schedule' ) ) {
-			update_option( 'fullworks-scanner-audit-schedule', Admin_Settings::option_defaults( 'fullworks-scanner-audit-schedule' ) );
+		if ( ! get_option( 'FULLWORKS_SCANNER_audit_schedule' ) ) {
+			update_option( 'FULLWORKS_SCANNER_audit_schedule', Admin_Settings::option_defaults( 'FULLWORKS_SCANNER_audit_schedule' ) );
 		}
 	}
 
@@ -139,6 +139,7 @@ class Core {
 		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_scripts' ) );
 		add_action( 'admin_init', array( $plugin_admin, 'upgrade_db' ) );
+		add_action( 'upgrader_process_complete', array( $plugin_admin,'plugin_updated_action'), 10, 2 );
 	}
 
 

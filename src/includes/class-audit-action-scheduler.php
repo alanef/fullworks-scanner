@@ -73,7 +73,7 @@ class Audit_Action_Scheduler {
 			return;
 		}
 
-		$this->options = get_option( 'fullworks-scanner-audit-schedule' );
+		$this->options = get_option( 'FULLWORKS_SCANNER_audit_schedule' );
 		if ( empty ( $this->options['cron'] ) ) {
 			$this->cancel_jobs();
 
@@ -82,7 +82,7 @@ class Audit_Action_Scheduler {
 
 		if ( isset( $this->options['cron_changed'] ) && 1 == $this->options['cron_changed'] ) {
 			$this->options['cron_changed'] = 0;
-			update_option( 'fullworks-scanner-audit-schedule', $this->options );
+			update_option( 'FULLWORKS_SCANNER_audit_schedule', $this->options );
 			$this->cancel_jobs();
 			$this->add_jobs();
 
