@@ -43,8 +43,7 @@ class Audit_Plugin_Code_Scan {
 	public function __construct( $notifier, $utilities ) {
 		$this->notifier  = $notifier;
 		$this->utilities = $utilities;
-		//	add_action( 'FULLWORKS_SCANNER_get_current_plugin', array( $this, 'get_current_plugin' ) );
-		add_action( 'admin_init', array( $this, 'run' ) );
+		add_action( 'FULLWORKS_SCANNER_get_current_plugin', array( $this, 'get_current_plugin' ) );
 	}
 
 	/**
@@ -72,8 +71,7 @@ class Audit_Plugin_Code_Scan {
 		set_transient( 'fullworks-vulnerability-plugin-data', $plugin_data, DAY_IN_SECONDS );
 		foreach ( $plugins as $key => $plugin ) {
 			if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'fFULLWORKS_SCANNER_audit' ) ) {
-				//			as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
-				$this->get_current_plugin(dirname( $key ));
+				as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
 			}
 		}
 	}
@@ -145,12 +143,12 @@ class Audit_Plugin_Code_Scan {
 							'plugin',
 							__CLASS__,
 							sprintf( esc_html__( 'Installed version %1$s - Current version %2$s - Auto update is enabled but seems not to be working as the last plugin update was %3$s', 'fullworks-scanner' ) .
-								'%4$s',
+							         '%4$s',
 								$plugin_data[ $plugin ]['data']['Version'],
 								$plugin_data[ $plugin ]['data']['update']->new_version,
 								// wp local date from epoch
 								wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $update_time ),
-						        $this->get_change_log( $plugin, $plugin_data[ $plugin ]['data']['update']->new_version )
+								$this->get_change_log( $plugin, $plugin_data[ $plugin ]['data']['update']->new_version )
 							)
 						);  // Not latest
 					}
@@ -160,17 +158,18 @@ class Audit_Plugin_Code_Scan {
 						'plugin',
 						__CLASS__,
 						sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-scanner' ) .
-							'%3$s',
+						         '%3$s',
 							$plugin_data[ $plugin ]['data']['Version'],
-							$plugin_data[ $plugin ]['data']['update']->new_version ,
-						    $this->get_change_log( $plugin, $plugin_data[ $plugin ]['data']['update']->new_version )
+							$plugin_data[ $plugin ]['data']['update']->new_version,
+							$this->get_change_log( $plugin, $plugin_data[ $plugin ]['data']['update']->new_version )
 						)
 					);  // Not latest
 				}
 			}
 		}
 	}
-	public function get_change_log($plugin_slug, $version_tag){
+
+	public function get_change_log( $plugin_slug, $version_tag ) {
 		// Construct the URL of the readme file for the specific version tag
 		$readme_url = sprintf( 'https://plugins.svn.wordpress.org/%s/tags/%s/readme.txt', $plugin_slug, $version_tag );
 
@@ -179,37 +178,36 @@ class Audit_Plugin_Code_Scan {
 
 		// Extract the latest version and changes from the changelog section
 		$regex = '/==\s*Changelog\s*==\s*=\s*(.*?)\s*=\s*(.*)/ms';
-		preg_match($regex, $readme_contents, $matches);
+		preg_match( $regex, $readme_contents, $matches );
 
-		if (isset($matches[1]) && isset($matches[2])) {
-			$version_number = $matches[1];
+		if ( isset( $matches[1] ) && isset( $matches[2] ) ) {
+			$version_number    = $matches[1];
 			$changelog_entries = $matches[2];
 
-            $html = '<h3>' . esc_html__('Changelog', 'fullworks-scanner') . '</h3>';
-			$html .= '<h4>' . esc_html__('Version: ', 'fullworks-scanner') . $version_number . '</h4>';
+			$html = '<h3>' . esc_html__( 'Changelog', 'fullworks-scanner' ) . '</h3>';
+			$html .= '<h4>' . esc_html__( 'Version: ', 'fullworks-scanner' ) . $version_number . '</h4>';
 			// convert $changelog_entries to array one per line
-			$changelog_entries = str_replace("\r\n", "\n", $changelog_entries);
-			$changelog_entries = str_replace("\r", "\n", $changelog_entries);
-			$changelog_entries = str_replace("\n\n", "\n", $changelog_entries);
-			$changelog_lines = preg_split("/[\n]+/", $changelog_entries);
-
+			$changelog_entries = str_replace( "\r\n", "\n", $changelog_entries );
+			$changelog_entries = str_replace( "\r", "\n", $changelog_entries );
+			$changelog_entries = str_replace( "\n\n", "\n", $changelog_entries );
+			$changelog_lines   = preg_split( "/[\n]+/", $changelog_entries );
 
 
 			$html .= '<ul>';
-			foreach ($changelog_lines as $line) {
-				if ( empty ($line)) {
+			foreach ( $changelog_lines as $line ) {
+				if ( empty ( $line ) ) {
 					continue;
 				}
 				// trim leading whitespace and break if a line doesn't start with *
-				$line = ltrim($line);
-				if (substr($line, 0, 1) == '=') {
+				$line = ltrim( $line );
+				if ( substr( $line, 0, 1 ) == '=' ) {
 					break;
 				}
-				if (substr($line, 0, 1) == '[') {
+				if ( substr( $line, 0, 1 ) == '[' ) {
 					break;
 				}
 				// remove leading * and whitespace
-				$line = ltrim($line, '* ');
+				$line = ltrim( $line, '* ' );
 				$html .= '<li>' . $line . '</li>';
 			}
 			$html .= '</ul>';
