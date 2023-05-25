@@ -32,6 +32,11 @@ The scan runs once a day by default. You can change this in the settings.
 = How do I change the email address that the scan results are sent to? =
 You can change the email address in the settings.
 
+
+== Screenshots ==
+
+1. Example scan report.
+
 == Changelog ==
 = 1.1.0 =
 * Take into consideration auto updates and dont report unless not updated for several days
