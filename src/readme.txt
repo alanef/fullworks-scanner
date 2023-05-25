@@ -36,6 +36,7 @@ You can change the email address in the settings.
 = 1.1.0 =
 * Take into consideration auto updates and dont report unless not updated for several days
 * Display Change log summary on the report page forplugins with updates available
+* Change report to names  and allow sorting of names in report
 
 = 1.0.2 =
 * Changed slug to fullworks-scanner
