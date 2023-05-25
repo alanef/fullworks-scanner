@@ -148,6 +148,7 @@ class Core {
 
 		$action_scheduler = new Audit_Action_Scheduler( $this->notifier, $this->utilities );
 		add_action( 'init', array( $action_scheduler, 'schedule' ) );
+		add_action( 'init', array( $action_scheduler, 'rescan' ) );
 	}
 
 	public function load_plugin_textdomain() {

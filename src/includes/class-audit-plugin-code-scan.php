@@ -179,12 +179,11 @@ class Audit_Plugin_Code_Scan {
 		// Extract the latest version and changes from the changelog section
 		$regex = '/==\s*Changelog\s*==\s*=\s*(.*?)\s*=\s*(.*)/ms';
 		preg_match( $regex, $readme_contents, $matches );
-
+		$html = '<h3>' . esc_html__( 'Latest change', 'fullworks-scanner' ) . '</h3>';
 		if ( isset( $matches[1] ) && isset( $matches[2] ) ) {
 			$version_number    = $matches[1];
 			$changelog_entries = $matches[2];
 
-			$html = '<h3>' . esc_html__( 'Changelog', 'fullworks-scanner' ) . '</h3>';
 			$html .= '<h4>' . esc_html__( 'Version: ', 'fullworks-scanner' ) . $version_number . '</h4>';
 			// convert $changelog_entries to array one per line
 			$changelog_entries = str_replace( "\r\n", "\n", $changelog_entries );
@@ -212,11 +211,12 @@ class Audit_Plugin_Code_Scan {
 			}
 			$html .= '</ul>';
 
-			return $html;
-		} else {
-			return false;
-		}
 
+		}
+		// link to the plugin developer page as a link to changelog on #developers
+        $html = $html . '<p><a href="https://wordpress.org/plugins/' . $plugin_slug . '/developers/" target="_blank">' . esc_html__( 'View all changelogs', 'fullworks-scanner' ) . '</a></p>';
+
+		return $html;
 	}
 
 }

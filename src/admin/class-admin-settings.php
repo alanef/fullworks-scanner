@@ -39,7 +39,7 @@ use Fullworks_Scanner\Includes\Utilities;
 class Admin_Settings extends Admin_Pages {
 
 	protected $settings_page;
-	protected $settings_page_id = 'toplevel_page_fullworks-settings';
+	protected $settings_page_id = 'toplevel_page_fullworks-scanner-settings';
 	protected $option_group = 'fullworks-scanner';
 
 	/** @var Utilities $utilities */
@@ -85,14 +85,14 @@ class Admin_Settings extends Admin_Pages {
 			array( $this, 'sanitize_audit_schedule' )          /* Sanitize Callback */
 		);
 
-		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'General Settings', 'fullworks-scanner' ), 'settings', admin_url( 'admin.php?page=fullworks-settings' ), 0 );
+		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'General Settings', 'fullworks-scanner' ), 'settings', admin_url( 'admin.php?page=fullworks-scanner-settings' ), 0 );
 		/* Add settings menu page */
 		$this->settings_page = add_submenu_page(
-			'fullworks-settings',
+			'fullworks-scanner-settings',
 			'Settings', /* Page Title */
 			'Settings',                       /* Menu Title */
 			'manage_options',                 /* Capability */
-			'fullworks-settings',                         /* Page Slug */
+			'fullworks-scanner-settings',                         /* Page Slug */
 			array( $this, 'settings_page' )          /* Settings Page Function Callback */
 		);
 
