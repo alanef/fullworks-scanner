@@ -166,7 +166,7 @@ class List_Table_Code_Scan extends WP_List_Table
     {
         $columns = [
             'cb' => '<input type="checkbox" />',
-            'filepath' => esc_html__('File', 'fullworks-scanner'),
+            'filepath' => esc_html__('Object', 'fullworks-scanner'),
             'type' => esc_html__('Type', 'fullworks-scanner'),
             'status' => esc_html__('Issue', 'fullworks-scanner'),
             'message' => esc_html__('Issue Detail', 'fullworks-scanner'),
@@ -179,6 +179,7 @@ class List_Table_Code_Scan extends WP_List_Table
     public function get_sortable_columns()
     {
         $sortable_columns = array(
+			'filepath' => array('filepath', true),
             'type' => array('type', true),
             'status' => array('status', true),
             'lastscan' => array('lastscan', true)
@@ -370,7 +371,7 @@ class List_Table_Code_Scan extends WP_List_Table
             $type = 1;
         }
         $sortable_fields = array(
-            'ID',
+            'filepath',
             'status',
             'type',
             'lastscan',

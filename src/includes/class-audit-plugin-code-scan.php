@@ -71,7 +71,7 @@ class Audit_Plugin_Code_Scan {
 		set_transient( 'fullworks-vulnerability-plugin-data', $plugin_data, DAY_IN_SECONDS );
 		foreach ( $plugins as $key => $plugin ) {
 			if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'fFULLWORKS_SCANNER_audit' ) ) {
-				as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
+			as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
 			}
 		}
 	}
@@ -93,7 +93,7 @@ class Audit_Plugin_Code_Scan {
 					$plugin_data[ $plugin ]['data']['repo'] = false;
 				} else {
 					// report abandoned
-					$this->utilities->file_scan_log_write( $plugin, 497, 'plugin', __CLASS__, esc_html__( 'This has been removed from the WordPress repository', 'fullworks-scanner' ) );
+					$this->utilities->file_scan_log_write( $plugin_data[ $plugin ]['data']['Name'], 497, 'plugin', __CLASS__, esc_html__( 'This has been removed from the WordPress repository', 'fullworks-scanner' ) );
 
 					return;
 				}
@@ -125,7 +125,7 @@ class Audit_Plugin_Code_Scan {
 			$tested_num = ( (int) $v2x[0] * 10 ) + (int) ( $v2x[1] );
 			if ( $tested_num < $latest_num - 3 ) {
 				// possibly abandoned
-				$this->utilities->file_scan_log_write( $plugin, 496, 'plugin', __CLASS__, esc_html__( 'Maybe abandoned, not updated in the last 3 major releases of WordPress', 'fullworks-scanner' ) );
+				$this->utilities->file_scan_log_write( $plugin_data[ $plugin ]['data']['Name'], 496, 'plugin', __CLASS__, esc_html__( 'Maybe abandoned, not updated in the last 3 major releases of WordPress', 'fullworks-scanner' ) );
 			}
 
 			// check for updates
@@ -138,7 +138,7 @@ class Audit_Plugin_Code_Scan {
 					$update_time = get_site_option( ' FULLWORKS_SCANNER_plugin_updated_' . $plugin_data[ $plugin ]['data']['filename'], time() );
 					if ( $update_time < time() - ( 2 * DAY_IN_SECONDS ) ) {
 						$this->utilities->file_scan_log_write(
-							$plugin,
+							$plugin_data[ $plugin ]['data']['Name'],
 							498,
 							'plugin',
 							__CLASS__,
@@ -153,7 +153,7 @@ class Audit_Plugin_Code_Scan {
 						);  // Not latest
 					}
 				} else {
-					$this->utilities->file_scan_log_write( $plugin,
+					$this->utilities->file_scan_log_write( $plugin_data[ $plugin ]['data']['Name'],
 						498,
 						'plugin',
 						__CLASS__,

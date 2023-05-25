@@ -58,7 +58,6 @@ class Audit_Theme_Code_Scan {
 		$this->notifier        = $notifier;
 		$this->utilities       = $utilities;
 		add_action( 'FULLWORKS_SCANNER_get_current_theme', array( $this, 'get_current_theme' ) );
-		add_action( 'FULLWORKS_SCANNER_audit_theme_scan_chunk', array( $this, 'scan_chunk' ) );
 	}
 
 	/**
@@ -104,7 +103,7 @@ class Audit_Theme_Code_Scan {
 					$theme_data[ $theme ]['data']['repo'] = false;
 				} else {
 					// report abandoned
-					$this->utilities->file_scan_log_write( $theme, 493, 'theme', __CLASS__,  esc_html__( 'This theme may have once been on wordpress.org and now removed - please check', 'fullworks-scanner' )  );
+					$this->utilities->file_scan_log_write( $theme_data[ $theme ]['data']['theme_object']->get('Name'), 493, 'theme', __CLASS__,  esc_html__( 'This theme may have once been on wordpress.org and now removed - please check', 'fullworks-scanner' )  );
 
 					return;
 				}
@@ -126,7 +125,7 @@ class Audit_Theme_Code_Scan {
 			$live_version = $theme_data[ $theme ]['data']['theme_object']->get( 'Version' );
 			// report not latest.
 			/* translators: leave the %s placeholders. */
-			$this->utilities->file_scan_log_write( $theme, 495, 'theme', __CLASS__, sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-scanner' ), $live_version, $theme_data[ $theme ]['data']['update']['new_version']) );  // Not latest.
+			$this->utilities->file_scan_log_write( $theme_data[ $theme ]['data']['theme_object']->get('Name'), 495, 'theme', __CLASS__, sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-scanner' ), $live_version, $theme_data[ $theme ]['data']['update']['new_version']) );  // Not latest.
 		}
 	}
 
