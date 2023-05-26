@@ -4,7 +4,7 @@ Tags: Security, vulnerabilities, plugin update, security
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 6.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -38,9 +38,12 @@ You can change the email address in the settings.
 1. Example scan report.
 
 == Changelog ==
+= 1.1.1 =
+* Merge in  'Add rescan now button to report'
+
 = 1.1.0 =
 * Take into consideration auto updates and dont report unless not updated for several days
-* Display Change log summary on the report page forplugins with updates available
+* Display Change log summary on the report page for plugins with updates available
 * Change report to names  and allow sorting of names in report
 * Add rescan now button to report
 

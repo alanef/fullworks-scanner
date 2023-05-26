@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-25 13:58+0000\n"
+"POT-Creation-Date: 2023-05-26 08:06+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -78,16 +78,24 @@ msgstr ""
 msgid "Code Scan"
 msgstr ""
 
-#: src/admin/class-admin-table-code-scan.php:44, src/admin/class-admin-table-code-scan.php:48
+#: src/admin/class-admin-table-code-scan.php:49, src/admin/class-admin-table-code-scan.php:56
 msgid "Code Scan Audit Report"
 msgstr ""
 
-#: src/admin/class-admin-table-code-scan.php:49
+#: src/admin/class-admin-table-code-scan.php:51
+msgid "Schedule a Rescan Now!"
+msgstr ""
+
+#: src/admin/class-admin-table-code-scan.php:57
 msgid "Reports"
 msgstr ""
 
-#: src/admin/class-admin-table-code-scan.php:62
+#: src/admin/class-admin-table-code-scan.php:70
 msgid "Issues"
+msgstr ""
+
+#: src/admin/class-admin.php:92
+msgid "Once scheduled the rescan will run in background and may take several minutes. The report will be cleared initially. Return to this page after 5 or more minutes and refresh the page. Press OK to schedule. "
 msgstr ""
 
 #: src/admin/class-list-table-code-scan.php:50
@@ -211,12 +219,16 @@ msgstr ""
 msgid "Installed version %1$s - Current version %2$s - Auto update is enabled but seems not to be working as the last plugin update was %3$s"
 msgstr ""
 
-#: src/includes/class-audit-plugin-code-scan.php:187
-msgid "Changelog"
+#: src/includes/class-audit-plugin-code-scan.php:182
+msgid "Latest change"
 msgstr ""
 
-#: src/includes/class-audit-plugin-code-scan.php:188
+#: src/includes/class-audit-plugin-code-scan.php:187
 msgid "Version: "
+msgstr ""
+
+#: src/includes/class-audit-plugin-code-scan.php:217
+msgid "View all changelogs"
 msgstr ""
 
 #: src/includes/class-audit-theme-code-scan.php:106
@@ -241,7 +253,7 @@ msgid "Possible reason: your host may have disabled the mail() function."
 msgstr ""
 
 #: src/includes/class-utilities.php:50
-msgid "Fullworks Scan"
+msgid "Fullworks Scanner"
 msgstr ""
 
 #. translators: %1$s is the object name core or plugin name or theme name.
