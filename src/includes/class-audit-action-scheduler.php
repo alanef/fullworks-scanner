@@ -61,6 +61,16 @@ class Audit_Action_Scheduler {
 		    add_action( $job, array( $class_instance, 'run' ) );
 		}
 	}
+	public function rescan() {
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+		if ( isset($_REQUEST['rescan'])) {
+			if ( isset($_REQUEST['_wpnonce']) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'fullworks_scanner_rescan' ) ) {
+				$this->add_immediate_jobs();
+			}
+		}
+	}
 
 	/**
 	 * schedule required jobs
@@ -108,6 +118,16 @@ class Audit_Action_Scheduler {
 			if ( false === as_next_scheduled_action( $job, array(), 'fullworks-scanner-control' ) ) {
 				as_schedule_cron_action( time(), $this->options['cron'], $job, array(), 'fullworks-scanner-control' );
 			}
+		}
+	}
+
+	public function add_immediate_jobs() {
+		foreach ( $this->jobs as $class => $job ) {
+			// miss out the email for an immediate job
+			if ( '\Fullworks_Scanner\Includes\Audit_Email' == $class ) {
+				continue;
+			}
+			as_schedule_single_action( time(), $job, array(), 'fullworks-scanner-control' );
 		}
 	}
 

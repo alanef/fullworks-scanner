@@ -22,60 +22,12 @@
  *  along with the plugin.  https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-(function ($) {
-    'use strict';
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.fsp-rescan__button');
 
-    $(function () {
-        $('.delete-file').on('click', function () {
-            return confirm('Are you sure want to do delete this file? Have you made a backup?');
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            alert(fullworks_scanner.rescan_alert);
         });
     });
-
-    $.fn.extend({
-        toggleText: function(a, b){
-            return this.text(this.text() == b ? a : b);
-        }
-    });
-
-    $('#waf-button').click(function () {
-        if ($('#waf-button').hasClass('button-primary')) {
-           var change = 'enable';
-        } else {
-            var change = 'disable';
-        }
-        $.ajax({
-            url: ajaxurl,
-            method: 'post',
-            data: {
-                action: 'enable_disable_waf',
-                security: FullworksSecurityWAF.nonce,
-                change: change,
-            },
-            success: function (response) {
-                window.location.reload();
-            }
-        });
-    });
-
-
-    var mediaUploader;
-    $('#fw_logo_image_button').click(function (e) {
-        e.preventDefault();
-        if (mediaUploader) {
-            mediaUploader.open();
-            return;
-        }
-        mediaUploader = wp.media.frames.file_frame = wp.media({
-            title: 'Choose Image',
-            button: {
-                text: 'Choose Image'
-            }, multiple: false
-        });
-        mediaUploader.on('select', function () {
-            var attachment = mediaUploader.state().get('selection').first().toJSON();
-            $('#background_image').val(attachment.url);
-        });
-        mediaUploader.open();
-    });
-
-})(jQuery);
+});
