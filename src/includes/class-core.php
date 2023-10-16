@@ -58,8 +58,6 @@ class Core {
 	protected $log_and_block;
 
 
-	/** @var Event_Notifier $notifier */
-	protected $notifier;
 
 
 	/** @var Utilities $utilities */
@@ -76,12 +74,7 @@ class Core {
 	 *
 	 */
 	public function __construct() {
-
-
 		$this->utilities = new Utilities();
-		$this->notifier  = new Event_Notifier( $this->utilities );
-
-
 	}
 
 	/**
@@ -105,14 +98,16 @@ class Core {
 			WP_CLI::add_command(
 				'fullworks-scanner',
 				function () {
-					WP_CLI::line( 'Starting...' );
-					try {
-						// Call your custom code here
-					} catch ( \Throwable $e ) {
-						WP_CLI::error( $e->getMessage() );
-						throw $e;
+
+						$plugin = new Audit_Plugin_Code_Scan( $this->utilities );
+						$plugin->run();
+						$vuln = new Audit_VulnDB_Scan( $this->utilities );
+						$vuln->run();
+						if ($this->utilities->is_issues_found()) {
+							WP_CLI::error( esc_html__('Issues found!','fullworks-scanner' ) );
+						} else {
+							WP_CLI::success( esc_html__('No issues found','fullworks-scanner' ));
 					}
-					WP_CLI::success( 'Success!' );
 				}
 			);
 		}
@@ -165,7 +160,7 @@ class Core {
 
 	private function define_core_hooks() {
 
-		$action_scheduler = new Audit_Action_Scheduler( $this->notifier, $this->utilities );
+		$action_scheduler = new Audit_Action_Scheduler(  $this->utilities );
 		add_action( 'init', array( $action_scheduler, 'schedule' ) );
 		add_action( 'init', array( $action_scheduler, 'rescan' ) );
 	}

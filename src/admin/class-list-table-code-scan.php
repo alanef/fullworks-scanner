@@ -353,16 +353,7 @@ class List_Table_Code_Scan extends WP_List_Table
     {
 
         global $wpdb;
-        $issues = array(
-            999 => __('Insecure version', 'fullworks-security'),
-            995 => __('Known Vulnerability', 'fullworks-security'),
-            498 => __('Plugin has an Update', 'fullworks-security'),
-            497 => __('Plugin Removed', 'fullworks-security'),
-            496 => __('Plugin Abandoned', 'fullworks-security'),
-            495 => __('Theme has an Update', 'fullworks-security'),
-            494 => __('WordPress has an Update', 'fullworks-security'),
-            493 => __('Theme Removed', 'fullworks-security'),
-        );
+        $issues = Utilities::get_instance()->get_issues();
 
 
         $type = 0;

@@ -33,10 +33,10 @@ namespace Fullworks_Scanner\Includes;
 class Audit_VulnDB_Scan {
 	/** @var string $api_url */
 	protected $api_url = 'https://www.wpvulnerability.net/';
-	/** @var Event_Notifier $notifier */
-	protected $notifier;
 	/** @var Utilities $utilities */
 	protected $utilities;
+	/** @var $instance */
+	private static $instance;
 
 	/**
 	 * Audit_VulnDB_Scan constructor.
@@ -44,11 +44,17 @@ class Audit_VulnDB_Scan {
 	 * @param $notifier
 	 * @param $utilities
 	 */
-	public function __construct( $notifier, $utilities ) {
-		$this->notifier  = $notifier;
+	public function __construct(  $utilities ) {
 		$this->utilities = $utilities;
-		$this->notifier  = $notifier;
 		add_action( 'FULLWORKS_SCANNER_check_vulndb', array( $this, 'check_vulndb' ) );
+	}
+
+	public static function get_instance() {
+		if ( null == self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -63,9 +69,7 @@ class Audit_VulnDB_Scan {
 		if ( false !== $endpoints ) {
 			foreach ( $endpoints as $key => $endpoint ) {
 				// queue the jobs
-				if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_SCANNER_audit' ) ) {
-					as_schedule_single_action( time(), 'FULLWORKS_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_SCANNER_audit' );
-				}
+				$this->utilities->single_action( time(), 'FULLWORKS_SCANNER_check_vulndb', array( 'endpoint' => $key ), 'FULLWORKS_SCANNER_audit' );
 			}
 		}
 	}
@@ -158,14 +162,15 @@ class Audit_VulnDB_Scan {
 			list( $ol, $end_ol, $li, $end_li, $text ) = $this->get_vuln_message( $keys );
 			$detail = '';
 			foreach ( $keys as $key ) {
-				$detail .= $li . '<a target="_blank" href="' . $response['data']['vulnerability'][$key]['source'][0]['link'] . '">' . $response['data']['vulnerability'][$key]['source'][0]['name'] . '</a>' . $end_li;
+				$detail .= $li . '<a target="_blank" href="' . $response['data']['vulnerability'][ $key ]['source'][0]['link'] . '">' . $response['data']['vulnerability'][ $key ]['source'][0]['name'] . '</a>' . $end_li;
 			}
 			$this->utilities->file_scan_log_write(
 				$endpoint['name'],
 				995,
 				$endpoint['type'],
 				__CLASS__,
-				sprintf( $text, $version, $ol . $detail . $end_ol )
+				sprintf( $text, $version, $ol . $detail . $end_ol ),
+				$response['data']['vulnerability'][ $key ]['source'][0]['name'] . ' '. $response['data']['vulnerability'][ $key ]['source'][0]['link']
 			);
 		}
 	}

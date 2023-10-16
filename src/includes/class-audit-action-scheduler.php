@@ -33,8 +33,6 @@ use ActionScheduler;
  */
 class Audit_Action_Scheduler {
 
-	/** @var Event_Notifier $notifier */
-	protected $notifier;
 	/** @var Utilities $utilities */
 	protected $utilities;
 
@@ -50,14 +48,12 @@ class Audit_Action_Scheduler {
 	/**
 	 * Action_Scheduler constructor.
 	 *
-	 * @param $notifier
 	 * @param $utilities
 	 */
-	public function __construct( $notifier, $utilities ) {
-		$this->notifier  = $notifier;
+	public function __construct( $utilities ) {
 		$this->utilities = $utilities;
 		foreach ( $this->jobs as $class => $job ) {
-			$class_instance = new $class( $this->notifier, $this->utilities );
+			$class_instance = new $class( $this->utilities );
 		    add_action( $job, array( $class_instance, 'run' ) );
 		}
 	}

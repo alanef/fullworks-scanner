@@ -28,10 +28,9 @@ namespace Fullworks_Scanner\Includes;
 
 class Audit_Plugin_Code_Scan {
 
-	/** @var Event_Notifier $notifier */
-	protected $notifier;
 	/** @var Utilities $utilities */
 	protected $utilities;
+
 
 
 	/**
@@ -40,17 +39,16 @@ class Audit_Plugin_Code_Scan {
 	 * @param $notifier
 	 * @param $utilities
 	 */
-	public function __construct( $notifier, $utilities ) {
-		$this->notifier  = $notifier;
+	public function __construct(  $utilities ) {
 		$this->utilities = $utilities;
 		add_action( 'FULLWORKS_SCANNER_get_current_plugin', array( $this, 'get_current_plugin' ) );
 	}
+
 
 	/**
 	 *
 	 */
 	public function run() {
-
 		// clear down
 		$this->utilities->clear_all_unaccepted_file_scan( 'plugin', __CLASS__ );
 		delete_transient( 'fullworks-vulnerability-plugin-data' );
@@ -58,6 +56,7 @@ class Audit_Plugin_Code_Scan {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
+
 		$plugins     = get_plugins();
 		$plugin_data = array();
 		foreach ( $plugins as $key => $plugin ) {
@@ -70,9 +69,7 @@ class Audit_Plugin_Code_Scan {
 		}
 		set_transient( 'fullworks-vulnerability-plugin-data', $plugin_data, DAY_IN_SECONDS );
 		foreach ( $plugins as $key => $plugin ) {
-			if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'fFULLWORKS_SCANNER_audit' ) ) {
-			as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
-			}
+			$this->utilities->single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
 		}
 	}
 

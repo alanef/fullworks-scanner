@@ -34,12 +34,7 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
  * @package Fullworks_Security\Includes
  */
 class Audit_Theme_Code_Scan {
-	/**
-	 * Protected
-	 *
-	 * @var Event_Notifier $notifier Notifier.
-	 */
-	protected $notifier;
+
 	/**
 	 * Protected
 	 *
@@ -48,17 +43,17 @@ class Audit_Theme_Code_Scan {
 	protected $utilities;
 
 
+
 	/**
 	 * Audit_Theme_Code_Scan constructor.
 	 *
-	 * @param Event_Notifier $notifier Notifier object.
 	 * @param Utilities      $utilities General Utilities.
 	 */
-	public function __construct( $notifier, $utilities ) {
-		$this->notifier        = $notifier;
+	public function __construct(  $utilities ) {
 		$this->utilities       = $utilities;
 		add_action( 'FULLWORKS_SCANNER_get_current_theme', array( $this, 'get_current_theme' ) );
 	}
+
 
 	/**
 	 * Clear down and schedule scans in chunks
@@ -80,9 +75,7 @@ class Audit_Theme_Code_Scan {
 		}
 		set_transient( 'fullworks-scanner-theme-data', $theme_data, DAY_IN_SECONDS );
 		foreach ( $themes as $key => $theme ) {
-			if ( false === as_next_scheduled_action( 'FULLWORKS_SCANNER_get_current_theme', array( 'theme' => $key ), 'FULLWORKS_SCANNER_audit' ) ) {
-				as_schedule_single_action( time(), 'FULLWORKS_SCANNER_get_current_theme', array( 'theme' => $key ), 'FULLWORKS_SCANNER_audit' );
-			}
+				$this->utilities->single_action( time(), 'FULLWORKS_SCANNER_get_current_theme', array( 'theme' => $key ), 'FULLWORKS_SCANNER_audit' );
 		}
 	}
 
