@@ -41,6 +41,7 @@ use Fullworks_Scanner\Admin\Admin;
 use Fullworks_Scanner\Admin\Admin_Settings;
 use Fullworks_Scanner\Admin\Admin_Table_Code_Scan;
 use Fullworks_Scanner\FrontEnd\FrontEnd;
+use WP_CLI;
 
 
 class Core {
@@ -77,8 +78,8 @@ class Core {
 	public function __construct() {
 
 
-		$this->utilities     = new Utilities();
-		$this->notifier      = new Event_Notifier( $this->utilities );
+		$this->utilities = new Utilities();
+		$this->notifier  = new Event_Notifier( $this->utilities );
 
 
 	}
@@ -95,8 +96,27 @@ class Core {
 
 		$this->define_admin_hooks();
 		$this->define_core_hooks();
+
+		$this->do_cli();
 	}
 
+	private function do_cli() {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			WP_CLI::add_command(
+				'fullworks-scanner',
+				function () {
+					WP_CLI::line( 'Starting...' );
+					try {
+						// Call your custom code here
+					} catch ( \Throwable $e ) {
+						WP_CLI::error( $e->getMessage() );
+						throw $e;
+					}
+					WP_CLI::success( 'Success!' );
+				}
+			);
+		}
+	}
 
 	private function set_locale() {
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
@@ -140,7 +160,6 @@ class Core {
 		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_scripts' ) );
 		add_action( 'admin_init', array( $plugin_admin, 'upgrade_db' ) );
 	}
-
 
 
 	private function define_core_hooks() {
