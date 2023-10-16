@@ -84,7 +84,8 @@ class Audit_VulnDB_Scan {
 			'data' => array(
 				'Name'    => 'WordPress Core',
 				'Version' => $wp_version
-			)
+			),
+			'name' => 'WordPress Core: ' . $wp_version
 		);
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -94,7 +95,8 @@ class Audit_VulnDB_Scan {
 			$endpoints[] = array(
 				'slug' => dirname( $key ),
 				'type' => 'plugin',
-				'data' => $plugin
+				'data' => $plugin,
+				'name' => $plugin['Name']
 			);
 		}
 		$themes = wp_get_themes( array( 'errors' => null ) );
@@ -103,6 +105,7 @@ class Audit_VulnDB_Scan {
 				'slug' => $key,
 				'type' => 'theme',
 				'data' => $theme,
+				'name' => $theme->get( 'Name' )
 			);
 		}
 
@@ -158,7 +161,7 @@ class Audit_VulnDB_Scan {
 				$detail .= $li . '<a target="_blank" href="' . $response['data']['vulnerability'][$key]['source'][0]['link'] . '">' . $response['data']['vulnerability'][$key]['source'][0]['name'] . '</a>' . $end_li;
 			}
 			$this->utilities->file_scan_log_write(
-				( 'core' === $endpoint['type'] ) ? 'WordPress' : $endpoint['slug'],
+				$endpoint['name'],
 				995,
 				$endpoint['type'],
 				__CLASS__,

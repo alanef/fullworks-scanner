@@ -43,23 +43,18 @@ use LiteSpeed_Cache_API;
  */
 class Admin {
 
+	/** @var Utilities $utilities */
+	protected $utilities;
 	/**
 	 * The ID of this plugin.
 	 *
 	 */
 	private $plugin_name;
-
 	/**
 	 * The version of this plugin.
 	 *
 	 */
 	private $version;
-
-
-	/** @var Utilities $utilities */
-	protected $utilities;
-
-
 
 	/**
 	 * Admin constructor.
@@ -87,11 +82,20 @@ class Admin {
 	 *
 	 */
 	public function enqueue_scripts() {
+		// get current screen
+		$screen = get_current_screen();
+		// if screen id contains 'fullworks-scanner' then load the js
+		if ( strpos( $screen->id, 'fullworks-scanner' ) !== false ) {
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/admin.js', array(), $this->version, false );
+			// localize the script with a message  for the alert
+			$translation_array = array(
+				'rescan_alert' => esc_html__( 'Once scheduled the rescan will run in background and may take several minutes. The report will be cleared initially. Return to this page after 5 or more minutes and refresh the page. Press OK to schedule. ', 'fullworks-scanner' ),
+			);
+			wp_localize_script( $this->plugin_name, 'fullworks_scanner', $translation_array );
+		}
 
 
 	}
-
-
 
 	public function upgrade_db() {
 		global $wpdb;
@@ -100,7 +104,16 @@ class Admin {
 	}
 
 
+	public function plugin_updated_action( $upgrader_object, $options ) {
+		if ( $options['action'] === 'update' && $options['type'] === 'plugin' ) {
+			$plugin_slugs = $options['plugins'];
 
+			foreach ( $plugin_slugs as $plugin_slug ) {
+				// Perform actions here for each updated plugin
+				update_site_option( 'FULLWORKS_SCANNER_plugin_updated_' . $plugin_slug, time() );
+			}
+		}
+	}
 
 
 }

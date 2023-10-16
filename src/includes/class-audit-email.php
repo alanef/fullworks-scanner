@@ -84,7 +84,7 @@ class Audit_Email {
 		if ( ( $critical + $warning ) < 1 ) {  // no unaccepted issues
 			return;
 		}
-		$options = get_option( 'fullworks-scanner-audit-schedule' );
+		$options = get_option( 'FULLWORKS_SCANNER_audit_schedule' );
 		if ( ! isset( $options['email'] ) || true != $options['email']['warning'] ) {
 			if ( ( $critical ) < 1 ) {  // no unaccepted critical issues
 				return;

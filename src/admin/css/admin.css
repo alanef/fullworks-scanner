@@ -101,6 +101,9 @@
   left: 0;
 }
 
+.wp-core-ui .fs-page ul {
+  list-style: square;
+}
 .wp-core-ui .fs-page.wrap {
   margin: 0 0 0 -20px;
 }

@@ -39,7 +39,7 @@ use Fullworks_Scanner\Includes\Utilities;
 class Admin_Settings extends Admin_Pages {
 
 	protected $settings_page;
-	protected $settings_page_id = 'toplevel_page_fullworks-settings';
+	protected $settings_page_id = 'toplevel_page_fullworks-scanner-settings';
 	protected $option_group = 'fullworks-scanner';
 
 	/** @var Utilities $utilities */
@@ -76,23 +76,23 @@ class Admin_Settings extends Admin_Pages {
 		/* Register our setting. */
 		register_setting(
 			$this->option_group,                         /* Option Group */
-			'fullworks-scanner-general',                   /* Option Name */
+			'FULLWORKS_SCANNER_general',                   /* Option Name */
 			array( $this, 'sanitize_general' )          /* Sanitize Callback */
 		);
 		register_setting(
 			$this->option_group,                         /* Option Group */
-			'fullworks-scanner-audit-schedule',                   /* Option Name */
+			'FULLWORKS_SCANNER_audit_schedule',                   /* Option Name */
 			array( $this, 'sanitize_audit_schedule' )          /* Sanitize Callback */
 		);
 
-		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'General Settings', 'fullworks-scanner' ), 'settings', admin_url( 'admin.php?page=fullworks-settings' ), 0 );
+		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'General Settings', 'fullworks-scanner' ), 'settings', admin_url( 'admin.php?page=fullworks-scanner-settings' ), 0 );
 		/* Add settings menu page */
 		$this->settings_page = add_submenu_page(
-			'fullworks-settings',
+			'fullworks-scanner-settings',
 			'Settings', /* Page Title */
 			'Settings',                       /* Menu Title */
 			'manage_options',                 /* Capability */
-			'fullworks-settings',                         /* Page Slug */
+			'fullworks-scanner-settings',                         /* Page Slug */
 			array( $this, 'settings_page' )          /* Settings Page Function Callback */
 		);
 
@@ -120,17 +120,17 @@ class Admin_Settings extends Admin_Pages {
 	}
 
 	public function delete_options() {
-		update_option( 'fullworks-scanner-general', self::option_defaults( 'fullworks-scanner-general' ) );
-		update_option( 'fullworks-scanner-audit-schedule', self::option_defaults( 'fullworks-scanner-audit-schedule' ) );
+		update_option( 'FULLWORKS_SCANNER_general', self::option_defaults( 'FULLWORKS_SCANNER_general' ) );
+		update_option( 'FULLWORKS_SCANNER_audit_schedule', self::option_defaults( 'FULLWORKS_SCANNER_audit_schedule' ) );
 	}
 
 	public static function option_defaults( $option ) {
 		switch ( $option ) {
-			case 'fullworks-scanner-general':
+			case 'FULLWORKS_SCANNER_general':
 				return array(
 					'admin_email' => get_bloginfo( 'admin_email' ),
 				);
-			case 'fullworks-scanner-audit-schedule':
+			case 'FULLWORKS_SCANNER_audit_schedule':
 				return array(
 					'cron'       => '10 02 * * *',
 					'email'      => array(
@@ -219,7 +219,7 @@ class Admin_Settings extends Admin_Pages {
 		if ( isset( $_REQUEST['fullworks-scanner-reset'] ) ) {
 			return $settings;
 		}
-		$options                 = get_option( 'fullworks-scanner-audit-schedule' );
+		$options                 = get_option( 'FULLWORKS_SCANNER_audit_schedule' );
 		$options['cron_changed'] = false;
 		if ( empty( $settings['cron'] ) ) {
 			add_settings_error(
@@ -283,7 +283,7 @@ class Admin_Settings extends Admin_Pages {
 	public function meta_box_general() {
 		?>
 		<?php
-		$options = get_option( 'fullworks-scanner-general' );
+		$options = get_option( 'FULLWORKS_SCANNER_general' );
 		?>
         <table class="form-table">
             <tbody>
@@ -292,8 +292,8 @@ class Admin_Settings extends Admin_Pages {
 				<?php $this->display_th( 'Admin Email' ); ?>
                 <td>
                     <input type="email"
-                           name="fullworks-scanner-general[admin_email]"
-                           id="fullworks-scanner-general[admin_email]"
+                           name="FULLWORKS_SCANNER_general[admin_email]"
+                           id="FULLWORKS_SCANNER_general[admin_email]"
                            class="all-options"
                            value="<?php  echo esc_attr($options['admin_email']); ?>"
                     >
@@ -329,7 +329,7 @@ class Admin_Settings extends Admin_Pages {
 
 
 	public function meta_box_audit_schedule() {
-		$options = get_option( 'fullworks-scanner-audit-schedule' );
+		$options = get_option( 'FULLWORKS_SCANNER_audit_schedule' );
 		?>
         <table class="form-table">
             <tbody>
@@ -338,13 +338,13 @@ class Admin_Settings extends Admin_Pages {
                 <th scope="row"><?php esc_html_e( 'Scanning Schedule', 'fullworks-scanner' ); ?></th>
                 <td>
                     <input type="hidden"
-                           name="fullworks-scanner-audit-schedule[cron_changed]"
-                           id="fullworks-scanner-audit-schedule[cron_changed]"
+                           name="FULLWORKS_SCANNER_audit_schedule[cron_changed]"
+                           id="FULLWORKS_SCANNER_audit_schedule[cron_changed]"
                            value="0"
                     >
                     <input type="text"
-                           name="fullworks-scanner-audit-schedule[cron]"
-                           id="fullworks-scanner-audit-schedule[cron]"
+                           name="FULLWORKS_SCANNER_audit_schedule[cron]"
+                           id="FULLWORKS_SCANNER_audit_schedule[cron]"
                            class="all-options"
                            value="<?php echo esc_attr( $options['cron'] ); ?>"
                     >
@@ -360,10 +360,10 @@ class Admin_Settings extends Admin_Pages {
                         <span class="description"><?php esc_html_e( 'After each scan you will be emailed critical issues plus:', 'fullworks-scanner' ); ?></span>
                     </p>
                     <p>
-                        <label for="fullworks-scanner-audit-schedule[email][warning]"><input
+                        <label for="FULLWORKS_SCANNER_audit_schedule[email][warning]"><input
                                     type="checkbox"
-                                    name="fullworks-scanner-audit-schedule[email][warning]"
-                                    id="fullworks-scanner-audit-schedule[email][warning]"
+                                    name="FULLWORKS_SCANNER_audit_schedule[email][warning]"
+                                    id="FULLWORKS_SCANNER_audit_schedule[email][warning]"
                                     value="1"
 								<?php checked( '1', $options['email']['warning'] ); ?>>
 							<?php esc_html_e( 'Warnings: These include updates needed, plugins that may be abandoned or removed without known security issues.', 'fullworks-scanner' ); ?>

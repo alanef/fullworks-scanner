@@ -95,7 +95,7 @@ class Event_Notifier {
 				$email = $current_user->user_email;
 				break;
 			case 'admin':
-				$options = get_option( 'fullworks-scanner-general' );
+				$options = get_option( 'FULLWORKS_SCANNER_general' );
 				$email   = $options['admin_email'];
 				break;
 		}
