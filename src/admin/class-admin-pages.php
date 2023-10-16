@@ -40,7 +40,7 @@ class Admin_Pages
 
 
     // for the block report
-    protected $settings_page_id = 'toplevel_page_fullworks_settings';
+    protected $settings_page_id = 'toplevel_page_fullworks_scanner_settings';
 
     //
     protected $settings_title;
@@ -72,7 +72,7 @@ class Admin_Pages
             $title, /* Page Title */
             $title . Utilities::get_instance()->get_count_bubble(),                       /* Menu Title */
             'manage_options',                 /* Capability */
-            'fullworks-settings',                         /* Page Slug */
+            'fullworks-scanner-settings',                         /* Page Slug */
             array($this, 'settings_page'),           /* Settings Page Function Callback */
             'dashicons-shield',           /* Menu Icon */
             70                                /* Menu Position */

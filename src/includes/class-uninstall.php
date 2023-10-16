@@ -39,7 +39,7 @@ class Uninstall {
 	 * Uninstall specific code
 	 */
 	public static function uninstall( $network_wide ) {
-        global $wpdb;
+		global $wpdb;
 
 		if ( is_multisite() && $network_wide ) {
 			// Get all blogs in the network and delete tables on each one
@@ -53,14 +53,25 @@ class Uninstall {
 			self::delete_tables();
 		}
 
+		if ( is_multisite() && is_main_site() ) {
+			// Multisite installation, delete options for the main site
+			global $wpdb;
+			$main_site_id = get_main_site_id(); // Get the ID of the main site
 
-		delete_option( "fullworks-firewall_db_version" );
+			$options = $wpdb->get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'FULLWORKS_SCANNER_%' AND blog_id = {$main_site_id}" );
 
-		// settings
+			foreach ( $options as $option ) {
+				delete_site_option( $option->option_name );
+			}
+		}
+		// Single site installation or non-main site in multisite, delete options with the prefix
+		$options = wp_load_alloptions();
 
-		delete_option( 'fullworks-scanner-general' );
-
-		delete_option( 'fullworks-scanner-audit-schedule' );
+		foreach ( $options as $option_name => $value ) {
+			if ( strpos( $option_name, 'FULLWORKS_SCANNER_' ) === 0 ) {
+				delete_option( $option_name );
+			}
+		}
 
 
 	}

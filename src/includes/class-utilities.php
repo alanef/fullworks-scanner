@@ -47,7 +47,7 @@ class Utilities {
 
 	public function __construct() {
 		$this->white_label = get_option( 'fullworks-scanner-whitelabel-names', array(
-			'title' => esc_html__( 'Fullworks Scan', 'fullworks-scanner' ),
+			'title' => esc_html__( 'Fullworks Scanner', 'fullworks-scanner' ),
 			'logo'  => FULLWORKS_SCANNER_PLUGIN_URL . 'admin/images/brand/dark-on-light-full-logo-cropped.gif',
 		) );
 	}
