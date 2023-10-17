@@ -33,8 +33,6 @@ use ActionScheduler;
  */
 class Audit_Action_Scheduler {
 
-	/** @var Event_Notifier $notifier */
-	protected $notifier;
 	/** @var Utilities $utilities */
 	protected $utilities;
 
@@ -50,23 +48,23 @@ class Audit_Action_Scheduler {
 	/**
 	 * Action_Scheduler constructor.
 	 *
-	 * @param $notifier
 	 * @param $utilities
 	 */
-	public function __construct( $notifier, $utilities ) {
-		$this->notifier  = $notifier;
+	public function __construct( $utilities ) {
 		$this->utilities = $utilities;
 		foreach ( $this->jobs as $class => $job ) {
-			$class_instance = new $class( $this->notifier, $this->utilities );
-		    add_action( $job, array( $class_instance, 'run' ) );
+			$class_instance = new $class( $this->utilities );
+			add_action( $job, array( $class_instance, 'run' ) );
 		}
 	}
+
 	public function rescan() {
 		if ( wp_doing_ajax() ) {
 			return;
 		}
-		if ( isset($_REQUEST['rescan'])) {
-			if ( isset($_REQUEST['_wpnonce']) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'fullworks_scanner_rescan' ) ) {
+		// verify admin nonce
+		if ( isset( $_REQUEST['rescan'] ) ) {
+			if ( check_admin_referer( 'fullworks_scanner_rescan', '_wpnonce' ) ) {
 				$this->add_immediate_jobs();
 			}
 		}
@@ -82,27 +80,18 @@ class Audit_Action_Scheduler {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-
 		$this->options = get_option( 'FULLWORKS_SCANNER_audit_schedule' );
-		if ( empty ( $this->options['cron'] ) ) {
-			$this->cancel_jobs();
-
-			return;
-		}
-
 		if ( isset( $this->options['cron_changed'] ) && 1 == $this->options['cron_changed'] ) {
 			$this->options['cron_changed'] = 0;
 			update_option( 'FULLWORKS_SCANNER_audit_schedule', $this->options );
 			$this->cancel_jobs();
-			$this->add_jobs();
-
-			return;
 		}
 		/**
 		 * Handle the code audit scans
 		 */
-
-		$this->add_jobs();
+		if ( ! empty($this->options['cron'])) {
+			$this->add_jobs();
+		}
 	}
 
 	public function cancel_jobs() {

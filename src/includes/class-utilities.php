@@ -26,6 +26,7 @@
 
 namespace Fullworks_Scanner\Includes;
 
+use WP_CLI;
 use WP_Error;
 
 
@@ -34,6 +35,7 @@ use WP_Error;
  * @package Fullworks_Scanner\Includes
  */
 class Utilities {
+	private static $issues_found = false;
 
 	/**
 	 * @var
@@ -134,6 +136,19 @@ class Utilities {
 		return self::$instance;
 	}
 
+	public function get_issues() {
+		return array(
+			999 => __( 'Insecure version', 'fullworks-security' ),
+			995 => __( 'Known Vulnerability', 'fullworks-security' ),
+			498 => __( 'Plugin has an Update', 'fullworks-security' ),
+			497 => __( 'Plugin Removed from wp.org', 'fullworks-security' ),
+			496 => __( 'Plugin Abandoned', 'fullworks-security' ),
+			495 => __( 'Theme has an Update', 'fullworks-security' ),
+			494 => __( 'WordPress has an Update', 'fullworks-security' ),
+			493 => __( 'Theme Removed', 'fullworks-security' ),
+		);
+	}
+
 	public function get_plugin_title() {
 
 		return $this->white_label['title'];
@@ -148,7 +163,7 @@ class Utilities {
 			) );
 	}
 
-	public function file_scan_log_write( $file, $status, $type, $origin, $message = null ) {
+	public function file_scan_log_write( $file, $status, $type, $origin, $message = null, $extra_single_text = '' ) {
 		global $wpdb;
 		// cant do insert -> update on dup as file path needs to be longer than key allowed in MySQL
 		$result = $wpdb->query( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}fwvs_file_audit 
@@ -164,6 +179,13 @@ WHERE filepath = %s AND status = %d AND origin = %s"
   lastscan =NOW(), message = %s
 WHERE ID = %s",
 				$message, $result ) );
+		}
+		// if doing WP CLI write line
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$issues = Utilities::get_instance()->get_issues();
+			$this->set_issues_found();
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Error is handled in the UI.
+			WP_CLI::line( $file . ' ' . $type . ' ' . $issues[ $status ] . ' ' . $extra_single_text);
 		}
 	}
 
@@ -262,6 +284,37 @@ WHERE ID = %s",
 
 	public function get_count_bubble() {
 		$uc = $this->get_type_record_count( '0' );
-		return ($uc)?'&nbsp;<span class="awaiting-mod">'.(int) $uc.'</span>':'';
+
+		return ( $uc ) ? '&nbsp;<span class="awaiting-mod">' . (int) $uc . '</span>' : '';
+	}
+
+	public function single_action( $time, $action, $args, $group ) {
+		// time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit
+		// if a wp cli
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			switch ( $action ) {
+				case 'FULLWORKS_SCANNER_get_current_plugin':
+					$plugins = new Audit_Plugin_Code_Scan( self::$instance );
+					$plugins->get_current_plugin( $args['plugin'] );
+					break;
+				case 'FULLWORKS_SCANNER_get_current_theme':
+					$themes = new Audit_Theme_Code_Scan( self::$instance );
+					$themes->get_current_theme( $args['theme'] );
+					break;
+				case 'FULLWORKS_SCANNER_check_vulndb':
+					$vulns = new Audit_VulnDB_Scan( self::$instance );
+					$vulns->check_vulndb( $args['endpoint'] );
+			}
+		} else {
+			if ( false === as_next_scheduled_action( $action, $args, $group ) ) {
+				as_schedule_single_action( $time, $action, $args, $group );
+			}
+		}
+	}
+	public static function set_issues_found() {
+		self::$issues_found =true;
+	}
+	public static function is_issues_found() {
+		return self::$issues_found;
 	}
 }

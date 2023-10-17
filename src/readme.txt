@@ -4,7 +4,7 @@ Tags: Security, vulnerabilities, plugin update, security
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 6.2
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -20,6 +20,8 @@ The report page allows you accept any warnings or errors noted, for instance you
 
 The report also shows an extract of the change log where available for plugins that have updates available, to enable quick review of the changes.
 
+Also you can run an audit from WP CLI by running `wp fullworks-scanner`. The WP CLI does not generate an email report but will show the results in the console.
+
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/fullworks-scanner` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
@@ -31,6 +33,10 @@ The report also shows an extract of the change log where available for plugins t
 The scan runs once a day by default. You can change this in the settings.
 = How do I change the email address that the scan results are sent to? =
 You can change the email address in the settings.
+= How can I run from WP CLI? =
+You can run the scan from WP CLI by running `wp fullworks-scanner`
+= If I run this only manually e.g. using WP CLI how do I stop scheduled scans? =
+You can disable scheduled scans in the settings by setting the schedule to blank.
 
 
 == Screenshots ==
@@ -38,6 +44,9 @@ You can change the email address in the settings.
 1. Example scan report.
 
 == Changelog ==
+= 1.2.0 =
+* Add WP CLI
+
 = 1.1.1 =
 * Merge in  'Add rescan now button to report'
 

@@ -43,9 +43,9 @@ class Admin_Tables {
 	public $table_obj;
 	protected $hook;
 	protected $page_heading;
-    protected $page_title;
-    protected $version;
-    protected $plugin_name;
+	protected $page_title;
+	protected $version;
+	protected $plugin_name;
 
 
 	/**
@@ -78,46 +78,53 @@ class Admin_Tables {
 
 	public function list_page() {
 		?>
-		<div class="wrap fs-page">
-			<h2><?php echo wp_kses_post($this->page_heading); ?></h2>
+        <div class="wrap fs-page">
+            <h2><?php echo wp_kses_post( $this->page_heading ); ?></h2>
 			<?php $this->display_tabs(); ?>
 
-			<div id="poststuff">
-				<div id="post-body" class="metabox-holder columns-1">
-					<div id="post-body-content">
-						<div class="meta-box-sortables ui-sortable">
-							<form method="post">
+            <div id="poststuff">
+                <div id="post-body" class="metabox-holder columns-1">
+                    <div id="post-body-content">
+                        <div class="meta-box-sortables ui-sortable">
+                            <form method="post">
 								<?php
 								$this->table_obj->prepare_items();
 								$this->table_obj->views();
 								$this->table_obj->display();
 								?>
-							</form>
-						</div>
-					</div>
-				</div>
-				<br class="clear">
-			</div>
-		</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <br class="clear">
+            </div>
+        </div>
 		<?php
 	}
 
 	public function display_tabs() {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No action, nonce is not required for $_GET['page']
-		$split     = explode( "-", sanitize_text_field($_GET['page']) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No action, nonce is not required for $_GET['page']
+		if ( ! isset( $_GET['page'] ) ) {
+			return;
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No action, nonce is not required for $_GET['page']
+		$page      = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+		$split     = explode( '-', $page );
 		$page_type = $split[ count( $split ) - 1 ];
-		$tabs      = Utilities::get_instance()->get_settings_page_tabs( $page_type ); ?>
-		<h2 class="nav-tab-wrapper">
-			<?php foreach ( $tabs as $key => $tab ) {
+		$tabs      = Utilities::get_instance()->get_settings_page_tabs( $page_type );
+        ?>
+        <h2 class="nav-tab-wrapper">
+			<?php
+            foreach ( $tabs as $tab ) {
 				$active = '';
-                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No action, nonce is not required for $_GET['page']
-				if ( preg_match( '#' . sanitize_text_field($_GET['page']) . '$#', $tab['href'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No action, nonce is not required for $_GET['page']
+				if ( preg_match( '#' . $page . '$#', $tab['href'] ) ) {
 					$active = ' nav-tab-active';
 				}
-				echo '<a href="' . esc_url($tab['href']) . '" class="nav-tab' . esc_attr($active) . '">' . esc_html($tab['title']) . '</a>';
+				echo '<a href="' . esc_url( $tab['href'] ) . '" class="nav-tab' . esc_attr( $active ) . '">' . esc_html( $tab['title'] ) . '</a>';
 			}
 			?>
-		</h2>
+        </h2>
 		<?php
 	}
 

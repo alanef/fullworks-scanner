@@ -41,6 +41,7 @@ use Fullworks_Scanner\Admin\Admin;
 use Fullworks_Scanner\Admin\Admin_Settings;
 use Fullworks_Scanner\Admin\Admin_Table_Code_Scan;
 use Fullworks_Scanner\FrontEnd\FrontEnd;
+use WP_CLI;
 
 
 class Core {
@@ -57,8 +58,6 @@ class Core {
 	protected $log_and_block;
 
 
-	/** @var Event_Notifier $notifier */
-	protected $notifier;
 
 
 	/** @var Utilities $utilities */
@@ -75,12 +74,7 @@ class Core {
 	 *
 	 */
 	public function __construct() {
-
-
-		$this->utilities     = new Utilities();
-		$this->notifier      = new Event_Notifier( $this->utilities );
-
-
+		$this->utilities = new Utilities();
 	}
 
 	/**
@@ -95,8 +89,29 @@ class Core {
 
 		$this->define_admin_hooks();
 		$this->define_core_hooks();
+
+		$this->do_cli();
 	}
 
+	private function do_cli() {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			WP_CLI::add_command(
+				'fullworks-scanner',
+				function () {
+
+						$plugin = new Audit_Plugin_Code_Scan( $this->utilities );
+						$plugin->run();
+						$vuln = new Audit_VulnDB_Scan( $this->utilities );
+						$vuln->run();
+						if ($this->utilities->is_issues_found()) {
+							WP_CLI::error( esc_html__('Issues found!','fullworks-scanner' ) );
+						} else {
+							WP_CLI::success( esc_html__('No issues found','fullworks-scanner' ));
+					}
+				}
+			);
+		}
+	}
 
 	private function set_locale() {
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
@@ -143,12 +158,11 @@ class Core {
 	}
 
 
-
 	private function define_core_hooks() {
 
-		$action_scheduler = new Audit_Action_Scheduler( $this->notifier, $this->utilities );
+		$action_scheduler = new Audit_Action_Scheduler(  $this->utilities );
 		add_action( 'init', array( $action_scheduler, 'schedule' ) );
-		add_action( 'init', array( $action_scheduler, 'rescan' ) );
+		add_action( 'admin_init', array( $action_scheduler, 'rescan' ) );
 	}
 
 	public function load_plugin_textdomain() {

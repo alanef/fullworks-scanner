@@ -222,10 +222,11 @@ class Admin_Settings extends Admin_Pages {
 		$options                 = get_option( 'FULLWORKS_SCANNER_audit_schedule' );
 		$options['cron_changed'] = false;
 		if ( empty( $settings['cron'] ) ) {
+			$settings['cron_changed'] = 1;
 			add_settings_error(
 				'fscron',
 				'fscron',
-				esc_html__( 'No code scans will be performed, as schedule is blank', 'fullworks-scanner' ),
+				esc_html__( 'No auto code scans will be performed, as schedule is blank', 'fullworks-scanner' ),
 				'updated'
 			);
 

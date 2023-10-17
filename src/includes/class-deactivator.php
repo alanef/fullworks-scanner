@@ -51,14 +51,17 @@ class Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
-		if ( as_next_scheduled_action( 'fullworks_security_run_vulndb_scan', array(), 'fullworks-scanner-control' ) ) {
-			as_unschedule_action( 'fullworks_security_run_vulndb_scan', array(), 'fullworks-scanner-control' );
+		if ( as_next_scheduled_action( 'FULLWORKS_SCANNER_run_plugin_code_scan', array(), 'fullworks-scanner-control' ) ) {
+			as_unschedule_action( 'FULLWORKS_SCANNER_run_plugin_code_scan', array(), 'fullworks-scanner-control' );
 		}
-
-		if ( as_next_scheduled_action( 'fullworks_security_run_audit_email', array(), 'fullworks-scanner-control' ) ) {
-			as_unschedule_action( 'fullworks_security_run_audit_email', array(), 'fullworks-scanner-control' );
+		if ( as_next_scheduled_action( 'FULLWORKS_SCANNER_run_theme_code_scan', array(), 'fullworks-scanner-control' ) ) {
+			as_unschedule_action( 'FULLWORKS_SCANNER_run_theme_code_scan', array(), 'fullworks-scanner-control' );
+		}
+		if ( as_next_scheduled_action( 'FULLWORKS_SCANNER_run_vulndb_scan', array(), 'fullworks-scanner-control' ) ) {
+			as_unschedule_action( 'FULLWORKS_SCANNER_run_vulndb_scan', array(), 'fullworks-scanner-control' );
+		}
+		if ( as_next_scheduled_action( 'FULLWORKS_SCANNER_run_audit_email', array(), 'fullworks-scanner-control' ) ) {
+			as_unschedule_action( 'FULLWORKS_SCANNER_run_audit_email', array(), 'fullworks-scanner-control' );
 		}
 	}
-
 }

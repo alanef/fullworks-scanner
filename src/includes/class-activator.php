@@ -69,10 +69,10 @@ class Activator {
 	public static function create_tables() {
 		// database set up
 		global $wpdb;
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$charset_collate = $wpdb->get_charset_collate();
-		$table_name = $wpdb->prefix . 'fwvs_file_audit';
-		$sql        = "CREATE TABLE $table_name (
+		$table_name      = $wpdb->prefix . 'fwvs_file_audit';
+		$sql             = "CREATE TABLE $table_name (
 		ID int NOT NULL AUTO_INCREMENT,
 		filepath varchar(4096) NOT NULL,
 		createdate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -85,11 +85,11 @@ class Activator {
 		PRIMARY KEY  (ID)
 	) $charset_collate;";
 		dbDelta( $sql );
-		$dbv = get_option('FULLWORKS_SCANNER_db_version');
+		$dbv = get_option( 'FULLWORKS_SCANNER_db_version' );
 		update_option( 'FULLWORKS_SCANNER_db_version', '1.0' );
-
 	}
 
+	// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 	public static function on_create_blog_tables( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 		if ( is_plugin_active_for_network( trailingslashit( basename( FULLWORKS_SCANNER_PLUGIN_DIR ) ) . 'fullworks-scanner.php' ) ) {
 			switch_to_blog( $blog_id );
