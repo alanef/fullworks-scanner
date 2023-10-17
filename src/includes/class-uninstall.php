@@ -56,9 +56,15 @@ class Uninstall {
 		if ( is_multisite() && is_main_site() ) {
 			// Multisite installation, delete options for the main site
 			global $wpdb;
-			$main_site_id = get_main_site_id(); // Get the ID of the main site
-
-			$options = $wpdb->get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'FULLWORKS_SCANNER_%' AND blog_id = {$main_site_id}" );
+			$main_site_id        = get_main_site_id(); // Get the ID of the main site
+			$option_name_pattern = 'FULLWORKS_SCANNER_%';
+			$options             = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s AND blog_id = %d",
+					$option_name_pattern,
+					$main_site_id
+				)
+			);
 
 			foreach ( $options as $option ) {
 				delete_site_option( $option->option_name );
@@ -72,15 +78,12 @@ class Uninstall {
 				delete_option( $option_name );
 			}
 		}
-
-
 	}
 
 	private static function delete_tables() {
 		global $wpdb;
 		// wpdb drop table fwvs_file_audit
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}fwvs_file_audit" );
-
 	}
 
 }

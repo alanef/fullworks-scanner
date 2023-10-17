@@ -38,7 +38,12 @@ use Fullworks_Scanner\Includes\Utilities;
 class Admin_Table_Code_Scan extends Admin_Tables {
 
 	public function add_table_page() {
-		Utilities::get_instance()->register_settings_page_tab( esc_html__( 'Code Scan', 'fullworks-scanner' ) , 'report', admin_url( 'admin.php?page=fullworks-scanner-code-scan-report' ),0) ;
+		Utilities::get_instance()->register_settings_page_tab(
+			esc_html__( 'Code Scan', 'fullworks-scanner' ),
+			'report',
+			admin_url( 'admin.php?page=fullworks-scanner-code-scan-report' ),
+			0
+		);
 		$options = Utilities::get_instance()->get_white_label();
 
 		// create a nonce for a link
@@ -46,14 +51,15 @@ class Admin_Table_Code_Scan extends Admin_Tables {
 		// create the link
 		$rescan_link = admin_url( 'admin.php?page=fullworks-scanner-code-scan-report&rescan=1&_wpnonce=' . $nonce );
 
-		$this->page_heading = '<img src="' . esc_url($options['logo']) . '" class="logo" alt="' . esc_attr($options['title']) . '"/><div class="text">' . esc_html__( 'Code Scan Audit Report', 'fullworks-scanner' ) .
-		                      '<a href="'. esc_url($rescan_link).'" class="fsp-rescan__button button alignright">' .
+		$this->page_heading = '<img src="' . esc_url( $options['logo'] ) . '" class="logo" alt="' . esc_attr( $options['title'] ) .
+		                      '"/><div class="text">' . esc_html__( 'Code Scan Audit Report', 'fullworks-scanner' ) .
+		                      '<a href="' . esc_url( $rescan_link ) . '" class="fsp-rescan__button button alignright">' .
 		                      esc_html__( 'Schedule a Rescan Now!', 'fullworks-scanner' ) .
 		                      '</a></div>';
 
-		$this->hook         = add_submenu_page(
+		$this->hook = add_submenu_page(
 			'fullworks-scanner-settings',
-			esc_html__( 'Code Scan Audit Report' , 'fullworks-scanner' ),
+			esc_html__( 'Code Scan Audit Report', 'fullworks-scanner' ),
 			esc_html__( 'Reports', 'fullworks-scanner' ) . Utilities::get_instance()->get_count_bubble(),
 			'manage_options',
 			'fullworks-scanner-code-scan-report',

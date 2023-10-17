@@ -162,7 +162,7 @@ class Core {
 
 		$action_scheduler = new Audit_Action_Scheduler(  $this->utilities );
 		add_action( 'init', array( $action_scheduler, 'schedule' ) );
-		add_action( 'init', array( $action_scheduler, 'rescan' ) );
+		add_action( 'admin_init', array( $action_scheduler, 'rescan' ) );
 	}
 
 	public function load_plugin_textdomain() {
