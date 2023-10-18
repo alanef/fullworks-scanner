@@ -37,6 +37,8 @@ You can change the email address in the settings.
 You can run the scan from WP CLI by running `wp fullworks-scanner`
 = If I run this only manually e.g. using WP CLI how do I stop scheduled scans? =
 You can disable scheduled scans in the settings by setting the schedule to blank.
+= How can I report asecurity bug with this plugin?
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/fullworks-scanner)
 
 
 == Screenshots ==
