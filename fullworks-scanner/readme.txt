@@ -1,10 +1,10 @@
 === Fullworks Security Scanner ===
 Contributors: Fullworks
-Tags: security, malware, scanner, stop hackers, prevent hacks, secure wordpress, wordpress security
+Tags: malware, scan, scanner, security
 Requires at least: 5.0
 Requires PHP: 7.4
-Tested up to: 6.4
-Stable tag: 1.2.0
+Tested up to: 6.7
+Stable tag: 1.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -85,6 +85,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 1. Example scan report.
 
 == Changelog ==
+= 1.3 =
+* Add opt in
+
 = 1.2.0 =
 * Add WP CLI
 

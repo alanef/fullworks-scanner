@@ -9,7 +9,7 @@
 ## Table of Contents
 
 - [Description](#description)
-- [Getting XXStarted](#getting-xxstarted)
+- [Getting Started](#getting-started)
   - [Prerequisites and Main Dependencies](#prerequisites-and-main-dependencies)
   - [Installation](#installation)
 - [Usage](#usage)

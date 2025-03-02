@@ -99,6 +99,7 @@ class Admin_Tables {
                 <br class="clear">
             </div>
         </div>
+		<?php do_action('ffpl_ad_display'); ?>
 		<?php
 	}
 

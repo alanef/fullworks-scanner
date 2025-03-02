@@ -1,0 +1,305 @@
+# Copyright (C) 2025 Fullworks
+# This file is distributed under the GPL-3.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Fullworks Security Scanner 1.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fullworks-scanner\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-03-02T17:19:21+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: fullworks-scanner\n"
+
+#. Plugin Name of the plugin
+#: fullworks-vulnerability-scanner.php
+msgid "Fullworks Security Scanner"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: fullworks-vulnerability-scanner.php
+msgid "https://fullworksplugins.com/products/fullworks-scanner/"
+msgstr ""
+
+#. Description of the plugin
+#: fullworks-vulnerability-scanner.php
+msgid "Scan your site for vulnerabilities and reports them."
+msgstr ""
+
+#. Author of the plugin
+#: fullworks-vulnerability-scanner.php
+msgid "Fullworks"
+msgstr ""
+
+#. Author URI of the plugin
+#: fullworks-vulnerability-scanner.php
+msgid "https://fullworksplugins.com/"
+msgstr ""
+
+#: admin/class-admin-pages.php:248
+msgid "Save Options"
+msgstr ""
+
+#: admin/class-admin-settings.php:60
+msgid "Admin Email"
+msgstr ""
+
+#: admin/class-admin-settings.php:61
+msgid "This email will be used by the plugin to send all notifications from the plugin. It can be different to the site administrator email"
+msgstr ""
+
+#: admin/class-admin-settings.php:71
+msgid "Settings"
+msgstr ""
+
+#: admin/class-admin-settings.php:88
+#: admin/class-admin-settings.php:149
+msgid "General Settings"
+msgstr ""
+
+#: admin/class-admin-settings.php:161
+msgid "Code Check"
+msgstr ""
+
+#: admin/class-admin-settings.php:229
+msgid "No auto code scans will be performed, as schedule is blank"
+msgstr ""
+
+#: admin/class-admin-settings.php:237
+msgid "Invalid cron format, please try again"
+msgstr ""
+
+#: admin/class-admin-settings.php:246
+msgid "Schedule changed, jobs will be cancelled and re-queued to the new schedule"
+msgstr ""
+
+#: admin/class-admin-settings.php:339
+msgid "Scanning Schedule"
+msgstr ""
+
+#: admin/class-admin-settings.php:353
+msgid "Control the timing of the audit schedule runs, in cron format. e.g. minute hour day (month) month day(week) - 10 2 * * *  is 10 past two am every day. Set to 'blank' to not perform code scans"
+msgstr ""
+
+#: admin/class-admin-settings.php:358
+msgid "Email"
+msgstr ""
+
+#: admin/class-admin-settings.php:361
+msgid "After each scan you will be emailed critical issues plus:"
+msgstr ""
+
+#: admin/class-admin-settings.php:370
+msgid "Warnings: These include updates needed, plugins that may be abandoned or removed without known security issues."
+msgstr ""
+
+#: admin/class-admin-table-code-scan.php:42
+msgid "Code Scan"
+msgstr ""
+
+#: admin/class-admin-table-code-scan.php:55
+#: admin/class-admin-table-code-scan.php:62
+msgid "Code Scan Audit Report"
+msgstr ""
+
+#: admin/class-admin-table-code-scan.php:57
+msgid "Schedule a Rescan Now!"
+msgstr ""
+
+#: admin/class-admin-table-code-scan.php:63
+msgid "Reports"
+msgstr ""
+
+#: admin/class-admin-table-code-scan.php:76
+msgid "Issues"
+msgstr ""
+
+#: admin/class-admin.php:92
+msgid "Once scheduled the rescan will run in background and may take several minutes. The report will be cleared initially. Return to this page after 5 or more minutes and refresh the page. Press OK to schedule. "
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:48
+msgid "Code Issue"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:50
+msgid "Code Issues"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:59
+msgid "No current code issues"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:72
+#: admin/class-list-table-code-scan.php:180
+msgid "Accept and Ignore in future scans"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:73
+#: admin/class-list-table-code-scan.php:179
+msgid "Remove notification until next scan"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:78
+msgid "Unaccept"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:108
+msgid "Update WordPresss"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:120
+msgid "Update plugins"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:132
+msgid "Update themes"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:156
+msgid "Object"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:157
+msgid "Type"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:158
+msgid "Issue"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:159
+msgid "Issue Detail"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:160
+msgid "Last Scan"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:181
+msgid "Include previously accepted items in future scans"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:427
+msgid "Unaccepted"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:429
+msgid "Accepted"
+msgstr ""
+
+#: admin/class-list-table-code-scan.php:447
+msgid "Delete this file"
+msgstr ""
+
+#: fullworks-vulnerability-scanner.php:98
+msgid "Cannot execute as the plugin already exists, if you have a another version installed deactivate that and try again"
+msgstr ""
+
+#. translators: placeholder 1 is plugin title and  2 is site name
+#: includes/class-audit-email.php:85
+msgid "[%1$s]: Issues found during code scan of %2$s"
+msgstr ""
+
+#. translators: items in {} are placeholder - do not translate items inside {} e.g. {name}
+#: includes/class-audit-email.php:100
+msgid ""
+"Hi Administrator of {sitename},\n"
+"\t\t\n"
+"Date: {date_time}\n"
+"\n"
+"The vulnerability scan of {sitename} has completed\n"
+"\n"
+"Issue Summary\n"
+"\n"
+"Number of critical issues: {critical}\n"
+"Number of warnings: {warning}\n"
+"\n"
+"Review these issues to resolve or accept them at: {target}\n"
+"\n"
+"  \n"
+"This message was generated by {plugin_title}\n"
+"\t \n"
+"\t\t "
+msgstr ""
+
+#: includes/class-audit-plugin-code-scan.php:93
+msgid "This has been removed from the WordPress repository"
+msgstr ""
+
+#: includes/class-audit-plugin-code-scan.php:125
+msgid "Maybe abandoned, not updated in the last 3 major releases of WordPress"
+msgstr ""
+
+#: includes/class-audit-plugin-code-scan.php:142
+msgid "Installed version %1$s - Current version %2$s - Auto update is enabled but seems not to be working as the last plugin update was %3$s"
+msgstr ""
+
+#. translators: leave the %s placeholders.
+#: includes/class-audit-plugin-code-scan.php:157
+#: includes/class-audit-theme-code-scan.php:121
+msgid "Installed version %1$s - Current version %2$s"
+msgstr ""
+
+#: includes/class-audit-plugin-code-scan.php:179
+msgid "Latest change"
+msgstr ""
+
+#: includes/class-audit-plugin-code-scan.php:184
+msgid "Version: "
+msgstr ""
+
+#: includes/class-audit-plugin-code-scan.php:214
+msgid "View all changelogs"
+msgstr ""
+
+#: includes/class-audit-theme-code-scan.php:99
+msgid "This theme may have once been on wordpress.org and now removed - please check"
+msgstr ""
+
+#: includes/class-audit-vulndb-scan.php:191
+msgid "Multiple Vulnerabilities in installed version: %1$s %2$s"
+msgstr ""
+
+#. translators: leave placeholders.
+#: includes/class-audit-vulndb-scan.php:198
+msgid "Vulnerability in installed version: %1$s Detail: %2$s"
+msgstr ""
+
+#: includes/class-core.php:107
+msgid "Issues found!"
+msgstr ""
+
+#: includes/class-core.php:109
+msgid "No issues found"
+msgstr ""
+
+#: includes/class-event-notifier.php:105
+msgid "The email could not be sent."
+msgstr ""
+
+#: includes/class-event-notifier.php:105
+msgid "Possible reason: your host may have disabled the mail() function."
+msgstr ""
+
+#: includes/class-utilities.php:52
+msgid "Fullworks Scanner"
+msgstr ""
+
+#. translators: %1$s is the object name core or plugin name or theme name.
+#: includes/class-utilities.php:97
+#: includes/class-utilities.php:105
+msgid " : Error occurred, while getting %1$s vulnerability data"
+msgstr ""
+
+#. translators: %1$s is the object name core or plugin name or theme name.
+#: includes/class-utilities.php:113
+msgid "Unknown error occurred, while getting %1$s vulnerability data"
+msgstr ""
+
+#: includes/class-utilities.php:267
+msgid "Unknown error occurred"
+msgstr ""

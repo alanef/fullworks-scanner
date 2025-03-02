@@ -156,6 +156,7 @@ class Admin_Pages {
                 <h2><?php echo wp_kses_post( $this->settings_title ); ?></h2>
 
 				<?php settings_errors(); ?>
+	            <?php do_action('ffpl_ad_display'); ?>
 
 
                 <div class="fs-settings-meta-box-wrap">

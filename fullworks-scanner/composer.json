@@ -16,9 +16,17 @@
   "require-dev": {
     "ext-mysqli": "*"
   },
+  "repositories": {
+    "alanef/wp_autoloader": {
+      "type": "vcs",
+      "url": "https://github.com/alanef/wp_autoloader"
+    }
+  },
   "require": {
     "php": ">=7.4",
-    "woocommerce/action-scheduler": "*"
+    "woocommerce/action-scheduler": "*",
+    "alanef/free_plugin_lib": "^v1.0.0",
+    "alanef/wp_autoloader": "dev-main"
   },
   "extra": {
     "installer-paths": {
