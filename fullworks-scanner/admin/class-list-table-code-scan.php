@@ -362,12 +362,16 @@ class List_Table_Code_Scan extends WP_List_Table {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT ID, filepath, createdate, lastscan, status, message, type FROM {$wpdb->prefix}fwvs_file_audit WHERE accept = %s ORDER BY %s LIMIT %d OFFSET %d",
+				"SELECT ID, filepath, createdate, lastscan, status, message, type 
+        FROM {$wpdb->prefix}fwvs_file_audit 
+        WHERE accept = %d 
+        ORDER BY " . sanitize_sql_orderby($orderby . ' ' . $order) . " 
+        LIMIT %d OFFSET %d",
 				$type,
-				sanitize_sql_orderby($orderby . ' ' . $order),
 				(int) $per_page,
 				((int) $page_number - 1) * (int) $per_page
-			), 'ARRAY_A'
+			),
+			'ARRAY_A'
 		);
 
 		$return = array();
