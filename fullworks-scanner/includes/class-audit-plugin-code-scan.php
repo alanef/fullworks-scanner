@@ -25,12 +25,10 @@
 
 namespace Fullworks_Scanner\Includes;
 
-
 class Audit_Plugin_Code_Scan {
 
 	/** @var Utilities $utilities */
 	protected $utilities;
-
 
 
 	/**
@@ -39,7 +37,7 @@ class Audit_Plugin_Code_Scan {
 	 * @param $notifier
 	 * @param $utilities
 	 */
-	public function __construct(  $utilities ) {
+	public function __construct( $utilities ) {
 		$this->utilities = $utilities;
 		add_action( 'FULLWORKS_SCANNER_get_current_plugin', array( $this, 'get_current_plugin' ) );
 	}
@@ -128,7 +126,6 @@ class Audit_Plugin_Code_Scan {
 			// check for updates
 			if ( isset( $plugin_data[ $plugin ]['data']['update'] ) ) {
 				// report not latest
-				// translators: %s is the version number
 				// check if plugin  has auto updates enabled and if so if the last update was more than 2 days ago - if so then report
 				$auto_update_plugins = get_site_option( 'auto_update_plugins', array() );
 				if ( in_array( $plugin_data[ $plugin ]['data']['filename'], $auto_update_plugins ) ) {
@@ -139,6 +136,7 @@ class Audit_Plugin_Code_Scan {
 							498,
 							'plugin',
 							__CLASS__,
+							// translators: %1$s is the installed version, %2$s is the current version, %3$s is the last update time, %4$s is the change log
 							sprintf( esc_html__( 'Installed version %1$s - Current version %2$s - Auto update is enabled but seems not to be working as the last plugin update was %3$s', 'fullworks-scanner' ) .
 							         '%4$s',
 								$plugin_data[ $plugin ]['data']['Version'],
@@ -154,6 +152,7 @@ class Audit_Plugin_Code_Scan {
 						498,
 						'plugin',
 						__CLASS__,
+						// translators: %1$s is the installed version, %2$s is the current version, %3$s is the change log
 						sprintf( esc_html__( 'Installed version %1$s - Current version %2$s', 'fullworks-scanner' ) .
 						         '%3$s',
 							$plugin_data[ $plugin ]['data']['Version'],
@@ -211,7 +210,7 @@ class Audit_Plugin_Code_Scan {
 
 		}
 		// link to the plugin developer page as a link to changelog on #developers
-        $html = $html . '<p><a href="https://wordpress.org/plugins/' . $plugin_slug . '/developers/" target="_blank">' . esc_html__( 'View all changelogs', 'fullworks-scanner' ) . '</a></p>';
+		$html = $html . '<p><a href="https://wordpress.org/plugins/' . $plugin_slug . '/developers/" target="_blank">' . esc_html__( 'View all changelogs', 'fullworks-scanner' ) . '</a></p>';
 
 		return $html;
 	}

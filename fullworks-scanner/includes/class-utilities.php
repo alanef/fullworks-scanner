@@ -138,14 +138,14 @@ class Utilities {
 
 	public function get_issues() {
 		return array(
-			999 => __( 'Insecure version', 'fullworks-security' ),
-			995 => __( 'Known Vulnerability', 'fullworks-security' ),
-			498 => __( 'Plugin has an Update', 'fullworks-security' ),
-			497 => __( 'Plugin Removed from wp.org', 'fullworks-security' ),
-			496 => __( 'Plugin Abandoned', 'fullworks-security' ),
-			495 => __( 'Theme has an Update', 'fullworks-security' ),
-			494 => __( 'WordPress has an Update', 'fullworks-security' ),
-			493 => __( 'Theme Removed', 'fullworks-security' ),
+			999 => __( 'Insecure version', 'fullworks-scanner' ),
+			995 => __( 'Known Vulnerability', 'fullworks-scanner' ),
+			498 => __( 'Plugin has an Update', 'fullworks-scanner' ),
+			497 => __( 'Plugin Removed from wp.org', 'fullworks-scanner' ),
+			496 => __( 'Plugin Abandoned', 'fullworks-scanner' ),
+			495 => __( 'Theme has an Update', 'fullworks-scanner' ),
+			494 => __( 'WordPress has an Update', 'fullworks-scanner' ),
+			493 => __( 'Theme Removed', 'fullworks-scanner' ),
 		);
 	}
 
