@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-02T17:19:21+00:00\n"
+"POT-Creation-Date: 2025-03-03T21:03:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: fullworks-scanner\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "https://fullworksplugins.com/"
 msgstr ""
 
-#: admin/class-admin-pages.php:248
+#: admin/class-admin-pages.php:249
 msgid "Save Options"
 msgstr ""
 
@@ -183,19 +183,19 @@ msgstr ""
 msgid "Include previously accepted items in future scans"
 msgstr ""
 
-#: admin/class-list-table-code-scan.php:427
+#: admin/class-list-table-code-scan.php:428
 msgid "Unaccepted"
 msgstr ""
 
-#: admin/class-list-table-code-scan.php:429
+#: admin/class-list-table-code-scan.php:430
 msgid "Accepted"
 msgstr ""
 
-#: admin/class-list-table-code-scan.php:447
+#: admin/class-list-table-code-scan.php:448
 msgid "Delete this file"
 msgstr ""
 
-#: fullworks-vulnerability-scanner.php:98
+#: fullworks-vulnerability-scanner.php:103
 msgid "Cannot execute as the plugin already exists, if you have a another version installed deactivate that and try again"
 msgstr ""
 
@@ -226,37 +226,39 @@ msgid ""
 "\t\t "
 msgstr ""
 
-#: includes/class-audit-plugin-code-scan.php:93
+#: includes/class-audit-plugin-code-scan.php:91
 msgid "This has been removed from the WordPress repository"
 msgstr ""
 
-#: includes/class-audit-plugin-code-scan.php:125
+#: includes/class-audit-plugin-code-scan.php:123
 msgid "Maybe abandoned, not updated in the last 3 major releases of WordPress"
 msgstr ""
 
-#: includes/class-audit-plugin-code-scan.php:142
+#. translators: %1$s is the installed version, %2$s is the current version, %3$s is the last update time, %4$s is the change log
+#: includes/class-audit-plugin-code-scan.php:140
 msgid "Installed version %1$s - Current version %2$s - Auto update is enabled but seems not to be working as the last plugin update was %3$s"
 msgstr ""
 
+#. translators: %1$s is the installed version, %2$s is the current version, %3$s is the change log
 #. translators: leave the %s placeholders.
-#: includes/class-audit-plugin-code-scan.php:157
-#: includes/class-audit-theme-code-scan.php:121
+#: includes/class-audit-plugin-code-scan.php:156
+#: includes/class-audit-theme-code-scan.php:131
 msgid "Installed version %1$s - Current version %2$s"
 msgstr ""
 
-#: includes/class-audit-plugin-code-scan.php:179
+#: includes/class-audit-plugin-code-scan.php:178
 msgid "Latest change"
 msgstr ""
 
-#: includes/class-audit-plugin-code-scan.php:184
+#: includes/class-audit-plugin-code-scan.php:183
 msgid "Version: "
 msgstr ""
 
-#: includes/class-audit-plugin-code-scan.php:214
+#: includes/class-audit-plugin-code-scan.php:213
 msgid "View all changelogs"
 msgstr ""
 
-#: includes/class-audit-theme-code-scan.php:99
+#: includes/class-audit-theme-code-scan.php:109
 msgid "This theme may have once been on wordpress.org and now removed - please check"
 msgstr ""
 
@@ -300,6 +302,49 @@ msgstr ""
 msgid "Unknown error occurred, while getting %1$s vulnerability data"
 msgstr ""
 
-#: includes/class-utilities.php:267
+#: includes/class-utilities.php:141
+msgid "Insecure version"
+msgstr ""
+
+#: includes/class-utilities.php:142
+msgid "Known Vulnerability"
+msgstr ""
+
+#: includes/class-utilities.php:143
+msgid "Plugin has an Update"
+msgstr ""
+
+#: includes/class-utilities.php:144
+msgid "Plugin Removed from wp.org"
+msgstr ""
+
+#: includes/class-utilities.php:145
+msgid "Plugin Abandoned"
+msgstr ""
+
+#: includes/class-utilities.php:146
+msgid "Theme has an Update"
+msgstr ""
+
+#: includes/class-utilities.php:147
+msgid "WordPress has an Update"
+msgstr ""
+
+#: includes/class-utilities.php:148
+msgid "Theme Removed"
+msgstr ""
+
+#. translators: %s: support forums URL
+#: includes/class-utilities.php:226
+#: includes/class-utilities.php:246
+#: includes/class-utilities.php:269
+msgid "An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href=\"%s\">support forums</a>."
+msgstr ""
+
+#: includes/class-utilities.php:228
+msgid "(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)"
+msgstr ""
+
+#: includes/class-utilities.php:288
 msgid "Unknown error occurred"
 msgstr ""

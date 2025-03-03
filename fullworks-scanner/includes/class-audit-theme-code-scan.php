@@ -86,6 +86,16 @@ class Audit_Theme_Code_Scan {
 	 */
 	public function get_current_theme( $theme ) {
 		$theme_data                           = get_transient( 'fullworks-scanner-theme-data' );
+		if ( false === $theme_data ) {
+			$this->utilities->error_log(
+				array(
+					'Message' => 'Theme data not found',
+					'Data'    => $theme,
+				)
+			);
+
+			return;
+		}
 		$theme_data[ $theme ]['data']['repo'] = true;
 		$theme_info                           = $this->utilities->wp_api( 'https://api.wordpress.org/themes/info/1.2/?action=theme_information&request[slug]=' . $theme );
 		if ( is_wp_error( $theme_info ) ) {
