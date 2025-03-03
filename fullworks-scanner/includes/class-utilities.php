@@ -185,7 +185,7 @@ WHERE ID = %s",
 			$issues = Utilities::get_instance()->get_issues();
 			$this->set_issues_found();
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Error is handled in the UI.
-			WP_CLI::line( $file . ' ' . $type . ' ' . $issues[ $status ] . ' ' . $extra_single_text);
+			WP_CLI::line( $file . ' ' . $type . ' ' . $issues[ $status ] . ' ' . $extra_single_text );
 		}
 	}
 
@@ -220,11 +220,18 @@ WHERE ID = %s",
 			if ( ! wp_doing_ajax() ) {
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Error is handled in the UI.
 				trigger_error(
-					sprintf(
-					/* translators: %s: support forums URL */
-						esc_html__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-						esc_html__( 'https://wordpress.org/support/' )
-					) . ' ' . esc_html__( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
+					wp_kses(
+						sprintf(
+						/* translators: %s: support forums URL */
+							__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.', 'fullworks-scanner' ),
+							esc_url( 'https://wordpress.org/support/' )
+						) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)', 'fullworks-scanner' ),
+						array(
+							'a' => array(
+								'href' => array()
+							)
+						)
+					),
 					headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 				);
 			}
@@ -233,10 +240,17 @@ WHERE ID = %s",
 		if ( is_wp_error( $request ) ) {
 			$res = new WP_Error(
 				'wp_api_failed',
-				sprintf(
-				/* translators: %s: support forums URL */
-					esc_html__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-					esc_html__( 'https://wordpress.org/support/' )
+				wp_kses(
+					sprintf(
+					/* translators: %s: support forums URL */
+						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.', 'fullworks-scanner' ),
+						esc_url( 'https://wordpress.org/support/' )
+					),
+					array(
+						'a' => array(
+							'href' => array()
+						)
+					)
 				),
 				$request->get_error_message()
 			);
@@ -249,10 +263,17 @@ WHERE ID = %s",
 				} elseif ( null === $res ) {
 					$res = new WP_Error(
 						'wp_api_failed',
-						sprintf(
-						/* translators: %s: support forums URL */
-							esc_html__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-							esc_html__( 'https://wordpress.org/support/' )
+						wp_kses(
+							sprintf(
+							/* translators: %s: support forums URL */
+								__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.', 'fullworks-scanner' ),
+								esc_url( 'https://wordpress.org/support/' )
+							),
+							array(
+								'a' => array(
+									'href' => array()
+								)
+							)
 						),
 						wp_remote_retrieve_body( $request )
 					);
@@ -311,9 +332,11 @@ WHERE ID = %s",
 			}
 		}
 	}
+
 	public static function set_issues_found() {
-		self::$issues_found =true;
+		self::$issues_found = true;
 	}
+
 	public static function is_issues_found() {
 		return self::$issues_found;
 	}
