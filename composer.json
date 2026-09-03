@@ -2,7 +2,7 @@
   "name": "fullworks/fullworks-scanner-project",
   "description": "Development project for the Fullworks Security Scanner WordPress plugin",
   "type": "project",
-  "license": "GPL-3.0-or-later",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "alan",
@@ -26,12 +26,13 @@
   },
   "scripts": {
     "post-update-cmd": [
-      "composer update -d fullworks-scanner",
+      "@plugin-update",
       "@make-pot"
     ],
-    "make-pot": "wp i18n make-pot ./fullworks-scanner ./fullworks-scanner/languages/fullworks-scanner.pot --skip-audit --exclude='includes/vendor'",
+    "plugin-update": "if [ -f fullworks-scanner/composer.json ]; then composer update -d fullworks-scanner; fi",
+    "make-pot": "mkdir -p fullworks-scanner/languages && wp i18n make-pot ./fullworks-scanner ./fullworks-scanner/languages/fullworks-scanner.pot --skip-audit --exclude='vendor,includes/vendor,node_modules'",
     "build": [
-      "cd fullworks-scanner && composer install --no-dev",
+      "if [ -f fullworks-scanner/composer.json ]; then composer install -d fullworks-scanner --no-dev; fi",
       "mkdir -p zipped",
       "wp dist-archive fullworks-scanner zipped/fullworks-scanner-free.zip --force"
     ],

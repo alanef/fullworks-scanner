@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Managed by wordpress-plugin-boilerplate/tooling - fix there first, then run bin/sync-tooling.sh -->
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
@@ -8,11 +9,12 @@
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
-    convertDeprecationsToExceptions="true"
     >
     <testsuites>
-        <testsuite name="Fullworks Scanner Test Suite">
-            <directory prefix="test-" suffix=".php">./tests/</directory>
+        <testsuite name="Fullworks Security Scanner Test Suite">
+            <!-- Either naming convention: tests/test-foo.php or tests/**/FooTest.php -->
+            <directory prefix="test-" suffix=".php">./tests</directory>
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
@@ -20,6 +22,7 @@
             <directory suffix=".php">./fullworks-scanner</directory>
         </include>
         <exclude>
+            <directory>./fullworks-scanner/vendor</directory>
             <directory>./fullworks-scanner/includes/vendor</directory>
             <directory>./fullworks-scanner/languages</directory>
         </exclude>

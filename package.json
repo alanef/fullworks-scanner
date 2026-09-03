@@ -4,7 +4,7 @@
   "private": true,
   "description": "Development project for the Fullworks Security Scanner WordPress plugin",
   "author": "Alan Fuller <alan@fullworks.net>",
-  "license": "GPL-3.0-or-later",
+  "license": "GPL-2.0-or-later",
   "scripts": {
     "wp-env": "wp-env",
     "start": "wp-env start",

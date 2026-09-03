@@ -1,13 +1,23 @@
 .idea/
+.vscode/
 .directory
+.DS_Store
 dist/
 build/
 zipped/
 tmp-build/
 node_modules/
-fullworks-scanner/includes/vendor/
 /vendor/
+/fullworks-scanner/vendor/
+/fullworks-scanner/includes/vendor/
 .phpunit.result.cache
 *.phpunit.result.cache
 .wp-env.override.json
+.env
+.env.*
+!.env.example
+*.log
+__pycache__/
+# repository specific
+fullworks-scanner/includes/vendor/
 .env.wordpress

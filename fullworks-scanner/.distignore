@@ -6,6 +6,7 @@
 .phpunit.result.cache
 .phpcs.xml
 phpcs.xml
+phpcs.xml.dist
 phpunit.xml
 phpunit.xml.dist
 composer.json

@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# Managed by wordpress-plugin-boilerplate/tooling - fix there first, then run bin/sync-tooling.sh
+#
 # Run the PHPUnit suite inside the wp-env tests container.
 #
 # The repository root is mapped into the container (see .wp-env.json "mappings")

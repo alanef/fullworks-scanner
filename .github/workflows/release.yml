@@ -1,3 +1,4 @@
+# Managed by wordpress-plugin-boilerplate/tooling - fix there first, then run bin/sync-tooling.sh
 name: Build Release
 
 on:
@@ -10,8 +11,9 @@ permissions:
   contents: write
 
 env:
-  PLUGIN_SLUG: fullworks-scanner
+  PLUGIN_DIR: fullworks-scanner
   PLUGIN_FILE: fullworks-scanner/fullworks-vulnerability-scanner.php
+  SVN_SLUG: fullworks-scanner
 
 jobs:
   run-checks:
@@ -27,7 +29,10 @@ jobs:
       - name: Get required PHP version
         id: php_version
         run: |
-          PHP_VERSION=$(grep "Requires PHP:" "$PLUGIN_FILE" | awk '{print $4}')
+          PHP_VERSION=$(grep -m1 "Requires PHP:" "$PLUGIN_FILE" | sed -E 's/.*Requires PHP:[[:space:]]*//' | tr -d ' \r')
+          PHP_VERSION=${PHP_VERSION:-7.4}
+          # The dev tooling (PHPUnit 9, PHPCS 3) needs PHP 7.4+, whatever the plugin itself supports.
+          if [ "$(printf '%s\n' "$PHP_VERSION" 7.4 | sort -V | head -1)" != "7.4" ]; then PHP_VERSION=7.4; fi
           echo "PHP_VERSION=$PHP_VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup PHP
@@ -41,14 +46,7 @@ jobs:
 
       - name: Install WP-CLI dist-archive command
         env:
-          # WP-CLI bundles Composer 2.2, whose github-oauth validation rejects
-          # the runner's GITHUB_TOKEN format ("contains invalid characters").
-          # setup-php persists that token in auth.json, so strip the persisted
-          # github-oauth from every composer home (default + wp-cli's own).
-          # Installing anonymously instead is flaky: shared runner IPs exhaust
-          # GitHub's unauthenticated API limit ("Could not authenticate against
-          # github.com"). So hand the same token back as http-basic, which
-          # Composer 2.2 accepts without the format check.
+          # See checks.yml for why the token is handed back as http-basic.
           GITHUB_TOKEN: ""
           COMPOSER_AUTH: '{"http-basic":{"github.com":{"username":"x-access-token","password":"${{ github.token }}"}}}'
         run: |
@@ -64,12 +62,12 @@ jobs:
       - name: Get version
         id: get_version
         run: |
-          VERSION=$(grep -E "^\s*\*\s*Version:" "$PLUGIN_FILE" | awk '{print $3}')
+          VERSION=$(grep -m1 -E "^[[:space:]]*\*?[[:space:]]*Version:" "$PLUGIN_FILE" | sed -E 's/.*Version:[[:space:]]*//' | tr -d ' \r')
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Building version $VERSION"
 
       - name: Name the release zip
-        run: cp zipped/fullworks-scanner-free.zip "zipped/fullworks-scanner-${{ steps.get_version.outputs.VERSION }}.zip"
+        run: cp "zipped/$PLUGIN_DIR-free.zip" "zipped/$PLUGIN_DIR-${{ steps.get_version.outputs.VERSION }}.zip"
 
       - name: Verify tag matches plugin version
         run: |
@@ -99,7 +97,7 @@ jobs:
             Release of Fullworks Security Scanner v${{ steps.get_version.outputs.VERSION }}
 
             ## Changes
-            See [CHANGELOG.md](https://github.com/alanef/fullworks-scanner/blob/master/CHANGELOG.md) for details.
+            See the [change log](https://github.com/alanef/fullworks-scanner/blob/master/CHANGELOG.md) for details.
 
             ## Installation
             Download the attached zip file and upload to your WordPress site.
@@ -123,16 +121,16 @@ jobs:
 
           mkdir -p svn-tmp
           cd svn-tmp
-          unzip -q ../zipped/fullworks-scanner-free.zip
+          unzip -q "../zipped/$PLUGIN_DIR-free.zip"
 
-          svn checkout "https://plugins.svn.wordpress.org/$PLUGIN_SLUG/" svn-repo --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache
+          svn checkout "https://plugins.svn.wordpress.org/$SVN_SLUG/" svn-repo --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache
 
           if [ -d "svn-repo/tags/$VERSION" ]; then
             echo "::error::Tag $VERSION already exists on WordPress.org SVN"
             exit 1
           fi
 
-          rsync -a --delete --exclude='.svn' "$PLUGIN_SLUG/" svn-repo/trunk/
+          rsync -a --delete --exclude='.svn' "$PLUGIN_DIR/" svn-repo/trunk/
 
           cd svn-repo/trunk
           svn add --force * --auto-props --parents --depth infinity -q || true
