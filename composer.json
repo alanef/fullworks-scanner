@@ -34,7 +34,8 @@
     "build": [
       "if [ -f fullworks-scanner/composer.json ]; then composer install -d fullworks-scanner --no-dev; fi",
       "mkdir -p zipped",
-      "wp dist-archive fullworks-scanner zipped/fullworks-scanner-free.zip --force"
+      "wp dist-archive fullworks-scanner zipped/fullworks-scanner-free.zip --force",
+      "zip -qd zipped/fullworks-scanner-free.zip fullworks-scanner/.distignore >/dev/null 2>&1 || true"
     ],
     "phpcs": "phpcs fullworks-scanner -s --standard=phpcs_sec.xml --ignore=*/vendor/* --extensions=php",
     "compat:8.4": "phpcs fullworks-scanner -s --standard=PHPCompatibilityWP --ignore=*/vendor/* --extensions=php --runtime-set testVersion 8.4",
