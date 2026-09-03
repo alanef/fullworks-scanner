@@ -77,7 +77,11 @@ jobs:
           echo "All version numbers match: $PLUGIN_VERSION"
 
       - name: Install WP-CLI dist-archive command
-        run: wp package install wp-cli/dist-archive-command
+        run: |
+          # setup-php stores the Actions token in Composer's global auth.json; the older
+          # Composer bundled in WP-CLI rejects that token format, so drop it first.
+          composer config -g --unset github-oauth.github.com || true
+          wp package install wp-cli/dist-archive-command
 
       - name: Build plugin
         run: |
