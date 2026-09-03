@@ -1,130 +1,83 @@
-# Fullworks Vulnerability Scanner - WordPress Plugin
+# Fullworks Security Scanner
 
-> A WordPress Plugin that analyses the WP version, plugins and themes checks them against a vulnerability database
+A WordPress plugin that checks the installed WordPress core, plugins and themes against
+the [WP Vulnerability](https://www.wpvulnerability.net/) database, flags abandoned or
+removed plugins and themes, and emails a summary report.
 
-<!-- The following section is generated with doctoc (https://github.com/thlorenz/doctoc), e.g. by running `doctoc README.md --title '## Table of Contents'` -->
+[![Plugin Check](https://github.com/alanef/fullworks-scanner/actions/workflows/checks.yml/badge.svg)](https://github.com/alanef/fullworks-scanner/actions/workflows/checks.yml)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
+WordPress.org: https://wordpress.org/plugins/fullworks-scanner/
 
-- [Description](#description)
-- [Getting Started](#getting-started)
-  - [Prerequisites and Main Dependencies](#prerequisites-and-main-dependencies)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Deployment](#deployment)
-  - [Server](#server)
-  - [Branches](#branches)
-- [Additional Documentation](#additional-documentation)
-- [Changelog](#changelog)
-- [Roadmap](#roadmap)
-- [Authors](#authors)
-- [Contributors ✨ and Acknowledgments](#contributors--and-acknowledgments)
-- [Contributing](#contributing)
-- [License](#license)
+## Features
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+- Checks core, plugins and themes for known vulnerabilities
+- Detects plugins removed from WordPress.org and plugins not tested against recent releases
+- Reports available updates, with the latest changelog entry inline
+- Scheduled scans via Action Scheduler, with a "rescan now" button
+- Email summary of critical issues and warnings
+- `wp fullworks-scanner` WP-CLI command
 
-## Description
+## Project structure
 
-A WordPress Plugin that analyses the WP version, plugins and themes checks them against a [vulnerability database] https://vulnerability.wpsysadmin.com/ and also
-checks or out of date plugins and themes against the WordPress repository. The plugin helps improve the security of WordPress sites by providing a centralised view of the security status of the site.
-
-## Getting Started
-
-### Prerequisites and Main Dependencies
-
-* You need this
-* And you need this
-* Oh, and don't forget this
-
-### Installation
-
-How do you install the project and what do you need for it? Mention all dependencies that need to be installed first. Ideally, you also provide version numbers. (I’m looking at you, Node.js…)
-
-Example:
-
-```sh
-npm install our-lovely-project --save
+```
+fullworks-scanner/                     # Repository root: development tooling
+├── .github/workflows/                 # CI: checks on push, release on tag
+├── tests/                             # PHPUnit suite (runs inside wp-env)
+├── .wp-env.json                       # wp-env config (dev :8730, tests :8731)
+├── composer.json                      # Dev dependencies and scripts
+├── package.json                       # wp-env and test scripts
+├── phpcs_sec.xml                      # PHPCS security ruleset
+├── phpunit.xml.dist
+├── run-tests.sh
+├── CHANGELOG.md
+└── fullworks-scanner/                 # The plugin
+    ├── admin/
+    ├── includes/
+    │   └── vendor/                    # Production dependencies
+    ├── languages/
+    ├── .distignore                    # Excluded from the release zip
+    ├── composer.json                  # Plugin dependencies
+    ├── readme.txt
+    └── fullworks-vulnerability-scanner.php
 ```
 
-## Usage
+## Development
 
-Instructions for how to configure, run, and use the project. For example, you can include the commands needed to install and start the development environment or any other useful and important commands. Screenshots can be included as well.
-
-_For more examples and usage, please refer to the [Documentation](https://github.com/yourname/yourproject/wiki)._
-
-## Testing
-
-Any unit or integration tests people can run to assure that everything’s working as expected? Any frameworks or commands that are needed here? And are there any tests in your deployment pipeline that ensure that no errors make it into the live site?
-
-Also include the commands needed to run any tests:
-
-```sh
-npm run test
+```bash
+git clone https://github.com/alanef/fullworks-scanner.git
+cd fullworks-scanner
+composer install                       # dev tools (phpcs, phpunit)
+composer install -d fullworks-scanner  # plugin dependencies
+npm install
+npm run start                          # http://localhost:8730  (admin / password)
 ```
 
-## Deployment
+### Quality checks
 
-Instructions for how to deploy the project to a production environment, including any server requirements and commands used. And, in case you are using a CI/CD pipeline, for example, how do any automated processes work? What are the most important branches? Do they trigger any pipelines?
-
-### Server
-
-* Live:
-* Staging:
-* Development:
-
-### Branches
-
-* Master:
-* Feature:
-* Bugfix:
-* etc...
-
-```sh
-npm run build
+```bash
+composer run check    # PHPCompatibility 7.4-8.4 + WordPress security sniffs
 ```
 
-## Additional Documentation
+### Tests
 
+```bash
+npm test                          # PHPUnit in the wp-env tests container
+npm test -- --filter VulnDB       # pass PHPUnit options through
+```
 
-## Changelog
+### Build
 
-We use [Semantic Versioning](http://semver.org/) for versioning.
+```bash
+wp package install wp-cli/dist-archive-command   # once
+composer run build                               # zipped/fullworks-scanner-free.zip
+```
 
-* 1.0.1
-    * Fix sanitization issue (Thanks plugins@wordpress.org!)
-    * Change counter to use to not display when zero
-    
-* 1.0.0
-    * First submission to WordPress.org
+## Release
 
-## Roadmap
-
-- [ ] Release to WordPrress.org
-
-## Authors
-
-- **Alan Fuller** - *Fullworks Plugins* -
-  [alanef](https://github.com/alanef)
-
-## Contributors ✨ and Acknowledgments
-
-- Thanks to plugins@wordpress.org for their review and feedback
-
-## Contributing
-
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
-
-*Important*: WordPress coding standards should be used  
+See [CLAUDE.md](CLAUDE.md#release). In short: finalise `CHANGELOG.md`, set the version in
+the plugin header, version constant and `readme.txt` stable tag, tag `vX.Y.Z` and push.
+The release workflow builds the zip, creates the GitHub release and deploys to WordPress.org.
 
 ## License
 
-Distributed under the GPL3 license. See [GPL3](https://www.gnu.org/licenses/gpl-3.0.html) for more information.
-
+GPL-3.0-or-later. See [licence.txt](fullworks-scanner/licence.txt).

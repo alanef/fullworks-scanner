@@ -2,7 +2,7 @@
   "name": "fullworks/fullworks-scanner",
   "description": "Wordpress plugin",
   "type": "wordpress-plugin",
-  "license": "GPL",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "alan",
@@ -25,7 +25,7 @@
   "require": {
     "php": ">=7.4",
     "woocommerce/action-scheduler": "*",
-    "alanef/free_plugin_lib": "^v1.0.0",
+    "alanef/free_plugin_lib": "^1.2.4",
     "alanef/wp_autoloader": "dev-main"
   },
   "extra": {

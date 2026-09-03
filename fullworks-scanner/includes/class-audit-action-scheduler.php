@@ -136,7 +136,7 @@ class Audit_Action_Scheduler {
 			'status'   => 'pending',
 		);
 		$pending        = ActionScheduler::store()->query_actions( $args, 'count' );
-		$args['status'] = 'in - progress';
+		$args['status'] = 'in-progress';
 		$in_progress    = ActionScheduler::store()->query_actions( $args, 'count' );
 
 		return $pending + $in_progress;
@@ -163,8 +163,8 @@ class Audit_Action_Scheduler {
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- inside debug if.
 				error_log( __FUNCTION__ . ' requeue as count ' . $count );
 			}
-			if ( false === as_next_scheduled_action( $job, array(), 'fullworks - security - control' ) ) {
-				as_schedule_single_action( time() + 60 + ( $count * 5 ), $job, array(), 'fullworks - security - control' );
+			if ( false === as_next_scheduled_action( $job, array(), 'fullworks-scanner-control' ) ) {
+				as_schedule_single_action( time() + 60 + ( $count * 5 ), $job, array(), 'fullworks-scanner-control' );
 			}
 
 			return false;

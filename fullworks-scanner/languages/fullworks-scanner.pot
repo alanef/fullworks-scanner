@@ -1,17 +1,17 @@
-# Copyright (C) 2025 Fullworks
+# Copyright (C) 2026 Fullworks
 # This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Fullworks Security Scanner 1.3\n"
+"Project-Id-Version: Fullworks Security Scanner 1.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fullworks-scanner\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-03T21:03:47+00:00\n"
+"POT-Creation-Date: 2026-09-03T14:54:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.10.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: fullworks-scanner\n"
 
 #. Plugin Name of the plugin
@@ -43,56 +43,56 @@ msgstr ""
 msgid "Save Options"
 msgstr ""
 
-#: admin/class-admin-settings.php:60
+#: admin/class-admin-settings.php:73
 msgid "Admin Email"
 msgstr ""
 
-#: admin/class-admin-settings.php:61
+#: admin/class-admin-settings.php:74
 msgid "This email will be used by the plugin to send all notifications from the plugin. It can be different to the site administrator email"
 msgstr ""
 
-#: admin/class-admin-settings.php:71
+#: admin/class-admin-settings.php:80
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin-settings.php:88
-#: admin/class-admin-settings.php:149
+#: admin/class-admin-settings.php:97
+#: admin/class-admin-settings.php:158
 msgid "General Settings"
 msgstr ""
 
-#: admin/class-admin-settings.php:161
+#: admin/class-admin-settings.php:170
 msgid "Code Check"
 msgstr ""
 
-#: admin/class-admin-settings.php:229
+#: admin/class-admin-settings.php:238
 msgid "No auto code scans will be performed, as schedule is blank"
 msgstr ""
 
-#: admin/class-admin-settings.php:237
+#: admin/class-admin-settings.php:246
 msgid "Invalid cron format, please try again"
 msgstr ""
 
-#: admin/class-admin-settings.php:246
+#: admin/class-admin-settings.php:255
 msgid "Schedule changed, jobs will be cancelled and re-queued to the new schedule"
 msgstr ""
 
-#: admin/class-admin-settings.php:339
+#: admin/class-admin-settings.php:348
 msgid "Scanning Schedule"
 msgstr ""
 
-#: admin/class-admin-settings.php:353
+#: admin/class-admin-settings.php:362
 msgid "Control the timing of the audit schedule runs, in cron format. e.g. minute hour day (month) month day(week) - 10 2 * * *  is 10 past two am every day. Set to 'blank' to not perform code scans"
 msgstr ""
 
-#: admin/class-admin-settings.php:358
+#: admin/class-admin-settings.php:367
 msgid "Email"
 msgstr ""
 
-#: admin/class-admin-settings.php:361
+#: admin/class-admin-settings.php:370
 msgid "After each scan you will be emailed critical issues plus:"
 msgstr ""
 
-#: admin/class-admin-settings.php:370
+#: admin/class-admin-settings.php:379
 msgid "Warnings: These include updates needed, plugins that may be abandoned or removed without known security issues."
 msgstr ""
 
@@ -183,24 +183,25 @@ msgstr ""
 msgid "Include previously accepted items in future scans"
 msgstr ""
 
-#: admin/class-list-table-code-scan.php:428
+#: admin/class-list-table-code-scan.php:430
 msgid "Unaccepted"
 msgstr ""
 
-#: admin/class-list-table-code-scan.php:430
+#: admin/class-list-table-code-scan.php:432
 msgid "Accepted"
 msgstr ""
 
-#: admin/class-list-table-code-scan.php:448
+#: admin/class-list-table-code-scan.php:450
 msgid "Delete this file"
 msgstr ""
 
-#: fullworks-vulnerability-scanner.php:103
+#: fullworks-vulnerability-scanner.php:107
 msgid "Cannot execute as the plugin already exists, if you have a another version installed deactivate that and try again"
 msgstr ""
 
 #. translators: placeholder 1 is plugin title and  2 is site name
 #: includes/class-audit-email.php:85
+#, php-format
 msgid "[%1$s]: Issues found during code scan of %2$s"
 msgstr ""
 
@@ -236,13 +237,15 @@ msgstr ""
 
 #. translators: %1$s is the installed version, %2$s is the current version, %3$s is the last update time, %4$s is the change log
 #: includes/class-audit-plugin-code-scan.php:140
+#, php-format
 msgid "Installed version %1$s - Current version %2$s - Auto update is enabled but seems not to be working as the last plugin update was %3$s"
 msgstr ""
 
 #. translators: %1$s is the installed version, %2$s is the current version, %3$s is the change log
 #. translators: leave the %s placeholders.
 #: includes/class-audit-plugin-code-scan.php:156
-#: includes/class-audit-theme-code-scan.php:131
+#: includes/class-audit-theme-code-scan.php:134
+#, php-format
 msgid "Installed version %1$s - Current version %2$s"
 msgstr ""
 
@@ -258,24 +261,26 @@ msgstr ""
 msgid "View all changelogs"
 msgstr ""
 
-#: includes/class-audit-theme-code-scan.php:109
+#: includes/class-audit-theme-code-scan.php:112
 msgid "This theme may have once been on wordpress.org and now removed - please check"
 msgstr ""
 
 #: includes/class-audit-vulndb-scan.php:191
+#, php-format
 msgid "Multiple Vulnerabilities in installed version: %1$s %2$s"
 msgstr ""
 
 #. translators: leave placeholders.
 #: includes/class-audit-vulndb-scan.php:198
+#, php-format
 msgid "Vulnerability in installed version: %1$s Detail: %2$s"
 msgstr ""
 
-#: includes/class-core.php:107
+#: includes/class-core.php:106
 msgid "Issues found!"
 msgstr ""
 
-#: includes/class-core.php:109
+#: includes/class-core.php:108
 msgid "No issues found"
 msgstr ""
 
@@ -287,64 +292,67 @@ msgstr ""
 msgid "Possible reason: your host may have disabled the mail() function."
 msgstr ""
 
-#: includes/class-utilities.php:52
-msgid "Fullworks Scanner"
-msgstr ""
-
 #. translators: %1$s is the object name core or plugin name or theme name.
-#: includes/class-utilities.php:97
-#: includes/class-utilities.php:105
+#: includes/class-utilities.php:93
+#: includes/class-utilities.php:101
+#, php-format
 msgid " : Error occurred, while getting %1$s vulnerability data"
 msgstr ""
 
 #. translators: %1$s is the object name core or plugin name or theme name.
-#: includes/class-utilities.php:113
+#: includes/class-utilities.php:109
+#, php-format
 msgid "Unknown error occurred, while getting %1$s vulnerability data"
 msgstr ""
 
-#: includes/class-utilities.php:141
+#: includes/class-utilities.php:131
+msgid "Fullworks Scanner"
+msgstr ""
+
+#: includes/class-utilities.php:153
 msgid "Insecure version"
 msgstr ""
 
-#: includes/class-utilities.php:142
+#: includes/class-utilities.php:154
 msgid "Known Vulnerability"
 msgstr ""
 
-#: includes/class-utilities.php:143
+#: includes/class-utilities.php:155
 msgid "Plugin has an Update"
 msgstr ""
 
-#: includes/class-utilities.php:144
+#: includes/class-utilities.php:156
 msgid "Plugin Removed from wp.org"
 msgstr ""
 
-#: includes/class-utilities.php:145
+#: includes/class-utilities.php:157
 msgid "Plugin Abandoned"
 msgstr ""
 
-#: includes/class-utilities.php:146
+#: includes/class-utilities.php:158
 msgid "Theme has an Update"
 msgstr ""
 
-#: includes/class-utilities.php:147
+#: includes/class-utilities.php:159
 msgid "WordPress has an Update"
 msgstr ""
 
-#: includes/class-utilities.php:148
+#: includes/class-utilities.php:160
 msgid "Theme Removed"
 msgstr ""
 
 #. translators: %s: support forums URL
-#: includes/class-utilities.php:226
-#: includes/class-utilities.php:246
-#: includes/class-utilities.php:269
+#: includes/class-utilities.php:256
+#: includes/class-utilities.php:276
+#: includes/class-utilities.php:299
+#, php-format
 msgid "An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href=\"%s\">support forums</a>."
 msgstr ""
 
-#: includes/class-utilities.php:228
+#: includes/class-utilities.php:258
 msgid "(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)"
 msgstr ""
 
-#: includes/class-utilities.php:288
+#: includes/class-utilities.php:318
 msgid "Unknown error occurred"
 msgstr ""

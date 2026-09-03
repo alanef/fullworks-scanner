@@ -48,10 +48,6 @@ class Utilities {
 	protected $white_label;
 
 	public function __construct() {
-		$this->white_label = get_option( 'fullworks-scanner-whitelabel-names', array(
-			'title' => esc_html__( 'Fullworks Scanner', 'fullworks-scanner' ),
-			'logo'  => FULLWORKS_SCANNER_PLUGIN_URL . 'admin/images/brand/dark-on-light-full-logo-cropped.gif',
-		) );
 	}
 
 	public static function error_log( $message, $called_from = 'Log' ) {
@@ -120,7 +116,23 @@ class Utilities {
 
 	}
 
+	/**
+	 * Get the white label title and logo.
+	 *
+	 * Resolved lazily so that no translation is loaded before `init`.
+	 *
+	 * @return array{title:string,logo:string}
+	 */
 	public function get_white_label() {
+		if ( null === $this->white_label ) {
+			$this->white_label = get_option(
+				'fullworks-scanner-whitelabel-names',
+				array(
+					'title' => esc_html__( 'Fullworks Scanner', 'fullworks-scanner' ),
+					'logo'  => FULLWORKS_SCANNER_PLUGIN_URL . 'admin/images/brand/dark-on-light-full-logo-cropped.gif',
+				)
+			);
+		}
 
 		return $this->white_label;
 	}
@@ -129,7 +141,7 @@ class Utilities {
 	 * @return Utilities
 	 */
 	public static function get_instance() {
-		if ( null == self::$instance ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
@@ -150,8 +162,9 @@ class Utilities {
 	}
 
 	public function get_plugin_title() {
+		$white_label = $this->get_white_label();
 
-		return $this->white_label['title'];
+		return $white_label['title'];
 	}
 
 	public function clear_all_unaccepted_file_scan( $type, $origin ) {
@@ -166,19 +179,33 @@ class Utilities {
 	public function file_scan_log_write( $file, $status, $type, $origin, $message = null, $extra_single_text = '' ) {
 		global $wpdb;
 		// cant do insert -> update on dup as file path needs to be longer than key allowed in MySQL
-		$result = $wpdb->query( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}fwvs_file_audit 
-WHERE filepath = %s AND status = %d AND origin = %s"
-			, $file, $status, $origin ) );
-		if ( 0 == $result ) {
-			$result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}fwvs_file_audit
-  (filepath, status, type, origin, message)
-   VALUES (%s, %s, %s, %s , %s)"
-				, $file, $status, $type, $origin, $message ) );
+		$existing_id = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT ID FROM {$wpdb->prefix}fwvs_file_audit WHERE filepath = %s AND status = %d AND origin = %s",
+				$file,
+				$status,
+				$origin
+			)
+		);
+		if ( null === $existing_id ) {
+			$wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO {$wpdb->prefix}fwvs_file_audit (filepath, status, type, origin, message) VALUES (%s, %s, %s, %s , %s)",
+					$file,
+					$status,
+					$type,
+					$origin,
+					$message
+				)
+			);
 		} else {
-			$result = $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}fwvs_file_audit SET
-  lastscan =NOW(), message = %s
-WHERE ID = %s",
-				$message, $result ) );
+			$wpdb->query(
+				$wpdb->prepare(
+					"UPDATE {$wpdb->prefix}fwvs_file_audit SET lastscan = NOW(), message = %s WHERE ID = %d",
+					$message,
+					$existing_id
+				)
+			);
 		}
 		// if doing WP CLI write line
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -195,6 +222,9 @@ WHERE ID = %s",
 	}
 
 	public function get_settings_page_tabs( $page ) {
+		if ( empty( $this->settings_page_tabs[ $page ] ) ) {
+			return array();
+		}
 		$tabs = $this->settings_page_tabs[ $page ];
 		ksort( $tabs );
 

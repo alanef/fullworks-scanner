@@ -1,10 +1,10 @@
 === Fullworks Security Scanner ===
 Contributors: Fullworks
 Tags: malware, scan, scanner, security
-Requires at least: 5.0
+Requires at least: 6.8
 Requires PHP: 7.4
-Tested up to: 6.7
-Stable tag: 1.3
+Tested up to: 7.1
+Stable tag: 1.4.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -85,29 +85,5 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 1. Example scan report.
 
 == Changelog ==
-= 1.3 =
-* Add opt in
 
-= 1.2.0 =
-* Add WP CLI
-
-= 1.1.1 =
-* Merge in  'Add rescan now button to report'
-
-= 1.1.0 =
-* Take into consideration auto updates and dont report unless not updated for several days
-* Display Change log summary on the report page for plugins with updates available
-* Change report to names  and allow sorting of names in report
-* Add rescan now button to report
-
-= 1.0.2 =
-* Changed slug to fullworks-scanner
-
-= 1.0.1 =
-* Plugin review feedback incorporated
-
-= 1.0.0 =
-* Initial version
-
-
-
+See the full [change log on GitHub](https://github.com/alanef/fullworks-scanner/blob/master/CHANGELOG.md).

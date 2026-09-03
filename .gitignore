@@ -1,7 +1,13 @@
 .idea/
+.directory
 dist/
+build/
 zipped/
+tmp-build/
 node_modules/
-src/includes/vendor/
-vendor/
-package-lock.json
+fullworks-scanner/includes/vendor/
+/vendor/
+.phpunit.result.cache
+*.phpunit.result.cache
+.wp-env.override.json
+.env.wordpress

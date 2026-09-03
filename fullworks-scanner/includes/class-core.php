@@ -48,7 +48,7 @@ class Core {
 	/**
 	 * The unique identifier of this plugin.
 	 */
-	protected $plugin_name = FULLWORKS_SCANNER_PLUGIN_VERSION;
+	protected $plugin_name = FULLWORKS_SCANNER_PLUGIN_NAME;
 
 	/**
 	 * The current version of the plugin.
@@ -74,7 +74,7 @@ class Core {
 	 *
 	 */
 	public function __construct() {
-		$this->utilities = new Utilities();
+		$this->utilities = Utilities::get_instance();
 	}
 
 	/**
@@ -84,7 +84,6 @@ class Core {
 	public function run() {
 
 		$this->set_options_data();
-		$this->set_locale();
 		$this->settings_pages();
 
 		$this->define_admin_hooks();
@@ -111,10 +110,6 @@ class Core {
 				}
 			);
 		}
-	}
-
-	private function set_locale() {
-		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 	}
 
 	private function set_options_data() {
@@ -163,16 +158,6 @@ class Core {
 		$action_scheduler = new Audit_Action_Scheduler(  $this->utilities );
 		add_action( 'init', array( $action_scheduler, 'schedule' ) );
 		add_action( 'admin_init', array( $action_scheduler, 'rescan' ) );
-	}
-
-	public function load_plugin_textdomain() {
-
-		load_plugin_textdomain(
-			'fullworks-scanner',
-			false,
-			FULLWORKS_SCANNER_PLUGIN_DIR . 'languages/'
-		);
-
 	}
 
 }

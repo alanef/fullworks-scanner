@@ -55,24 +55,33 @@ class Admin_Settings extends Admin_Pages {
 	 */
 
 	public function __construct( $plugin_name, $version, $utilities ) {
+		$this->plugin_name = $plugin_name;
+		$this->version     = $version;
+		$this->utilities   = $utilities;
+		parent::__construct();
+	}
+
+	/**
+	 * Build translatable strings.
+	 *
+	 * Called from `admin_menu` (via register_settings) rather than the constructor so that
+	 * no translation is requested before `init`.
+	 */
+	private function init_strings() {
 		$this->titles = array(
-			'Admin Email'           => array(
+			'Admin Email' => array(
 				'title' => esc_html__( 'Admin Email', 'fullworks-scanner' ),
 				'tip'   => esc_html__( 'This email will be used by the plugin to send all notifications from the plugin. It can be different to the site administrator email', 'fullworks-scanner' ),
 			),
 		);
 
-		$this->plugin_name = $plugin_name;
-		$this->version     = $version;
-		$this->utilities   = $utilities;
-
 		$options = Utilities::get_instance()->get_white_label();
 
 		$this->settings_title = '<img src="' . esc_url_raw( $options['logo'] ) . '" class="logo" alt="' . sanitize_title( $options['title'] ) . '"/><div class="text">' . esc_html__( 'Settings', 'fullworks-scanner' ) . '</div>';
-		parent::__construct();
 	}
 
 	public function register_settings() {
+		$this->init_strings();
 		/* Register our setting. */
 		register_setting(
 			$this->option_group,                         /* Option Group */

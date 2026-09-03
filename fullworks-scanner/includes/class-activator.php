@@ -89,10 +89,19 @@ class Activator {
 		update_option( 'FULLWORKS_SCANNER_db_version', '1.0' );
 	}
 
-	// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
-	public static function on_create_blog_tables( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
-		if ( is_plugin_active_for_network( trailingslashit( basename( FULLWORKS_SCANNER_PLUGIN_DIR ) ) . 'fullworks-scanner.php' ) ) {
-			switch_to_blog( $blog_id );
+	/**
+	 * Create tables on a newly created site when the plugin is network activated.
+	 *
+	 * Hooked to `wp_initialize_site` (replaces the deprecated `wpmu_new_blog`).
+	 *
+	 * @param \WP_Site $new_site The new site object.
+	 */
+	public static function on_create_blog_tables( $new_site ) {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		if ( is_plugin_active_for_network( plugin_basename( FULLWORKS_SCANNER_PLUGIN_DIR . 'fullworks-vulnerability-scanner.php' ) ) ) {
+			switch_to_blog( $new_site->blog_id );
 			self::create_tables();
 			restore_current_blog();
 		}

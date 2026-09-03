@@ -358,16 +358,18 @@ class List_Table_Code_Scan extends WP_List_Table {
 		if ( ! in_array( $orderby, $sortable_fields ) ) {
 			$orderby = 'ID';
 		}
+		// Both parts are validated against fixed allow-lists above, so they are safe to interpolate.
 		$order_clause = $orderby . ' ' . $order;
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT ID, filepath, createdate, lastscan, status, message, type FROM {$wpdb->prefix}fwvs_file_audit WHERE accept = %s ORDER BY %s LIMIT %d OFFSET %d",
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $order_clause is allow-listed.
+				"SELECT ID, filepath, createdate, lastscan, status, message, type FROM {$wpdb->prefix}fwvs_file_audit WHERE accept = %s ORDER BY {$order_clause} LIMIT %d OFFSET %d",
 				$type,
-				sanitize_sql_orderby($orderby . ' ' . $order),
 				(int) $per_page,
-				((int) $page_number - 1) * (int) $per_page
-			), 'ARRAY_A'
+				( (int) $page_number - 1 ) * (int) $per_page
+			),
+			'ARRAY_A'
 		);
 
 		$return = array();

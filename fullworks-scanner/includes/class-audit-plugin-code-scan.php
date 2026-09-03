@@ -67,7 +67,7 @@ class Audit_Plugin_Code_Scan {
 		}
 		set_transient( 'fullworks-vulnerability-plugin-data', $plugin_data, DAY_IN_SECONDS );
 		foreach ( $plugins as $key => $plugin ) {
-			$this->utilities->single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER__audit' );
+			$this->utilities->single_action( time(), 'FULLWORKS_SCANNER_get_current_plugin', array( 'plugin' => dirname( $key ) ), 'FULLWORKS_SCANNER_audit' );
 		}
 	}
 
@@ -129,7 +129,7 @@ class Audit_Plugin_Code_Scan {
 				// check if plugin  has auto updates enabled and if so if the last update was more than 2 days ago - if so then report
 				$auto_update_plugins = get_site_option( 'auto_update_plugins', array() );
 				if ( in_array( $plugin_data[ $plugin ]['data']['filename'], $auto_update_plugins ) ) {
-					$update_time = get_site_option( ' FULLWORKS_SCANNER_plugin_updated_' . $plugin_data[ $plugin ]['data']['filename'], time() );
+					$update_time = get_site_option( 'FULLWORKS_SCANNER_plugin_updated_' . $plugin_data[ $plugin ]['data']['filename'], time() );
 					if ( $update_time < time() - ( 2 * DAY_IN_SECONDS ) ) {
 						$this->utilities->file_scan_log_write(
 							$plugin_data[ $plugin ]['data']['Name'],

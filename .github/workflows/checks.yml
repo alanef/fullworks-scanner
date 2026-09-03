@@ -1,0 +1,127 @@
+name: Plugin Check
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  PLUGIN_SLUG: fullworks-scanner
+  PLUGIN_FILE: fullworks-scanner/fullworks-vulnerability-scanner.php
+
+jobs:
+  checks:
+    name: PHPCS, version consistency and Plugin Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get required PHP version
+        id: php_version
+        run: |
+          PHP_VERSION=$(grep "Requires PHP:" "$PLUGIN_FILE" | awk '{print $4}')
+          echo "PHP_VERSION=$PHP_VERSION" >> $GITHUB_OUTPUT
+          echo "Plugin requires PHP $PHP_VERSION"
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.php_version.outputs.PHP_VERSION }}
+          coverage: none
+          tools: composer, wp-cli
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run phpcs checks
+        run: composer run-script check
+
+      - name: Verify version consistency
+        run: |
+          PLUGIN_VERSION=$(grep -E "^\s*\*\s*Version:" "$PLUGIN_FILE" | awk '{print $3}')
+          README_VERSION=$(grep "Stable tag:" "$PLUGIN_SLUG/readme.txt" | awk '{print $3}')
+          CONSTANT_VERSION=$(grep "define.*FULLWORKS_SCANNER_PLUGIN_VERSION" "$PLUGIN_FILE" | sed -E "s/.*'([^']+)'.*/\1/")
+
+          echo "Plugin header version: $PLUGIN_VERSION"
+          echo "Readme stable tag:     $README_VERSION"
+          echo "Version constant:      $CONSTANT_VERSION"
+
+          if [ "$PLUGIN_VERSION" != "$README_VERSION" ]; then
+            echo "::error::Version mismatch between plugin header ($PLUGIN_VERSION) and readme.txt ($README_VERSION)"
+            exit 1
+          fi
+          if [ "$PLUGIN_VERSION" != "$CONSTANT_VERSION" ]; then
+            echo "::error::Version mismatch between plugin header ($PLUGIN_VERSION) and version constant ($CONSTANT_VERSION)"
+            exit 1
+          fi
+          echo "All version numbers match: $PLUGIN_VERSION"
+
+      - name: Install WP-CLI dist-archive command
+        run: wp package install wp-cli/dist-archive-command
+
+      - name: Build plugin
+        run: |
+          composer run-script build
+          mkdir tmp-build
+          unzip -q zipped/fullworks-scanner-free.zip -d tmp-build
+
+      - name: Run plugin check
+        uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: './tmp-build/fullworks-scanner'
+
+  tests:
+    name: PHPUnit (wp-env)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+          tools: composer
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Install plugin dependencies
+        run: composer install -d fullworks-scanner --no-dev --prefer-dist --no-progress
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Start wp-env
+        run: npx wp-env start
+
+      - name: Run tests
+        run: npm test
