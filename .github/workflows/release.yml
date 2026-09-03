@@ -67,6 +67,9 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Building version $VERSION"
 
+      - name: Name the release zip
+        run: cp zipped/fullworks-scanner-free.zip "zipped/fullworks-scanner-${{ steps.get_version.outputs.VERSION }}.zip"
+
       - name: Verify tag matches plugin version
         run: |
           PLUGIN_VERSION=${{ steps.get_version.outputs.VERSION }}
@@ -102,7 +105,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ./zipped/fullworks-scanner-free.zip#fullworks-scanner-${{ steps.get_version.outputs.VERSION }}.zip
+            zipped/fullworks-scanner-${{ steps.get_version.outputs.VERSION }}.zip
 
       - name: Deploy to WordPress.org
         env:
