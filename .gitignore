@@ -9,6 +9,7 @@ tmp-build/
 node_modules/
 /vendor/
 /fullworks-scanner/vendor/
+/fullworks-scanner/composer.lock
 /fullworks-scanner/includes/vendor/
 .phpunit.result.cache
 *.phpunit.result.cache
