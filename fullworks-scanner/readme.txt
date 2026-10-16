@@ -5,6 +5,7 @@ Requires at least: 6.8
 Requires PHP: 7.4
 Tested up to: 7.1
 Stable tag: 1.4.0
+Type: free
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -86,4 +87,4 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
-See the full [change log on GitHub](https://github.com/alanef/fullworks-scanner/blob/master/CHANGELOG.md).
+See the full [change log on GitHub](https://github.com/alanef/fullworks-scanner/blob/master/fullworks-scanner/changelog.txt).
