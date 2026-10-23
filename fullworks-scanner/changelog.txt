@@ -1,4 +1,4 @@
-= Unreleased =
+= 1.4.1 =
 * Fixed: the opt-in notice could not be dismissed and came back on every page load
 * Fixed: the opt-in notice now links straight to the opt-in screen, with accurate wording
 * Fixed: leaving the opt-in screen without choosing left the notice up for good; opening the scanner settings now shows the opt-in screen again until you click Allow or Skip
