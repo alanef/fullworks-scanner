@@ -24,8 +24,8 @@
   },
   "require": {
     "php": ">=7.4",
-    "woocommerce/action-scheduler": "*",
-    "alanef/free_plugin_lib": "^1.2.4",
+    "woocommerce/action-scheduler": "~4.1.0",
+    "alanef/free_plugin_lib": "^1.3.3",
     "alanef/wp_autoloader": "dev-main"
   },
   "extra": {

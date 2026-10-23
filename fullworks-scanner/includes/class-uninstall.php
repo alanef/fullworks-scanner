@@ -78,6 +78,9 @@ class Uninstall {
 				delete_option( $option_name );
 			}
 		}
+
+		// The opt-in library no longer cleans up after itself; the main file has loaded its autoloader
+		\Fullworks_Free_Plugin_Lib\Main::plugin_uninstall( 'FSS' );
 	}
 
 	private static function delete_tables() {
